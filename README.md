@@ -1,2 +1,2 @@
-# demo-microservices-1
-Démo Microservices n°1
+# demo-microservices
+Démo Microservices : Site de ventes en ligne
