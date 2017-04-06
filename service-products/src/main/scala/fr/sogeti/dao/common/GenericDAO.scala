@@ -51,10 +51,11 @@ class GenericDAO[Type >: Null, IdType](clazz : Class[Type], manager : EntityMana
    * Deletes the entity
    * @param id the id of the entity we want to delete
    */
-  def deleteById(id : IdType) : Unit = { 
+  def deleteById(id : IdType) : Unit = {
+    val todelete = find(id) 
     val strategy : ITransactionStrategy = new ITransactionStrategy {
       override def execute() : Unit = {
-        manager.remove( find(id) )        
+        manager.remove( todelete )        
       }
     }
     new TransactionStrategy(manager, strategy).execute
