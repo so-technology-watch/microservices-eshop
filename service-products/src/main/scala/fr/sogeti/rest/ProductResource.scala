@@ -11,11 +11,7 @@ import scala.collection.mutable.Buffer
 import com.google.gson.Gson
 import fr.sogeti.entities.Product
 
-class ProductResource(router : Router) {
-  
-  val requestHelper : RequestHelper = new RequestHelper
-  val jsonHelper: JsonHelper = new JsonHelper
-  val productService : ProductService = new ProductService
+class ProductResource(router : Router) extends GenericService[Product](router, new ProductService, classOf[Product]){
   
   /**
    * manage a get request on products to find a specific product
@@ -53,86 +49,4 @@ class ProductResource(router : Router) {
     override def handle( context : RoutingContext ) = delete(context)
   } )
   
-  /**
-   * find a product by id
-   * @param context the context with contains the id
-   */
-  def findById(context : RoutingContext) : Unit = {
-    val request = context.request
-    val response = context.response
-    
-    val id = requestHelper.getParameterAsInt(request, "id")
-    
-    if( !id.isDefined ) {
-      response.setStatusCode(404).end("product not found")
-      return
-    }
-      
-    val product = productService.find(id.get)
-    response.end( jsonHelper.toJson( product , true ) )
-  }
-  
-  /**
-   * get all the products
-   * @param context the request's context
-   */
-  def getAll(context : RoutingContext) : Unit = {
-    val response = context.response
-    val products = productService.getAll()
-    
-    response.end( jsonHelper.toJson( products , true ) )
-  }
-  
-  /**
-   * create a new product
-   * retrieve data from the request's body
-   * @param context the request's context
-   */
-  def create(context : RoutingContext) : Unit = {
-    val request = context.request
-    val response = context.response
-    val data : Option[String] = context.getBodyAsString
-    
-    if( data.isDefined ) {
-      val product = jsonHelper.fromJson( data.get, classOf[Product], true )
-      productService.create(product)
-    }
-    response.end("OK")
-  }
-  
-  /**
-   * update a product
-   * retrieve data from the request's body
-   * @param context the request's context
-   */
-  def update(context : RoutingContext) : Unit = {
-    val request = context.request
-    val response = context.response
-    val data : Option[String] = context.getBodyAsString
-    
-    if( data.isDefined ) {
-      val product = jsonHelper.fromJson( data.get, classOf[Product], true )
-      productService.update(product)
-    }
-    response.end("OK")
-  }
-  
-  /**
-   * delete a product
-   * retrieve data from request's parameters
-   * @param context the request's context
-   */
-  def delete(context : RoutingContext) : Unit = {
-    val request = context.request
-    val response = context.response
-    val id = requestHelper.getParameterAsInt(request, "id")
-    
-    if( !id.isDefined ) {
-      response.setStatusCode(404).end("product not found")
-      return
-    }
-    val product = productService.find(id.get)
-    productService.deleteById( id.get )
-    response.end("OK")
-  }
 }

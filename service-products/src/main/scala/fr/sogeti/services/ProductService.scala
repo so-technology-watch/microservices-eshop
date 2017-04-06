@@ -7,27 +7,27 @@ import fr.sogeti.entities.Product
 /**
  * Service : products
  */
-class ProductService {
+class ProductService extends IEntityService[Product] {
   
   private val dao : GenericDAO[Product, Integer] = new GenericDAO[Product, Integer]( classOf[Product], new ManagerFactory().createEntityManager );
   
-  def getAll() : List[Product] = {
+  override def getAll() : List[Product] = {
     return dao.getAll();
   }
   
-  def find(id : Int) : Product = {
+  override def find(id : Int) : Product = {
     return dao.find(id)
   }
   
-  def create(product : Product) : Unit = {
+  override def create(product : Product) : Unit = {
     dao.create(product)
   }
   
-  def update(product : Product) : Unit = {
+  override def update(product : Product) : Unit = {
     dao.update(product)
   }
   
-  def deleteById(id : Integer) : Unit = {
+  override def deleteById(id : Integer) : Unit = {
     dao.deleteById(id)
   }
   

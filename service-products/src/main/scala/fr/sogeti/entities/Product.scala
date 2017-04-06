@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName
  */
 @Entity
 @Table(name= "product")
-class Product(ref : String, design : String, desc : String, price1 : Double, img : String, idSup : Integer, cat : Category) {
+class Product(ref : String, design : String, desc : String, price1 : Double, img : String) {
     
     /**
      * the product's id
@@ -62,6 +62,15 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
     var price : Double = price1;
     
     /**
+     * the proudct's supplier
+     */
+    @JoinColumn(name = "id_supplier", referencedColumnName = "id", insertable = false, updatable = false)
+    @Expose(serialize = true, deserialize = false)
+    @ManyToOne
+    @BeanProperty
+    var supplier : Supplier = _;
+    
+    /**
      * the id of the product's supplier
      */
     @Basic(optional = false)
@@ -69,7 +78,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
     @Expose
     @SerializedName("id_supplier")
     @BeanProperty
-    var idSupplier : Integer = idSup
+    var idSupplier : Integer = _
     
     /**
      * the product's image 
@@ -86,7 +95,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
     @Expose(serialize = false, deserialize = false)
     @ManyToOne
     @BeanProperty
-    var category : Category = cat;
+    var category : Category = _;
     
     
     @Column(name = "id_category")
@@ -98,7 +107,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
     /**
      * the default empty constructor
      */
-    def this() = this(null, null, null, -1, null, -1, null);
+    def this() = this(null, null, null, -1, null);
 
     override def toString = "id : %d, reference : %s, designation : %s, description : %s, price : %s, idSup : %d, image : %s, category : %s" .format(id, reference, designation, description, price, idSupplier, image, idCategory);
 }
