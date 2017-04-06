@@ -1,4 +1,4 @@
-package fr.sogeti.services
+package fr.sogeti.dao.common
 
 /**
  * This class allows use to design a strategy pattern 

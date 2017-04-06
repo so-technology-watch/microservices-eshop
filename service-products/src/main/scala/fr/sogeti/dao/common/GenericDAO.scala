@@ -1,18 +1,34 @@
-package fr.sogeti.services
+package fr.sogeti.dao.common
 
 import scala.collection.immutable.List
-import javax.persistence.{EntityManager, Query, EntityNotFoundException}
+import javax.persistence.{Query, EntityManager}
 import scala.collection.JavaConversions._
-import scala.collection.JavaConverters._
-import javax.transaction.Transaction
-import javax.persistence.EntityTransaction
+
 
 /**
  * Generic DAO
- * @param clazz the type of the generic entity
+ * @param clazz Entity class
  * @param manager the entity manager
  */
 class GenericDAO[Type >: Null, IdType](clazz : Class[Type], manager : EntityManager) {
+  
+  /**
+   * List all the entities of the dao's type
+   * @return a list of all the objects found for the given entity
+   */
+  def getAll() : List[Type] = {
+    var results : List[Type] = List()
+    
+    val strategy : ITransactionStrategy = new ITransactionStrategy {
+      override def execute() : Unit = {
+        val name : String = clazz.getName
+        val query : Query = manager.createQuery( "SELECT e FROM %s e".format( name ), clazz )
+        results = query.getResultList().toList.asInstanceOf[ List[Type] ]
+      }
+    }
+    new TransactionStrategy(manager, strategy).execute
+    return results
+  }
   
   /**
    * Find
@@ -83,21 +99,4 @@ class GenericDAO[Type >: Null, IdType](clazz : Class[Type], manager : EntityMana
     new TransactionStrategy(manager, strategy).execute
   }
   
-  /**
-   * List all the entities of the dao's type
-   * @return a list of all the objects found for the given entity
-   */
-  def listAll() : List[Type] = {
-    var results : List[Type] = List()
-    
-    val strategy : ITransactionStrategy = new ITransactionStrategy {
-      override def execute() : Unit = {
-        val name : String = clazz.getName
-        val query : Query = manager.createQuery( "SELECT e FROM %s e".format( name ), clazz )
-        results = query.getResultList().toList.asInstanceOf[ List[Type] ]
-      }
-    }
-    new TransactionStrategy(manager, strategy).execute
-    return results
-  }
 }

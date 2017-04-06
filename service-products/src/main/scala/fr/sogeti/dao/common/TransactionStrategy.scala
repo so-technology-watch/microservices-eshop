@@ -1,4 +1,4 @@
-package fr.sogeti.services
+package fr.sogeti.dao.common
 
 import javax.persistence.EntityManager
 
