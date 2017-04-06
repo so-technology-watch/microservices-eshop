@@ -2,6 +2,7 @@ package fr.sogeti.services
 
 import fr.sogeti.dao.ProductDao
 import fr.sogeti.dao.common.{GenericDAO, ManagerFactory}
+import fr.sogeti.entities.Product
 
 /**
  * Service : products
@@ -26,7 +27,7 @@ class ProductService {
     dao.update(product)
   }
   
-  def delete(id : Int) : Unit = {
+  def deleteById(id : Integer) : Unit = {
     dao.deleteById(id)
   }
   

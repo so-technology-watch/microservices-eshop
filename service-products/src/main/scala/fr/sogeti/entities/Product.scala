@@ -2,6 +2,8 @@ package fr.sogeti.entities
 
 import javax.persistence.{Id, Basic, Column, JoinColumn, ManyToOne, Table, Entity, GeneratedValue, GenerationType}
 import scala.beans.BeanProperty
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 /**
  * Product
@@ -23,6 +25,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
     @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @Expose
     @BeanProperty
     var id : Int = _;
     
@@ -30,6 +33,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
      * the product's reference
      */
     @Column(name = "reference")
+    @Expose
     @BeanProperty
     var reference : String = ref;
     
@@ -37,6 +41,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
      * the product's name
      */
     @Column(name = "designation")
+    @Expose
     @BeanProperty
     var designation : String = design;
     
@@ -44,6 +49,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
      * the product's description
      */
     @Column(name = "description")
+    @Expose
     @BeanProperty
     var description : String = desc;
     
@@ -51,6 +57,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
      * the product's price
      */
     @Column(name = "price")
+    @Expose
     @BeanProperty
     var price : Double = price1;
     
@@ -59,6 +66,8 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
      */
     @Basic(optional = false)
     @Column(name = "id_supplier")
+    @Expose
+    @SerializedName("id_supplier")
     @BeanProperty
     var idSupplier : Integer = idSup
     
@@ -66,21 +75,30 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
      * the product's image 
      */
     @Column(name = "image")
+    @Expose
     @BeanProperty
     var image : String = img
     
     /**
      * the product's category
      */
-    @JoinColumn(name = "id_category", referencedColumnName = "id")
+    @JoinColumn(name = "id_category", referencedColumnName = "id", insertable = false, updatable = false)
+    @Expose(serialize = false, deserialize = false)
     @ManyToOne
     @BeanProperty
-    var idCategory : Category = cat;
+    var category : Category = cat;
+    
+    
+    @Column(name = "id_category")
+    @Expose
+    @SerializedName("id_category")
+    @BeanProperty
+    var idCategory : Integer = _
     
     /**
      * the default empty constructor
      */
     def this() = this(null, null, null, -1, null, -1, null);
 
-    override def toString = "id : %d, reference : %s, designation : %s, description : %s, price : %s, idSup : %d, image : %s" .format(id, reference, designation, description, price, idSupplier, image);
+    override def toString = "id : %d, reference : %s, designation : %s, description : %s, price : %s, idSup : %d, image : %s, category : %s" .format(id, reference, designation, description, price, idSupplier, image, idCategory);
 }

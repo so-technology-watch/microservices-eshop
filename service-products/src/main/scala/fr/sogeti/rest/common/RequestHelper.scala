@@ -7,7 +7,7 @@ class RequestHelper {
   def getParameterAsInt(request : HttpServerRequest, name : String) : Option[Int] = {
     val opts : Option[String] = request.getParam("id")
     
-    if( opts == null ) {
+    if( !opts.isDefined ) {
       return None
     }
     

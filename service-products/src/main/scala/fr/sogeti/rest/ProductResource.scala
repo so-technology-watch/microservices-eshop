@@ -6,6 +6,10 @@ import io.vertx.scala.ext.web.{Router, RoutingContext}
 import fr.sogeti.rest.common.BaseHandler
 import io.vertx.core.Handler
 import io.vertx.scala.core.http.HttpServerRequest
+import io.vertx.scala.ext.web.handler.BodyHandler
+import scala.collection.mutable.Buffer
+import com.google.gson.Gson
+import fr.sogeti.entities.Product
 
 class ProductResource(router : Router) {
   
@@ -45,7 +49,7 @@ class ProductResource(router : Router) {
   /**
    * manage a delete request on products to update a product
    */
-  router.delete("/products").handler( new BaseHandler {
+  router.delete("/products/:id").handler( new BaseHandler {
     override def handle( context : RoutingContext ) = delete(context)
   } )
   
@@ -65,7 +69,7 @@ class ProductResource(router : Router) {
     }
       
     val product = productService.find(id.get)
-    response.end( jsonHelper.toJson( product ) )
+    response.end( jsonHelper.toJson( product , true ) )
   }
   
   /**
@@ -73,7 +77,10 @@ class ProductResource(router : Router) {
    * @param context the request's context
    */
   def getAll(context : RoutingContext) : Unit = {
-    context.response().end("not yet implemented")
+    val response = context.response
+    val products = productService.getAll()
+    
+    response.end( jsonHelper.toJson( products , true ) )
   }
   
   /**
@@ -82,7 +89,15 @@ class ProductResource(router : Router) {
    * @param context the request's context
    */
   def create(context : RoutingContext) : Unit = {
-    context.response().end("not yet implemented")
+    val request = context.request
+    val response = context.response
+    val data : Option[String] = context.getBodyAsString
+    
+    if( data.isDefined ) {
+      val product = jsonHelper.fromJson( data.get, classOf[Product], true )
+      productService.create(product)
+    }
+    response.end("OK")
   }
   
   /**
@@ -91,7 +106,15 @@ class ProductResource(router : Router) {
    * @param context the request's context
    */
   def update(context : RoutingContext) : Unit = {
-    context.response().end("not yet implemented")
+    val request = context.request
+    val response = context.response
+    val data : Option[String] = context.getBodyAsString
+    
+    if( data.isDefined ) {
+      val product = jsonHelper.fromJson( data.get, classOf[Product], true )
+      productService.update(product)
+    }
+    response.end("OK")
   }
   
   /**
@@ -100,6 +123,16 @@ class ProductResource(router : Router) {
    * @param context the request's context
    */
   def delete(context : RoutingContext) : Unit = {
-    context.response().end("not yet implemented")
+    val request = context.request
+    val response = context.response
+    val id = requestHelper.getParameterAsInt(request, "id")
+    
+    if( !id.isDefined ) {
+      response.setStatusCode(404).end("product not found")
+      return
+    }
+    val product = productService.find(id.get)
+    productService.deleteById( id.get )
+    response.end("OK")
   }
 }
