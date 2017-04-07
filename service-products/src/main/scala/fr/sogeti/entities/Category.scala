@@ -3,6 +3,7 @@ package fr.sogeti.entities
 import javax.persistence.{Table, Entity, OneToMany, Column, Basic, Id, Access, AccessType, FetchType, GeneratedValue, GenerationType}
 import java.{util => ju}
 import scala.beans.BeanProperty
+import com.google.gson.annotations.Expose
 
 /**
  * Category
@@ -20,6 +21,7 @@ class Category (name1 : String, desc : String) {
   @Basic(optional = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
+  @Expose
   @BeanProperty
   var id : Integer = _;
   
@@ -27,6 +29,7 @@ class Category (name1 : String, desc : String) {
    * Name
    */
   @Column(name = "name")
+  @Expose
   @BeanProperty
   var name : String = name1;
   
@@ -34,6 +37,7 @@ class Category (name1 : String, desc : String) {
    * Description
    */
   @Column(name = "description")
+  @Expose
   @BeanProperty
   var description : String = desc;
   
@@ -41,6 +45,7 @@ class Category (name1 : String, desc : String) {
    * Products
    */
   @OneToMany(mappedBy = "idCategory")
+  @Expose
   @BeanProperty
   var products : ju.List[Product] = new ju.ArrayList[Product]();
 

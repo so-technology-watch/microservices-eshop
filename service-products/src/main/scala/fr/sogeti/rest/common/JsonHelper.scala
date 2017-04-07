@@ -4,6 +4,13 @@ import io.vertx.core.Handler
 import com.google.gson.Gson
 import scala.collection.JavaConverters._
 import com.google.gson.GsonBuilder
+import java.{util => ju}
+import scala.collection.mutable.ArraySeq
+import scala.collection.mutable.ListBuffer
+import collection.JavaConversions._
+import java.lang.reflect.Type
+import com.google.gson.reflect.TypeToken
+import fr.sogeti.entities.Product
 
 class JsonHelper {
   
@@ -30,7 +37,7 @@ class JsonHelper {
   
   private def toJson(obj : Any, gson : Gson) : String = {
     if(obj.isInstanceOf[List[_]]) {
-      val list : List[Any] = obj.asInstanceOf[List[Any]]
+      val list : List[Product] = obj.asInstanceOf[List[Product]]
       return gson.toJson(list.asJava)
     }
     else {
@@ -56,11 +63,18 @@ class JsonHelper {
     fromJson(text, clazz, false)
   }
   
+  def listFromJson(text : String, expose : Boolean) : List[Product] = {
+    val converter : Gson = if(expose) gson else gson
+    val tokenType = new TypeToken[ju.List[Product]](){}.getType
+    println(tokenType)
+    
+    val list : ju.List[Product] = converter.fromJson(text, tokenType)
+    val result = ListBuffer[Product]()
+    for( e <- list ) result += e
+    return result.toList
+  }
+  
   private def fromJson[Type](text : String, clazz : Class[Type], gson : Gson) : Type = {
-    if(clazz.isInstanceOf[List[_]]) {
-      return gson.fromJson(text, classOf[java.util.Collection[_]])
-    }else{
-       return gson.fromJson(text, clazz)
-    }    
+     return gson.fromJson(text, clazz)   
   }
 }
