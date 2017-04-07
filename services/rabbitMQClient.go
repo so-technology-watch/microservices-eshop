@@ -1,6 +1,10 @@
 package services
 
-import "github.com/streadway/amqp"
+import (
+	"encoding/json"
+
+	"github.com/streadway/amqp"
+)
 
 //RabbitMQClient defines a RabbitMQ client
 type RabbitMQClient struct {
@@ -8,6 +12,12 @@ type RabbitMQClient struct {
 	Queue      *amqp.Queue
 	Channel    *amqp.Channel
 	Messages   *<-chan amqp.Delivery
+}
+
+//ProductUpdate defines the data needed for a product price change
+type ProductUpdate struct {
+	ProductID int
+	UnitPrice float32
 }
 
 //Connect connects to RabbitMQ broker
@@ -59,6 +69,24 @@ func (r *RabbitMQClient) Consume() {
 
 }
 
-func (r *RabbitMQClient) handleMessages() {
+func (r *RabbitMQClient) HandleMessages() {
+
+	for message := range r.Messages {
+
+	}
+}
+
+func jsonToProductUpdate(productUpdateJSON string) *ProductUpdate {
+
+	productUpdate := &ProductUpdate{}
+	json.Unmarshal([]byte(productUpdateJSON), productUpdate)
+
+	return productUpdate
+}
+
+func productUpdateToJson(productUpdate *ProductUpdate) {
+
+	productUpdateJSON, err := json.Marshal(*productUpdate)
+	failOnError(err)
 
 }
