@@ -9,7 +9,7 @@ class ClientAmqpVerticle extends ScalaVerticle {
   
   override def start() : Unit = {
     val productService : ProductService = new ProductService  
-    
+        
   }
   
 }
