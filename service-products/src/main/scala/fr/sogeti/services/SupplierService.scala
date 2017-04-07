@@ -1,0 +1,30 @@
+package fr.sogeti.services
+
+import fr.sogeti.entities.Supplier
+import fr.sogeti.dao.common.GenericDAO
+import fr.sogeti.dao.common.ManagerFactory
+
+class SupplierService extends IEntityService[Supplier] {
+  private val dao : GenericDAO[Supplier, Integer] = new GenericDAO[Supplier, Integer]( classOf[Supplier], new ManagerFactory().createEntityManager );
+  
+  override def getAll() : List[Supplier] = {
+    return dao.getAll();
+  }
+  
+  override def find(id : Int) : Supplier = {
+    return dao.find(id)
+  }
+  
+  override def create(supplier : Supplier) : Unit = {
+    dao.create(supplier)
+  }
+  
+  override def update(supplier : Supplier) : Unit = {
+    dao.update(supplier)
+  }
+  
+  override def deleteById(id : Integer) : Unit = {
+    dao.deleteById(id)
+  }
+
+}
