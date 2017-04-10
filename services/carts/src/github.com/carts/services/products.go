@@ -14,6 +14,12 @@ type Position struct {
 	ElementID  int
 }
 
+//ProductUpdate defines the data needed for a product price change
+type ProductUpdate struct {
+	ProductID int
+	UnitPrice float32
+}
+
 //FindProducts returns the postions of every CartElments corresponding to a a given product.
 func (c *RedisClient) FindProducts(productID int) *[]Position {
 

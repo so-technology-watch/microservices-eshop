@@ -27,7 +27,7 @@ func TestHandleCartElementGet(t *testing.T) {
 		t.Errorf("Expected : %v  status code and got : %v status code", http.StatusOK, status)
 	}
 
-	expexted := "{\"ElementID\":1,\"ProductID\":1,\"Quantity\":1,\"UnitPrice\":1}"
+	expexted := "{\"ElementID\":1,\"ProductID\":1,\"Quantity\":1,\"UnitPrice\":12}"
 
 	if responseRecorder.Body.String() != expexted {
 

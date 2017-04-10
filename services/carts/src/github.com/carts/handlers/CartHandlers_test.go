@@ -27,7 +27,7 @@ func TestHandleCartGet(t *testing.T) {
 		t.Errorf("Expected : %v  status code and got : %v status code", http.StatusOK, status)
 	}
 
-	expexted := "{\"ID\":0,\"CartElements\":[{\"ElementID\":1,\"ProductID\":1,\"Quantity\":1,\"UnitPrice\":1}],\"TimeStamp\":\"\",\"CustomerID\":0,\"TotalPrice\":0}"
+	expexted := "{\"ID\":1,\"CartElements\":[{\"ElementID\":1,\"ProductID\":1,\"Quantity\":1,\"UnitPrice\":12}],\"TimeStamp\":\"\",\"CustomerID\":1,\"TotalPrice\":0}"
 
 	if responseRecorder.Body.String() != expexted {
 
@@ -41,7 +41,7 @@ func TestHandleCartGet(t *testing.T) {
 //TestHandleCartPost tests the POST handler for the /carts route.
 func TestHandleCartPost(t *testing.T) {
 
-	bodyString := "{\"ID\":0,\"CartElements\":[{\"ElementID\":1,\"ProductID\":1,\"Quantity\":1,\"UnitPrice\":1}],\"TimeStamp\":\"\",\"CustomerID\":9,\"TotalPrice\":0}"
+	bodyString := "{\"ID\":9,\"CartElements\":[{\"ElementID\":1,\"ProductID\":1,\"Quantity\":1,\"UnitPrice\":1}],\"TimeStamp\":\"\",\"CustomerID\":9,\"TotalPrice\":0}"
 	bodyBuffer := bytes.NewBufferString(bodyString)
 	request, err := http.NewRequest("POST", "/carts", bodyBuffer)
 

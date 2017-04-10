@@ -13,12 +13,6 @@ type RabbitMQClient struct {
 	Channel    *amqp.Channel
 }
 
-//ProductUpdate defines the data needed for a product price change
-type ProductUpdate struct {
-	ProductID int
-	UnitPrice float32
-}
-
 //Connect connects to RabbitMQ broker
 func (r *RabbitMQClient) Connect(url string) {
 
