@@ -79,18 +79,20 @@ func (c *Cart) ComputeTotalPrice() {
 }
 
 //FindProduct returns the IDs of elements containing the given product
-func (c *Cart) FindProduct(productID int) []int {
+func (c *Cart) FindProduct(productID int) *[]int {
 
 	var res []int
 
-	for _, element := range c.CartElements {
+	if len(c.CartElements) > 0 {
 
-		if element.ProductID == productID {
+		for _, element := range c.CartElements {
 
-			res = append(res, element.ElementID)
+			if element.ProductID == productID {
+
+				res = append(res, element.ElementID)
+			}
+
 		}
-
 	}
-
-	return res
+	return &res
 }

@@ -3,6 +3,8 @@ package services
 import (
 	"encoding/json"
 
+	"log"
+
 	"github.com/carts/models"
 )
 
@@ -13,19 +15,20 @@ type Position struct {
 }
 
 //FindProducts returns the postions of every CartElments corresponding to a a given product.
-func (c *RedisClient) FindProducts(productID int) []Position {
+func (c *RedisClient) FindProducts(productID int) *[]Position {
 
 	var res []Position
 	keys, err := c.Client.Keys("*").Result()
 	failOnError(err)
+	var elements []int
+	cart := &models.Cart{}
 
 	for _, key := range keys {
 
 		cartJSON, err := c.Client.Get(key).Result()
 		failOnError(err)
-		cart := &models.Cart{}
 		json.Unmarshal([]byte(cartJSON), cart)
-		elements := cart.FindProduct(productID)
+		elements = *cart.FindProduct(productID)
 		if len(elements) > 0 {
 			for _, element := range elements {
 
@@ -36,22 +39,20 @@ func (c *RedisClient) FindProducts(productID int) []Position {
 		}
 
 	}
-	return res
+	log.Println("Found ", len(res), " elements containing this product.")
+	return &res
 }
 
 //ChangeProductPrice changes the unit price of a gven product to the new given price
 func (c *RedisClient) ChangeProductPrice(productID int, price float32) {
 
-	positions := c.FindProducts(productID)
+	positions := *c.FindProducts(productID)
 
 	for _, position := range positions {
 
 		element := c.GetCartElement(position.CustomerID, position.ElementID)
 		element.UnitPrice = price
 		c.ModifyCartElement(position.CustomerID, position.ElementID, element)
-		cartJSON := c.GetCart(position.CustomerID)
-		cart := jsonToCart(cartJSON)
-		cart.ComputeTotalPrice()
 
 	}
 }

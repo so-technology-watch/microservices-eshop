@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/carts/models"
+	"github.com/go-redis/redis"
 )
 
 //AddCart adds a cart to redis KV store
@@ -38,7 +39,7 @@ func (c *RedisClient) GetCart(clientID int) string {
 //failOnError checks for errors and panics if it's the case
 func failOnError(err error) {
 
-	if err != nil {
+	if err != nil && err != redis.Nil {
 
 		panic(err)
 	}
