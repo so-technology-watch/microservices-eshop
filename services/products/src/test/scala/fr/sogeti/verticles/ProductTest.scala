@@ -100,11 +100,15 @@ class ProductTest {
             
               val gson : Gson = new Gson
               val products : List[Product] = ProductServiceMock.getProducts
-              val obtained : List[Product] = new JsonHelper().listFromJson(resp, true)
+              val obtained : Option[List[Product]] = new JsonHelper().listFromJson(resp, true)
+              
+              if(!obtained.isDefined){
+                context.fail("not product obtained")
+              }
               
               context.assertEquals( 200, response.statusCode )
               for( i : Int <- 0 to products.size-1 ) {
-                val got = obtained(i)
+                val got = obtained.get(i)
                 val product = products(i)
                 
                 context.assertEquals( got.getCategory, product.getCategory )

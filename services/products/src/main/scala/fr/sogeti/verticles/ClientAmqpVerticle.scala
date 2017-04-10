@@ -16,7 +16,7 @@ class ClientAmqpVerticle extends ScalaVerticle {
     // host, user, password, virtualhost
     val clientAmqp : ClientRabbitMQ = new ClientRabbitMQ("10.226.159.191","pi","pi","/pi", productService)
     // exchange, exchange type, routing key
-    clientAmqp.subscribe("test", "topic", "greeting")
+    clientAmqp.consume("test", "topic", "greeting")
   }
   
 }

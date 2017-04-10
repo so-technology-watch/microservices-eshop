@@ -51,27 +51,35 @@ class JsonHelper {
    * @param clazz the type of the wanted class
    * @param expose true if we want to serialize taking account of the gson expose annotation
    */
-  def fromJson[Type](text : String, clazz : Class[Type], expose : Boolean) : Type = {
-    if(expose){
-      return fromJson(text, clazz, gsonWithoutExpose)
-    }else{
-      return fromJson(text, clazz, gson)
+  def fromJson[Type](text : String, clazz : Class[Type], expose : Boolean) : Option[Type] = {
+    try {
+      if(expose){
+        return Some(fromJson(text, clazz, gsonWithoutExpose))
+      }else{
+        return Some(fromJson(text, clazz, gson))
+      }
+    } catch {
+      case e : Exception => return None
     }
   }
   
-  def fromJson[Type](text : String, clazz : Class[Type]) : Type = {
+  def fromJson[Type](text : String, clazz : Class[Type]) : Option[Type] = {
     fromJson(text, clazz, false)
   }
   
-  def listFromJson(text : String, expose : Boolean) : List[Product] = {
-    val converter : Gson = if(expose) gson else gson
-    val tokenType = new TypeToken[ju.List[Product]](){}.getType
-    println(tokenType)
-    
-    val list : ju.List[Product] = converter.fromJson(text, tokenType)
-    val result = ListBuffer[Product]()
-    for( e <- list ) result += e
-    return result.toList
+  def listFromJson(text : String, expose : Boolean) : Option[List[Product]] = {
+    try {
+      val converter : Gson = if(expose) gson else gson
+      val tokenType = new TypeToken[ju.List[Product]](){}.getType
+      println(tokenType)
+      
+      val list : ju.List[Product] = converter.fromJson(text, tokenType)
+      val result = ListBuffer[Product]()
+      for( e <- list ) result += e
+      return Some(result.toList)
+    } catch {
+      case e : Exception => return None
+    }
   }
   
   private def fromJson[Type](text : String, clazz : Class[Type], gson : Gson) : Type = {
