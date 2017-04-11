@@ -56,7 +56,7 @@ func (c *RedisClient) ChangeProductPrice(productID int, price float32) {
 
 	for _, position := range positions {
 
-		element := c.GetCartElement(position.CustomerID, position.ElementID)
+		element, _ := c.GetCartElement(position.CustomerID, position.ElementID)
 		element.UnitPrice = price
 		c.ModifyCartElement(position.CustomerID, position.ElementID, element)
 

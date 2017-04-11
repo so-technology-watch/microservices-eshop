@@ -27,13 +27,19 @@ func (c *RedisClient) RemoveCart(clientID int) {
 }
 
 //GetCart retrieves the cart of a client in the redis KV store
-func (c *RedisClient) GetCart(clientID int) string {
+func (c *RedisClient) GetCart(clientID int) (string, bool) {
 
+	found := false
 	key := strconv.Itoa(clientID)
 	value, err := c.Client.Get(key).Result()
 	failOnError(err)
 
-	return value
+	if value != "" {
+
+		found = true
+	}
+
+	return value, found
 }
 
 //failOnError checks for errors and panics if it's the case

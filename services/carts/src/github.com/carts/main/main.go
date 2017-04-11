@@ -30,16 +30,17 @@ func main() {
 	}()
 	//Routing
 	router := mux.NewRouter()
+	subRouter := router.PathPrefix("/api/v1/").Subrouter()
 	//Cart routes
-	router.HandleFunc("/carts", handlers.HandleCartGet(clientRedis)).Methods("GET")
-	router.HandleFunc("/carts", handlers.HandleCartPost(clientRedis)).Methods("POST")
-	router.HandleFunc("/carts", handlers.HandleCartPut(clientRedis)).Methods("PUT")
-	router.HandleFunc("/carts", handlers.HandleCartDelete(clientRedis)).Methods("DELETE")
+	subRouter.HandleFunc("/carts/{ID}", handlers.HandleCartGet(clientRedis)).Methods("GET")
+	subRouter.HandleFunc("/carts", handlers.HandleCartPost(clientRedis)).Methods("POST")
+	subRouter.HandleFunc("/carts", handlers.HandleCartPut(clientRedis)).Methods("PUT")
+	subRouter.HandleFunc("/carts/{ID}", handlers.HandleCartDelete(clientRedis)).Methods("DELETE")
 	//CartElment routes
-	router.HandleFunc("/cartElement", handlers.HandleCartElementGet(clientRedis)).Methods("GET")
-	router.HandleFunc("/cartElement", handlers.HandleCartElementPost(clientRedis)).Methods("POST")
-	router.HandleFunc("/cartElement", handlers.HandleCartElementPut(clientRedis)).Methods("PUT")
-	router.HandleFunc("/cartElement", handlers.HandleCartElementDelete(clientRedis)).Methods("DELETE")
+	subRouter.HandleFunc("/cartElement/{customerID}/{elementID}", handlers.HandleCartElementGet(clientRedis)).Methods("GET")
+	subRouter.HandleFunc("/cartElement", handlers.HandleCartElementPost(clientRedis)).Methods("POST")
+	subRouter.HandleFunc("/cartElement", handlers.HandleCartElementPut(clientRedis)).Methods("PUT")
+	subRouter.HandleFunc("/cartElement/{customerID}/{elementID}", handlers.HandleCartElementDelete(clientRedis)).Methods("DELETE")
 	//Http server creation
 	server := &http.Server{
 

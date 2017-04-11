@@ -9,20 +9,28 @@ import (
 
 	"github.com/carts/models"
 	"github.com/carts/services"
+	"github.com/gorilla/mux"
 )
 
 //HandleCartElementGet handles GET request by retrieving and retruning the cart of the given customer
 func HandleCartElementGet(client *services.RedisClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		customerID := r.URL.Query().Get("customerID")
-		elementID := r.URL.Query().Get("elementID")
+		parameters := mux.Vars(r)
+		customerID := parameters["customerID"]
+		elementID := parameters["elementID"]
 		key, err := strconv.Atoi(customerID)
 		failOnError(err)
 		id, err := strconv.Atoi(elementID)
 		failOnError(err)
-		element := client.GetCartElement(key, id)
-		elementJSON, err := json.Marshal(element)
-		failOnError(err)
+		element, found := client.GetCartElement(key, id)
+		var elementJSON []byte
+		if found {
+			elementJSON, err = json.Marshal(element)
+			failOnError(err)
+		} else {
+
+			elementJSON = []byte("{\"Error\" : \"No element corresponding to the given parameters.\"}")
+		}
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(elementJSON))
 
@@ -66,8 +74,9 @@ func HandleCartElementPut(client *services.RedisClient) http.HandlerFunc {
 func HandleCartElementDelete(client *services.RedisClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		customerID := r.URL.Query().Get("customerID")
-		elementID := r.URL.Query().Get("elementID")
+		parameters := mux.Vars(r)
+		customerID := parameters["customerID"]
+		elementID := parameters["elementID"]
 		c, err := strconv.Atoi(customerID)
 		failOnError(err)
 		e, err := strconv.Atoi(elementID)

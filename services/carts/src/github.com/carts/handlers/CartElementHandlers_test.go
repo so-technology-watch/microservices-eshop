@@ -10,7 +10,7 @@ import (
 //TestHandleCartElementGet tests the GET handler for the /cartElement route.
 func TestHandleCartElementGet(t *testing.T) {
 
-	request, err := http.NewRequest("GET", "/cartElement?customerID=1&elementID=1", nil)
+	request, err := http.NewRequest("GET", "api/v1/cartElement/1/1", nil)
 
 	if err != nil {
 
@@ -43,7 +43,7 @@ func TestHandleCarElementPost(t *testing.T) {
 
 	bodyString := "{\"CustomerID\": 1, [{\"ElementID\":2,\"ProductID\":1,\"Quantity\":1,\"UnitPrice\":1}]}"
 	bodyBuffer := bytes.NewBufferString(bodyString)
-	request, err := http.NewRequest("POST", "/cartElement", bodyBuffer)
+	request, err := http.NewRequest("POST", "api/v1/cartElement", bodyBuffer)
 
 	if err != nil {
 
@@ -79,7 +79,7 @@ func TestHandleCarElmementPut(t *testing.T) {
 //TestHandleCartDelete tests the DELETE handler for the /carts route.
 func TestHandleCartElementDelete(t *testing.T) {
 
-	request, err := http.NewRequest("DELETE", "/cartElement?customerID=1&elementID=2", nil)
+	request, err := http.NewRequest("DELETE", "api/v1/cartElement/1/2", nil)
 
 	if err != nil {
 

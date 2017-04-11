@@ -9,15 +9,22 @@ import (
 
 	"github.com/carts/models"
 	"github.com/carts/services"
+	"github.com/gorilla/mux"
 )
 
 //HandleCartGet handles GET request by retrieving and retruning the cart of the given customer
 func HandleCartGet(client *services.RedisClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		customerID := r.URL.Query().Get("customerID")
+		parameters := mux.Vars(r)
+		customerID := parameters["ID"]
 		key, err := strconv.Atoi(customerID)
 		failOnError(err)
-		json := client.GetCart(key)
+		json, found := client.GetCart(key)
+
+		if !found {
+			json = ("{\"Error\" : \"No element corresponding to the given parameters.\"}")
+		}
+
 		w.Header().Set("Content-Type", "application/json,")
 		w.Write([]byte(json))
 
@@ -47,7 +54,8 @@ func HandleCartPut(client *services.RedisClient) http.HandlerFunc {
 //HandleCartDelete handdles DELETE request by removing the cart of the given customer
 func HandleCartDelete(client *services.RedisClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		customerID := r.URL.Query().Get("customerID")
+		parameters := mux.Vars(r)
+		customerID := parameters["ID"]
 		key, err := strconv.Atoi(customerID)
 		failOnError(err)
 		client.RemoveCart(key)
