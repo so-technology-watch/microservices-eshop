@@ -38,7 +38,6 @@ func (c *RedisClient) GetCart(clientID int) (string, bool) {
 
 		found = true
 	}
-
 	return value, found
 }
 

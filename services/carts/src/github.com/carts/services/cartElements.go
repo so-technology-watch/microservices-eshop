@@ -15,7 +15,7 @@ func (c *RedisClient) GetCartElement(customerID int, elementID int) (*models.Car
 
 	if found {
 		cart := jsonToCart(cartJSON)
-		element, found = cart.GetElement(elementID)
+		element, found, _ = cart.GetElement(elementID)
 	}
 
 	return element, found
@@ -46,7 +46,7 @@ func (c *RedisClient) ModifyCartElement(customerID int, elementID int, element *
 
 	if found {
 		cart := jsonToCart(cartJSON)
-		e, _ := cart.GetElement(elementID)
+		e, _, _ := cart.GetElement(elementID)
 		*e = *element
 		updatedCartJSON := cartToJSON(cart)
 		c.Client.Set(key, updatedCartJSON, 0)
@@ -73,9 +73,8 @@ func (c *RedisClient) RemoveCartElement(customerID int, elementID int) bool {
 
 func jsonToCart(cartJSON string) *models.Cart {
 
-	cart := &models.Cart{}
-	json.Unmarshal([]byte(cartJSON), cart)
-
+	cart := new(models.Cart)
+	json.Unmarshal([]byte(cartJSON), &cart)
 	return cart
 }
 

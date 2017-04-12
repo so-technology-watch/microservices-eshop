@@ -33,7 +33,7 @@ func (c *RedisClient) FindProducts(productID int) *[]Position {
 
 		cartJSON, err := c.Client.Get(key).Result()
 		failOnError(err)
-		json.Unmarshal([]byte(cartJSON), cart)
+		json.Unmarshal([]byte(cartJSON), &cart)
 		elements = *cart.FindProduct(productID)
 		if len(elements) > 0 {
 			for _, element := range elements {
@@ -53,7 +53,6 @@ func (c *RedisClient) FindProducts(productID int) *[]Position {
 func (c *RedisClient) ChangeProductPrice(productID int, price float32) {
 
 	positions := *c.FindProducts(productID)
-
 	for _, position := range positions {
 
 		element, _ := c.GetCartElement(position.CustomerID, position.ElementID)

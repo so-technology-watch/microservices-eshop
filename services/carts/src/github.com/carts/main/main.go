@@ -1,47 +1,34 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
 
-	"fmt"
-
 	"github.com/carts/handlers"
 	"github.com/carts/services"
-	"github.com/gorilla/mux"
 )
 
 func main() {
 
-	//Creation of the redis Client
 	clientRedis := &services.RedisClient{}
 	clientRedis.CreateClient()
-	//RabbitMQ
+	router := handlers.Router(clientRedis)
+
 	clientRabbitMQ := &services.RabbitMQClient{}
 	clientRabbitMQ.Connect("amqp://pi:pi@10.226.159.191:5672//pi")
 	clientRabbitMQ.GetChannel()
 	clientRabbitMQ.DeclareExchange("productUpdate", "topic")
-	clientRabbitMQ.DeclareQueue("productUpdateQueue")
-	clientRabbitMQ.BindQueue("productUpdateQueue", "productUpdateKey", "productUpdate")
-	messages := clientRabbitMQ.Consume("productUpdateQueue")
+	clientRabbitMQ.DeclareQueue("productUpdate")
+	clientRabbitMQ.BindQueue("productUpdate", "productUpdateKey", "productUpdate")
+	messages := clientRabbitMQ.Consume("productUpdate")
 	go func() {
 		clientRabbitMQ.HandleMessages(clientRedis, messages)
 	}()
-	//Routing
-	router := mux.NewRouter()
-	subRouter := router.PathPrefix("/api/v1/").Subrouter()
-	//Cart routes
-	subRouter.HandleFunc("/carts/{ID}", handlers.HandleCartGet(clientRedis)).Methods("GET")
-	subRouter.HandleFunc("/carts", handlers.HandleCartPost(clientRedis)).Methods("POST")
-	subRouter.HandleFunc("/carts", handlers.HandleCartPut(clientRedis)).Methods("PUT")
-	subRouter.HandleFunc("/carts/{ID}", handlers.HandleCartDelete(clientRedis)).Methods("DELETE")
-	//CartElment routes
-	subRouter.HandleFunc("/cartElement/{customerID}/{elementID}", handlers.HandleCartElementGet(clientRedis)).Methods("GET")
-	subRouter.HandleFunc("/cartElement", handlers.HandleCartElementPost(clientRedis)).Methods("POST")
-	subRouter.HandleFunc("/cartElement", handlers.HandleCartElementPut(clientRedis)).Methods("PUT")
-	subRouter.HandleFunc("/cartElement/{customerID}/{elementID}", handlers.HandleCartElementDelete(clientRedis)).Methods("DELETE")
+
 	//Http server creation
+
 	server := &http.Server{
 
 		Handler:           router,

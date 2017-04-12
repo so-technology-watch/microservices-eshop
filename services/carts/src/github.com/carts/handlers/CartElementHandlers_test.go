@@ -10,17 +10,14 @@ import (
 //TestHandleCartElementGet tests the GET handler for the /cartElement route.
 func TestHandleCartElementGet(t *testing.T) {
 
-	request, err := http.NewRequest("GET", "api/v1/cartElement/1/1", nil)
+	request, err := http.NewRequest("GET", "/api/v1/cartElement/1/1", nil)
 
 	if err != nil {
 
 		t.Fatal(err)
 	}
-
 	responseRecorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(HandleCartElementGet(client))
-
-	handler.ServeHTTP(responseRecorder, request)
+	Router(client).ServeHTTP(responseRecorder, request)
 
 	if status := responseRecorder.Code; status != http.StatusOK {
 
@@ -43,7 +40,7 @@ func TestHandleCarElementPost(t *testing.T) {
 
 	bodyString := "{\"CustomerID\": 1, [{\"ElementID\":2,\"ProductID\":1,\"Quantity\":1,\"UnitPrice\":1}]}"
 	bodyBuffer := bytes.NewBufferString(bodyString)
-	request, err := http.NewRequest("POST", "api/v1/cartElement", bodyBuffer)
+	request, err := http.NewRequest("POST", "/api/v1/cartElement", bodyBuffer)
 
 	if err != nil {
 
@@ -51,8 +48,7 @@ func TestHandleCarElementPost(t *testing.T) {
 	}
 
 	responseRecorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(HandleCartElementPost(client))
-	handler.ServeHTTP(responseRecorder, request)
+	Router(client).ServeHTTP(responseRecorder, request)
 
 	if status := responseRecorder.Code; status != http.StatusOK {
 
@@ -79,7 +75,7 @@ func TestHandleCarElmementPut(t *testing.T) {
 //TestHandleCartDelete tests the DELETE handler for the /carts route.
 func TestHandleCartElementDelete(t *testing.T) {
 
-	request, err := http.NewRequest("DELETE", "api/v1/cartElement/1/2", nil)
+	request, err := http.NewRequest("DELETE", "/api/v1/cartElement/1/2", nil)
 
 	if err != nil {
 
@@ -87,8 +83,7 @@ func TestHandleCartElementDelete(t *testing.T) {
 	}
 
 	responseRecorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(HandleCartElementDelete(client))
-	handler.ServeHTTP(responseRecorder, request)
+	Router(client).ServeHTTP(responseRecorder, request)
 
 	if status := responseRecorder.Code; status != http.StatusOK {
 

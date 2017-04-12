@@ -10,11 +10,11 @@ type CartElement struct {
 
 //Cart defines a cart.
 type Cart struct {
-	ID           int                  //unique id of the cart
-	CartElements map[int]*CartElement //Map of carElements
-	TimeStamp    string               //Time at which the cart has been last modified
-	CustomerID   int                  //id of the customer who's linked to the cart
-	TotalPrice   float32              //the total price of the elements contained in the cart
+	ID           int            //unique id of the cart
+	CartElements []*CartElement //Slice of cartElements
+	TimeStamp    string         //Time at which the cart has been last modified
+	CustomerID   int            //id of the customer who's linked to the cart
+	TotalPrice   float32        //the total price of the elements contained in the cart
 }
 
 //ElementPayload defines a payload sent to add a CartElment.
@@ -26,32 +26,50 @@ type ElementPayload struct {
 // AddElement adds a new cartElment to the cart
 func (c *Cart) AddElement(element *CartElement) {
 
-	c.CartElements[element.ElementID] = element
+	c.CartElements = append(c.CartElements, element)
 }
 
 // RemoveElement removes an element from the cart
 func (c *Cart) RemoveElement(elementID int) {
 
-	delete(c.CartElements, elementID)
+	_, _, position := c.GetElement(elementID)
+	if position < len(c.CartElements) && position > 0 {
+
+		c.CartElements = append(c.CartElements[:position], c.CartElements[position+1:]...)
+
+	} else if position > len(c.CartElements) && position > 0 {
+
+		c.CartElements = c.CartElements[:position]
+	}
 
 }
 
 // ModifyElement modifies an elment from the cart
-func (c *Cart) ModifyElement(i int, element *CartElement) {
+func (c *Cart) ModifyElement(elementID int, element *CartElement) {
 
-	c.CartElements[i] = element
+	_, _, position := c.GetElement(elementID)
+	c.CartElements[position] = element
+
 }
 
 //GetElement retrieves the pointer of the CartElement situated at the given position
-func (c *Cart) GetElement(elementID int) (*CartElement, bool) {
+func (c *Cart) GetElement(elementID int) (*CartElement, bool, int) {
 
 	found := false
 	foundElement := new(CartElement)
+	position := -1
 
-	if val, ok := c.CartElements[elementID]; ok {
-		foundElement = val
+	for i, element := range c.CartElements {
+
+		if element.ElementID == elementID {
+
+			found = true
+			foundElement = element
+			position = i
+		}
 	}
-	return foundElement, found
+
+	return foundElement, found, position
 }
 
 //ComputeTotalPrice actualizes the TotalPrice of the Cart by computing the sum of the CartElements's Unit Prices

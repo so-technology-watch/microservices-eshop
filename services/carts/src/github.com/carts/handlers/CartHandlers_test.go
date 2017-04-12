@@ -10,7 +10,7 @@ import (
 //TestHandleCartGet tests the GET handler for the /carts route.
 func TestHandleCartGet(t *testing.T) {
 
-	request, err := http.NewRequest("GET", "api/v1/carts/1", nil)
+	request, err := http.NewRequest("GET", "/api/v1/carts/1", nil)
 
 	if err != nil {
 
@@ -18,9 +18,8 @@ func TestHandleCartGet(t *testing.T) {
 	}
 
 	responseRecorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(HandleCartGet(client))
 
-	handler.ServeHTTP(responseRecorder, request)
+	Router(client).ServeHTTP(responseRecorder, request)
 
 	if status := responseRecorder.Code; status != http.StatusOK {
 
@@ -43,7 +42,7 @@ func TestHandleCartPost(t *testing.T) {
 
 	bodyString := "{\"ID\":9,\"CartElements\":[{\"ElementID\":1,\"ProductID\":1,\"Quantity\":1,\"UnitPrice\":1}],\"TimeStamp\":\"\",\"CustomerID\":9,\"TotalPrice\":0}"
 	bodyBuffer := bytes.NewBufferString(bodyString)
-	request, err := http.NewRequest("POST", "api/v1/carts", bodyBuffer)
+	request, err := http.NewRequest("POST", "/api/v1/carts", bodyBuffer)
 
 	if err != nil {
 
@@ -51,8 +50,7 @@ func TestHandleCartPost(t *testing.T) {
 	}
 
 	responseRecorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(HandleCartPost(client))
-	handler.ServeHTTP(responseRecorder, request)
+	Router(client).ServeHTTP(responseRecorder, request)
 
 	if status := responseRecorder.Code; status != http.StatusOK {
 
@@ -79,7 +77,7 @@ func TestHandleCartPut(t *testing.T) {
 //TestHandleCartDelete tests the DELETE handler for the /carts route.
 func TestHandleCartDelete(t *testing.T) {
 
-	request, err := http.NewRequest("DELETE", "api/v1/carts/9", nil)
+	request, err := http.NewRequest("DELETE", "/api/v1/carts/9", nil)
 
 	if err != nil {
 
@@ -87,8 +85,7 @@ func TestHandleCartDelete(t *testing.T) {
 	}
 
 	responseRecorder := httptest.NewRecorder()
-	handler := http.HandlerFunc(HandleCartDelete(client))
-	handler.ServeHTTP(responseRecorder, request)
+	Router(client).ServeHTTP(responseRecorder, request)
 
 	if status := responseRecorder.Code; status != http.StatusOK {
 
