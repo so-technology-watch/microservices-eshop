@@ -9,12 +9,12 @@ class MongoDAO:
         self.database = self.client[database]
         self.posts = self.database[database_name]
 
-    def get_all(self):
+    def get_all(self, begin, end):
         """
         get all the entity for the given collection
         :return: the entities
         """
-        return self.posts.find({})
+        return self.posts.find().skip(begin).limit(end-begin)
 
     def get_by_id(self, id):
         """
