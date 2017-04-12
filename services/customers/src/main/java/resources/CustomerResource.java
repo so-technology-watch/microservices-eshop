@@ -11,38 +11,39 @@ import javax.ws.rs.core.MediaType;
 
 import domain.Customer;
 
-
 @Path("/api/v1/customers")
 @Produces(MediaType.APPLICATION_JSON)
 public class CustomerResource {
-	
-	
+
 	@GET
 	@Path("/{id}")
-	public Customer getCustomer(@PathParam("id") int id){
-		
-		//TODO
-		
+	public Customer getCustomer(@PathParam("id") int id) {
+
+		// TODO
+
 		return null;
 	}
-	
+
 	@POST
-	public void postCustomer(){
-		
-		//TODO
+	public String postCustomer() {
+
+		// TODO
+		return "";
 	}
-	
+
 	@PUT
-	public void putCustomer(){
-		
-		//TODO
+	public String putCustomer() {
+
+		// TODO
+		return "";
 	}
-	
+
 	@DELETE
 	@Path("/{id}")
-	public void deleteCustomer(@PathParam("id") int id){
-		
-		//TODO
+	public String deleteCustomer(@PathParam("id") int id) {
+
+		// TODO
+		return "";
 	}
 
 }
