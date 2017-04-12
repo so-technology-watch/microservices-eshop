@@ -1498,3 +1498,15 @@
 2017-04-12 11:26:00,697 [Worker-267] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
 2017-04-12 11:26:00,697 [Worker-267] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
 2017-04-12 11:26:00,698 [Worker-267] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-04-12 11:31:19,467 [Worker-275] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2017-04-12 11:31:19,469 [Worker-275] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-04-12 11:31:19,470 [Worker-275] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2017-04-12 11:31:19,470 [Worker-275] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-04-12 11:31:21,973 [Worker-266] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2017-04-12 11:31:21,975 [Worker-266] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-04-12 11:31:21,975 [Worker-266] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2017-04-12 11:31:21,976 [Worker-266] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-04-12 11:31:37,264 [Worker-277] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2017-04-12 11:31:37,265 [Worker-277] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2017-04-12 11:31:37,266 [Worker-277] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2017-04-12 11:31:37,267 [Worker-277] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
