@@ -71,7 +71,6 @@ class JsonHelper {
     try {
       val converter : Gson = if(expose) gson else gson
       val tokenType = new TypeToken[ju.List[Product]](){}.getType
-      println(tokenType)
       
       val list : ju.List[Product] = converter.fromJson(text, tokenType)
       val result = ListBuffer[Product]()

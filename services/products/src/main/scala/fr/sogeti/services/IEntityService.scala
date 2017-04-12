@@ -2,7 +2,7 @@ package fr.sogeti.services
 
 trait IEntityService[Type] {
   
-  def getAll() : List[Type]
+  def getAll(begin : Int, end : Int) : List[Type]
   
   def find(id : Int) : Type
   

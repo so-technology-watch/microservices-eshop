@@ -3,6 +3,7 @@ package fr.sogeti.rest
 import fr.sogeti.services.IEntityService
 import io.vertx.scala.ext.web.{Router, RoutingContext}
 import fr.sogeti.rest.common.{RequestHelper, JsonHelper}
+import io.vertx.scala.core.http.HttpServerRequest
 
 /**
  * Generic Service to manager http request
@@ -25,7 +26,7 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     val id = requestHelper.getParameterAsInt(request, "id")
     
     if( !id.isDefined ) {
-      response.setStatusCode(404).end("product not found")
+      response.setStatusCode(404).end("entity not found")
       return
     }
       
@@ -39,7 +40,12 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
    */
   protected def getAll(context : RoutingContext) : Unit = {
     val response = context.response
-    val entities = service.getAll()
+    val request = context.request
+    val (begin, end) = getRange(request)
+    val entities = service.getAll(begin, end)
+    
+    response.headers().add("Content-Range", "%d-%d".format(begin, end))
+    response.headers().add("Accept-Range", "products 100")
     
     response.end( jsonHelper.toJson( entities , true ) )
   }
@@ -93,11 +99,35 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     val id = requestHelper.getParameterAsInt(request, "id")
     
     if( !id.isDefined ) {
-      response.setStatusCode(404).end("product not found")
+      response.setStatusCode(404).end("entity not found")
       return
     }
     val product = service.find(id.get)
     service.deleteById( id.get )
     response.end("OK")
-  }  
+  }
+  
+  private def getRange(request : HttpServerRequest) : (Int, Int) = {
+    var (begin, end) = (0, 100)
+    val opt : Option[String] = request.getParam("range")
+    if(opt.isDefined){
+      val range : String = opt.get
+      val spl = range.split("-")
+      var (beginTmp, endTmp) = (Some(spl(0).toInt), Some(spl(1).toInt))
+      if(beginTmp.isDefined && endTmp.isDefined){
+        begin = beginTmp.get
+        end = endTmp.get
+        
+        if(begin > end){
+          var tmp = begin
+          begin = end
+          end = tmp
+        }
+        if( (end - begin) > 100 ){
+          end = begin + 100
+        }
+      }
+    }
+    return (begin, end)
+  }
 }

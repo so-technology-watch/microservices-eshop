@@ -11,8 +11,8 @@ class ProductService extends IEntityService[Product] {
   
   private val dao : GenericDAO[Product, Integer] = new GenericDAO[Product, Integer]( classOf[Product], new ManagerFactory().createEntityManager );
   
-  override def getAll() : List[Product] = {
-    return dao.getAll();
+  override def getAll(begin : Int, end : Int) : List[Product] = {
+    return dao.getAll(begin, end);
   }
   
   override def find(id : Int) : Product = {
