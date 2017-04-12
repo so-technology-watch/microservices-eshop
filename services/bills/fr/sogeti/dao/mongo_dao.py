@@ -9,39 +9,44 @@ class MongoDAO:
         self.database = self.client[database]
         self.posts = self.database[database_name]
 
-    """
-        get all the entity for the given collection
-    """
     def get_all(self):
+        """
+        get all the entity for the given collection
+        :return: the entities
+        """
         return self.posts.find({})
 
-    """
-        get an entity by id
-        :return the entity wanted
-    """
     def get_by_id(self, id):
+        """
+        get an entity by id
+        :param id: 
+        :return: the entity wanted
+        """
         try:
             return self.posts.find_one({'_id': ObjectId(id)})
         except InvalidId:
             return None
 
-    """
-        create an entity
-        :return it's id
-    """
     def create(self, entity):
+        """
+        create an entity
+        :param entity: the entity to create
+        :return: the id of the created entity 
+        """
         return self.posts.insert_one(entity.to_dict()).inserted_id
 
-    """
-        update an entity
-    """
     def update(self, entity):
+        """
+        update an entity
+        :param entity: the entity to update
+        """
         self.posts.update(entity.get_spec(), entity.to_dict())
 
-    """
-        delete an entity
-    """
     def delete(self, id):
+        """
+        delete an entity
+        :param id: the id of the entity
+        """
         id = {
             '_id': ObjectId(id)
         }
