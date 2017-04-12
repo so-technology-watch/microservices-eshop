@@ -1,6 +1,11 @@
 from fr.sogeti.rest.bills_resource import *
 
 
-def run():
+@get('/api/v1/check')
+def check():
+    return "ok"
+
+
+def run(host, port):
     from bottle import run
-    run(host='localhost', port=8080)
+    run(host=host, port=port)
