@@ -1,0 +1,9 @@
+package domain;
+
+public class Credentials {
+	
+	private String email;
+	private String passWord;
+	
+
+}

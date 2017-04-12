@@ -1,0 +1,10 @@
+package resources;
+
+import javax.ws.rs.Path;
+
+@Path("/api/v1/customers")
+public class CustomerResource {
+	
+	
+
+}

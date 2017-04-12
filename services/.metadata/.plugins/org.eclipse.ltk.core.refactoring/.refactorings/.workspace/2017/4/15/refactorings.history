@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;fr.sogeti.customers&apos; to &apos;customers&apos;" description="Rename resource &apos;fr.sogeti.customers&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/fr.sogeti.customers" name="customers" stamp="1491903205855" updateReferences="true"/>
+</session>

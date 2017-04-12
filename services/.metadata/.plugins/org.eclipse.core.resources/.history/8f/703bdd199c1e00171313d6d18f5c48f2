@@ -1,0 +1,10 @@
+package customers;
+
+import io.dropwizard.Application;
+import io.dropwizard.Configuration;
+
+public class CustomersApplication extends Application<CustomersApplication>{
+	
+	
+
+}
