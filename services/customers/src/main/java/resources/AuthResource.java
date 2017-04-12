@@ -8,24 +8,27 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import domain.AuthStatus;
 import domain.Credentials;
 
 @Path("api/v1/auth")
 @Produces(MediaType.APPLICATION_JSON)
-public class CredentialResource {
+public class AuthResource {
 
     @GET
     @Path("/{token}")
-    public String getAuthStatus(@PathParam("token") String token) {
+    public AuthStatus getAuthStatus(@PathParam("token") String token) {
 
 	// TODO
 
-	return "";
+	return null;
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public String authentification(Credentials c) {
+
+	// TODO
 
 	return null;
     }
@@ -34,6 +37,8 @@ public class CredentialResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String disconnect(@PathParam("token") String token) {
 
+	// TODO
+	
 	return null;
     }
 

@@ -1,5 +1,6 @@
 package resources;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,35 +16,40 @@ import domain.Customer;
 @Produces(MediaType.APPLICATION_JSON)
 public class CustomerResource {
 
-	@GET
-	@Path("/{id}")
-	public Customer getCustomer(@PathParam("id") int id) {
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Customer getCustomer(@PathParam("id") int id) {
 
-		// TODO
+	// TODO
 
-		return null;
-	}
+	return null;
+    }
 
-	@POST
-	public String postCustomer() {
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public int postCustomer() {
 
-		// TODO
-		return "";
-	}
+	// TODO
+	return 0;
+    }
 
-	@PUT
-	public String putCustomer() {
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public int putCustomer() {
 
-		// TODO
-		return "";
-	}
+	// TODO
+	return 0;
+    }
 
-	@DELETE
-	@Path("/{id}")
-	public String deleteCustomer(@PathParam("id") int id) {
+    @DELETE
+    @Path("/{id}")
+    public String deleteCustomer(@PathParam("id") int id) {
 
-		// TODO
-		return "";
-	}
+	// TODO
+	return "";
+    }
 
 }

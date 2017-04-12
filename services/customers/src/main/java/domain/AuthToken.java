@@ -10,14 +10,17 @@ public class AuthToken {
     private int customerID;
     private long timestamp;
 
-    public AuthToken(int customerID, long timestamp) {
-	
-	this.customerID = customerID;
-	this.timestamp = timestamp;
+    public AuthToken() {
     }
 
-    public String toJWTToken() {
+    public AuthToken(int customerID, long timestamp) {
 
+	this.customerID = customerID;
+    }
+
+    public String encodeToJWT() {
+
+	timestamp = 0 ; //TODO : récupération du timestamp
 	String token = "";
 
 	try {
@@ -30,6 +33,11 @@ public class AuthToken {
 	}
 
 	return token;
+    }
+
+    public void decodeFromJWT(String string){
+	
+	//TODO : Décoder le token JWT et initialise les différents champs de l'objet.
     }
 
     public int getCustomerID() {

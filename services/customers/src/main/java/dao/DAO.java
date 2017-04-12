@@ -8,7 +8,7 @@ public class DAO {
     private DB db;
 
     public DAO() {
-	
+
 	this.setDb(DBMaker.memoryDB().make());
     }
 
