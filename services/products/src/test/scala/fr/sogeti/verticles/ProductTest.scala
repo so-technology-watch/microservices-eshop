@@ -34,6 +34,7 @@ class ProductTest {
       override def handle(context : AsyncResult[Void]) : Unit = {
         if(context.succeeded()){
           println("The test suite is successfull")
+          vertx.close
         }else{
           println("The test suite failed")
           context.cause.printStackTrace
@@ -47,7 +48,7 @@ class ProductTest {
       
       override def handle(context : TestContext) : Unit = {
         val client : HttpClient = vertx.createHttpClient
-        val req : HttpClientRequest = client.get(8080, "localhost", "/products/4");
+        val req : HttpClientRequest = client.get(8080, "localhost", "/api/v1/products/4");
         val async : Async = context.async
         
         req.handler(new Handler[HttpClientResponse]{
@@ -86,7 +87,7 @@ class ProductTest {
       
       override def handle(context : TestContext) : Unit = {
         val client : HttpClient = vertx.createHttpClient
-        val req : HttpClientRequest = client.get(8080, "localhost", "/products");
+        val req : HttpClientRequest = client.get(8080, "localhost", "/api/v1/products");
         val async : Async = context.async
         
         req.handler(new Handler[HttpClientResponse]{
