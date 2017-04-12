@@ -1,12 +1,11 @@
 package fr.sogeti.rest
 
 import fr.sogeti.entities.Category
-import io.vertx.scala.ext.web.RoutingContext
 import fr.sogeti.rest.common.BaseHandler
-import io.vertx.scala.ext.web.Router
-import fr.sogeti.services.CategoryService
+import io.vertx.scala.ext.web.{Router, RoutingContext}
+import fr.sogeti.services.{CategoryService, IEntityService}
 
-class CategoryResource(router : Router, categoryService : CategoryService) extends GenericService[Category](router, categoryService, classOf[Category]){
+class CategoryResource(router : Router, categoryService : IEntityService[Category]) extends GenericService[Category](router, categoryService, classOf[Category]){
   /**
    * manage a get request on products to find a specific product
    * get the id parameter

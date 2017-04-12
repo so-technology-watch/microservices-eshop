@@ -6,49 +6,22 @@ import org.mockito.Matchers
 import fr.sogeti.entities.Product
 import org.mockito.stubbing.Answer
 import org.mockito.invocation.InvocationOnMock
+import fr.sogeti.services.IEntityService
 
-class ProductServiceMock {
-  var productService : ProductService = _
+class ProductServiceMock extends GenericServiceMock[Product, ProductService](classOf[ProductService]) {
   
-  initProductServiceMock
-  
-  private def initProductServiceMock() : Unit = {
-    productService = Mockito.mock(classOf[ProductService])
-    
-    mockGet
-    mockGetAll
-    mockCreate
-    mockUpdate
-    mockDelete
-  }
-  
-  private def mockGet() : Unit = {
+  override def mockGet() : Unit = {
     val product : Product = ProductServiceMock.getProduct
     
-    Mockito.when(productService.find(4)).thenReturn(product)
+    Mockito.when(service.find(4)).thenReturn(product)
   }
   
-  private def mockGetAll() : Unit = {
+  override def mockGetAll() : Unit = {
     val products : List[Product] = ProductServiceMock.getProducts 
     
-    Mockito.when(productService.getAll(Matchers.any(), Matchers.any())).thenReturn(products)
+    Mockito.when(service.getAll(Matchers.any(), Matchers.any())).thenReturn(products)
   }
   
-  private def mockCreate : Unit = {
-    Mockito.doNothing().when(productService).create(Matchers.any())
-  }
-  
-  private def mockUpdate : Unit = {
-    Mockito.doNothing().when(productService).update(Matchers.any())
-  }
-  
-  private def mockDelete : Unit = {
-    Mockito.doNothing().when(productService).deleteById(Matchers.any())
-  }
-  
-  
-  
-  def get() : ProductService = productService
 }
 
 object ProductServiceMock {

@@ -5,8 +5,9 @@ import fr.sogeti.services.SupplierService
 import fr.sogeti.entities.Supplier
 import fr.sogeti.rest.common.BaseHandler
 import io.vertx.scala.ext.web.RoutingContext
+import fr.sogeti.services.IEntityService
 
-class SupplierResource(router : Router, supplierService : SupplierService) extends GenericService[Supplier](router, supplierService, classOf[Supplier]) {
+class SupplierResource(router : Router, supplierService : IEntityService[Supplier]) extends GenericService[Supplier](router, supplierService, classOf[Supplier]) {
   
   /**
    * manage a get request on suppliers to find a specific product

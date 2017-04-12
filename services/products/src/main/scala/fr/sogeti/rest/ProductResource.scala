@@ -1,7 +1,6 @@
 package fr.sogeti.rest
 
 import fr.sogeti.rest.common.{JsonHelper, RequestHelper}
-import fr.sogeti.services.ProductService
 import io.vertx.scala.ext.web.{Router, RoutingContext}
 import fr.sogeti.rest.common.BaseHandler
 import io.vertx.core.Handler
@@ -10,8 +9,9 @@ import io.vertx.scala.ext.web.handler.BodyHandler
 import scala.collection.mutable.Buffer
 import com.google.gson.Gson
 import fr.sogeti.entities.Product
+import fr.sogeti.services.{IEntityService, ProductService}
 
-class ProductResource(router : Router, productService : ProductService) extends GenericService[Product](router, productService, classOf[Product]){
+class ProductResource(router : Router, productService : IEntityService[Product]) extends GenericService[Product](router, productService, classOf[Product]){
   
   /**
    * manage a get request on products to find a specific product
