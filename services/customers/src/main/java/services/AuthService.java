@@ -1,20 +1,41 @@
 package services;
 
+import dao.CustomerDAO;
+import dao.DAO;
 import dao.GenericDAO;
-import domain.AuthStatus;
 import domain.Credentials;
+import domain.Customer;
+import elements.AuthStatus;
+import elements.AuthToken;
+import elements.Error;
 
 public class AuthService {
 
-    private GenericDAO<Credentials> dao;
+    private DAO dao;
+    CustomerDAO customerDAO;
 
-    public AuthService(GenericDAO<Credentials> dao) {
+    public AuthService(DAO dao) {
 	this.dao = dao;
+	this.customerDAO = new CustomerDAO(dao.getDb());
     }
 
-    public void authentification(Credentials credentials) {
+    public String authentification(Credentials credentials) {
 
-	// TODO : authentification + création du token -> stokage en BDD
+	Customer customer = customerDAO.retreiveElementByEmail(credentials.getEmail());
+
+	if (customer == null) {
+
+	    return new Error(Error.CODE_NOT_FOUND, Error.MSG_NOT_FOUND).toJson();
+
+	} else {
+
+	    if (customer.getCredentials().equals(credentials)) {
+
+		return new AuthToken(customer.getId()).encodeToJWT();
+	    }
+
+	}
+
     }
 
     public AuthStatus retreiveAuthStatus(String token) {
@@ -23,10 +44,11 @@ public class AuthService {
 
 	return null;
     }
-    
-    public void deleteAuthToken(String token){
-	
-	//TODO : récupère l'id utilisateur contenue dans le token et l'utilise comme clé pour supprimer le token.
+
+    public void deleteAuthToken(String token) {
+
+	// TODO : récupère l'id utilisateur contenue dans le token et l'utilise
+	// comme clé pour supprimer le token.
     }
 
     public GenericDAO<Credentials> getDao() {

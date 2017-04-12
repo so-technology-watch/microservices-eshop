@@ -10,7 +10,7 @@ public class GenericDAO<T> {
 
     private Class<T> clazz;
     private DB db;
-    private ConcurrentMap<Integer, T> map;
+    protected ConcurrentMap<Integer, T> map;
 
     public GenericDAO(Class<T> clazz, DB db) {
 

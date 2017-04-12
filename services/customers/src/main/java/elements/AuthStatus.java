@@ -1,8 +1,14 @@
-package domain;
+package elements;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AuthStatus {
+    
+    public static final int CODE_AUTH = 0;
+
+    
+    public static final String MSG_AUTH = "Customer is authentificated.";
+
 
     private int code;
     private int message;

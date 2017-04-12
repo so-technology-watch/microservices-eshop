@@ -8,8 +8,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import domain.AuthStatus;
 import domain.Credentials;
+import elements.AuthStatus;
 
 @Path("api/v1/auth")
 @Produces(MediaType.APPLICATION_JSON)

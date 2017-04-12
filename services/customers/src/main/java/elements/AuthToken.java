@@ -1,6 +1,7 @@
-package domain;
+package elements;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Date;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -13,14 +14,14 @@ public class AuthToken {
     public AuthToken() {
     }
 
-    public AuthToken(int customerID, long timestamp) {
+    public AuthToken(int customerID) {
 
 	this.customerID = customerID;
     }
 
     public String encodeToJWT() {
 
-	timestamp = 0 ; //TODO : récupération du timestamp
+	timestamp = System.currentTimeMillis();
 	String token = "";
 
 	try {
