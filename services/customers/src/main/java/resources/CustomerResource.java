@@ -29,7 +29,7 @@ public class CustomerResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public int postCustomer() {
+    public int postCustomer(Customer customer) {
 
 	// TODO
 	return 0;
@@ -38,7 +38,7 @@ public class CustomerResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public int putCustomer() {
+    public int putCustomer(Customer customer) {
 
 	// TODO
 	return 0;

@@ -7,6 +7,9 @@ public class Credentials {
     private String email;
     private String passWord;
 
+    public Credentials() {
+    }
+
     public Credentials(String email, String passWord) {
 
 	this.email = email;
@@ -19,7 +22,6 @@ public class Credentials {
 	return email;
     }
 
-    @JsonProperty
     public void setEmail(String email) {
 
 	this.email = email;
@@ -31,7 +33,6 @@ public class Credentials {
 	return passWord;
     }
 
-    @JsonProperty
     public void setPassWord(String passWord) {
 
 	this.passWord = passWord;

@@ -26,7 +26,7 @@ public class AuthResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public String authentification(Credentials c) {
+    public String authentification(Credentials credentials) {
 
 	// TODO
 
@@ -35,10 +35,11 @@ public class AuthResource {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{token}")
     public String disconnect(@PathParam("token") String token) {
 
 	// TODO
-	
+
 	return null;
     }
 

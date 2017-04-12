@@ -11,6 +11,9 @@ public class Customer {
     private String address;
     private String phoneNumber;
 
+    public Customer() {
+    }
+
     public Customer(int id, String firstname, String lastname, String email, String address, String phoneNumber) {
 	this.id = id;
 	this.firstname = firstname;
@@ -26,7 +29,6 @@ public class Customer {
 	return id;
     }
 
-    @JsonProperty
     public void setId(int id) {
 
 	this.id = id;
@@ -38,7 +40,6 @@ public class Customer {
 	return firstname;
     }
 
-    @JsonProperty
     public void setFirstname(String firstname) {
 
 	this.firstname = firstname;
@@ -50,7 +51,6 @@ public class Customer {
 	return lastname;
     }
 
-    @JsonProperty
     public void setLastname(String lastname) {
 
 	this.lastname = lastname;
@@ -62,7 +62,6 @@ public class Customer {
 	return email;
     }
 
-    @JsonProperty
     public void setEmail(String email) {
 
 	this.email = email;
@@ -74,7 +73,6 @@ public class Customer {
 	return address;
     }
 
-    @JsonProperty
     public void setAddress(String address) {
 
 	this.address = address;
@@ -86,7 +84,6 @@ public class Customer {
 	return phoneNumber;
     }
 
-    @JsonProperty
     public void setPhoneNumber(String phoneNumber) {
 
 	this.phoneNumber = phoneNumber;
