@@ -1,24 +1,15 @@
 package fr.sogeti.verticles
 
 import org.junit.Test
-import io.vertx.scala.core.Vertx
-import io.vertx.lang.scala.ScalaVerticle
-import io.vertx.scala.core.http.HttpClient
-import io.vertx.ext.unit.TestSuite
-import io.vertx.core.Handler
-import io.vertx.ext.unit.TestContext
-import io.vertx.scala.core.http.HttpClientRequest
-import io.vertx.scala.core.http.HttpClientResponse
-import org.junit.Assert
+import io.vertx.core.{Handler, AsyncResult}
 import io.vertx.core.buffer.Buffer
-import io.vertx.ext.unit.Async
-import io.vertx.scala.core.http.HttpServerRequest
+import io.vertx.ext.unit.{TestContext, Async, TestSuite, TestCompletion}
+import io.vertx.lang.scala.ScalaVerticle
+import io.vertx.scala.core.http.{HttpClientRequest, HttpClientResponse}
+import io.vertx.scala.core.Vertx
+import io.vertx.scala.core.http.{HttpClient, HttpServerRequest}
 import io.vertx.scala.ext.web.Router
-import com.google.gson.Gson
 import fr.sogeti.entities.Product
-import java.util.concurrent.TimeUnit
-import io.vertx.ext.unit.TestCompletion
-import io.vertx.core.AsyncResult
 import fr.sogeti.rest.common.JsonHelper
 
 class ProductTest {
@@ -31,7 +22,7 @@ class ProductTest {
     val router : Router = Router.router(vertx)
     
     vertx.deployVerticle( ScalaVerticle.nameForVerticle[StubProductVerticle] )
-        
+    
     val suite : TestSuite = TestSuite.create("test_get_product")
     suite.test("get_product_test", getProductTest(vertx))
     suite.test("get_all_product_test", getAllProductTest(vertx))
@@ -62,12 +53,17 @@ class ProductTest {
         req.handler(new Handler[HttpClientResponse]{
           override def handle(response : HttpClientResponse) : Unit = {
             onResponse(response, (resp) => {
-              Assert.assertFalse(resp.isEmpty)
+              context.assertFalse(resp.isEmpty)
             
-              val gson : Gson = new Gson
               val product : Product = ProductServiceMock.getProduct
-              val obtained : Product = gson.fromJson(resp, classOf[Product])
-              
+              val gsonHelper = new JsonHelper
+              val optObtained = gsonHelper.fromJson(resp, classOf[Product], true)
+              if(!optObtained.isDefined){
+                context.fail("received invalid response %s".format(resp))
+                async.complete
+                return
+              }
+              val obtained : Product = optObtained.get 
               context.assertEquals(200, response.statusCode)
               context.assertEquals( obtained.getCategory, product.getCategory )
               context.assertEquals( obtained.getDescription, product.getDescription )
@@ -96,9 +92,8 @@ class ProductTest {
         req.handler(new Handler[HttpClientResponse]{
           override def handle(response : HttpClientResponse) : Unit = {
             onResponse(response, (resp) => {
-              Assert.assertFalse(resp.isEmpty)
+              context.assertFalse(resp.isEmpty)
             
-              val gson : Gson = new Gson
               val products : List[Product] = ProductServiceMock.getProducts
               val obtained : Option[List[Product]] = new JsonHelper().listFromJson(resp, true)
               

@@ -31,7 +31,7 @@ class ProductServiceMock {
   private def mockGetAll() : Unit = {
     val products : List[Product] = ProductServiceMock.getProducts 
     
-    Mockito.when(productService.getAll()).thenReturn(products)
+    Mockito.when(productService.getAll(Matchers.any(), Matchers.any())).thenReturn(products)
   }
   
   private def mockCreate : Unit = {
