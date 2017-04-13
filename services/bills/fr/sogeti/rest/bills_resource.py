@@ -34,6 +34,7 @@ def get_by_id(id_bill):
 def create_bill():
     try:
         bill = get_bill_from_body()
+        response.status = 201
         return dumps(bills_service.create(bill))
     except TypeError:
         return error_handler(400, invalid_parameters)

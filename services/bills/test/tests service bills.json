@@ -1,0 +1,308 @@
+{
+  "front-version": "2.2.3",
+  "version": 3,
+  "nodes": [
+    {
+      "type": "Project",
+      "id": "2D81E35A-555B-4414-A120-B5ECB8DB7DA1",
+      "lastModified": "2017-04-13T17:12:02.184+02:00",
+      "name": "test bills"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n\t\"products\": [\n      {\n        \"id\": 1,\n        \"reference\": \"a reference 3\",\n        \"designation\": \"a designation 3\",\n        \"price\": 10.5\n      }\n\t],\n\t\"supplier\": {\n\t\t\"id\": \"an id2\",\n\t\t\"company_name\": \"sogeti\",\n\t\t\"email\": \"truc@truc2.com\",\n\t\t\"phone_number\": \"02020202\"\n\t},\n\t\"customer\": {\n\t\t\"id\": \"an id\"\n\t},\n\t\"total\": \"10\"\n\t}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:8080",
+        "path": "/api/v1/bills"
+      },
+      "id": "E514F31F-8BD4-403A-B05E-7FDF8E0BA8CF",
+      "lastModified": "2017-04-13T17:12:02.185+02:00",
+      "name": "create a bill",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "assertions": [
+        {
+          "comparison": "Equals",
+          "subject": "ResponseStatus",
+          "path": "code",
+          "value": "201"
+        },
+        {
+          "comparison": "Equals",
+          "subject": "ResponseHeader",
+          "path": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "comparison": "Less",
+          "subject": "Response",
+          "path": "latency",
+          "value": "400"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "2D81E35A-555B-4414-A120-B5ECB8DB7DA1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+        "name": "POST"
+      },
+      "body": {
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n\t\"products\": [\n      {\n        \"id\": 1,\n        \"reference\": \"a reference 3\",\n        \"designation\": \"a designation 3\",\n        \"price\": 10.5\n      }\n\t],\n\t\"supplier\": {\n\t\t\"no id\": \"an id2\",\n\t\t\"company_name\": \"sogeti\",\n\t\t\"email\": \"truc@truc2.com\",\n\t\t\"phone_number\": \"02020202\"\n\t},\n\t\"customer\": {\n\t\t\"id\": \"an id\"\n\t},\n\t\"total\": \"10\"\n\t}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:8080",
+        "path": "/api/v1/bills"
+      },
+      "id": "0D67D9E3-7AF6-4C1D-8126-43FD3A145790",
+      "lastModified": "2017-04-13T16:50:45.065+02:00",
+      "name": "create a bill error",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "assertions": [
+        {
+          "comparison": "Equals",
+          "subject": "ResponseStatus",
+          "path": "code",
+          "value": "400"
+        },
+        {
+          "comparison": "Equals",
+          "subject": "ResponseJsonBody",
+          "path": "$.code",
+          "value": "400"
+        },
+        {
+          "comparison": "Equals",
+          "subject": "ResponseJsonBody",
+          "path": "$.message",
+          "value": "Invalid parameters"
+        },
+        {
+          "comparison": "Equals",
+          "subject": "ResponseHeader",
+          "path": "Content-type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "2D81E35A-555B-4414-A120-B5ECB8DB7DA1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.5",
+        "name": "DELETE"
+      },
+      "body": {
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": ""
+      },
+      "headersType": "Form",
+      "uri": {
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:8080",
+        "path": "/api/v1/bills/58eba3fcf5b71536c464d4a6"
+      },
+      "id": "F9479F2C-7DBB-46EF-9E65-F6B7F4D737ED",
+      "lastModified": "2017-04-13T16:51:49.888+02:00",
+      "name": "delete a bill",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "assertions": [
+        {
+          "comparison": "Equals",
+          "subject": "ResponseStatus",
+          "path": "code",
+          "value": "200"
+        },
+        {
+          "comparison": "Equals",
+          "subject": "ResponseBody",
+          "path": "content",
+          "value": "OK"
+        },
+        {
+          "comparison": "Equals",
+          "subject": "ResponseHeader",
+          "path": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "2D81E35A-555B-4414-A120-B5ECB8DB7DA1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+        "name": "GET"
+      },
+      "body": {
+        "bodyType": "Text",
+        "autoSetLength": true
+      },
+      "headersType": "Form",
+      "uri": {
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:8080",
+        "path": "/api/v1/bills/1"
+      },
+      "id": "0081B482-EE7F-4A63-AC27-F6BF4384B9C7",
+      "lastModified": "2017-04-13T16:54:23.926+02:00",
+      "name": "get a bill",
+      "headers": [],
+      "assertions": [
+        {
+          "comparison": "Equals",
+          "subject": "ResponseStatus",
+          "path": "code",
+          "value": "200"
+        },
+        {
+          "comparison": "Equals",
+          "subject": "ResponseHeader",
+          "path": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "2D81E35A-555B-4414-A120-B5ECB8DB7DA1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+        "name": "GET"
+      },
+      "body": {
+        "bodyType": "Text",
+        "autoSetLength": true
+      },
+      "headersType": "Form",
+      "uri": {
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:8080",
+        "path": "/api/v1/bills"
+      },
+      "id": "1A6627CD-B14A-46EA-AE60-FF18E70456D0",
+      "lastModified": "2017-04-13T17:01:53.172+02:00",
+      "name": "get bills",
+      "headers": [],
+      "assertions": [
+        {
+          "comparison": "Equals",
+          "subject": "ResponseStatus",
+          "path": "code",
+          "value": "206"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "2D81E35A-555B-4414-A120-B5ECB8DB7DA1"
+    },
+    {
+      "type": "Request",
+      "method": {
+        "requestBody": true,
+        "link": "http://tools.ietf.org/html/rfc7231#section-4.3.4",
+        "name": "PUT"
+      },
+      "body": {
+        "bodyType": "Text",
+        "autoSetLength": true,
+        "textBody": "{\n\t\"id\": \"58eba3fcf5b71536c464d4a6\",\n\t\"products\": [\n      {\n        \"id\": 1,\n        \"reference\": \"a reference 2\",\n        \"designation\": \"a designation\",\n        \"price\": 14.5\n      }\n\t],\n\t\"supplier\": {\n\t\t\"id\": \"an id2\",\n\t\t\"company_name\": \"sogeti\",\n\t\t\"email\": \"truc@truc2.com\",\n\t\t\"phone_number\": \"02020202\"\n\t},\n\t\"customer\": {\n\t\t\"id\": \"an id\"\n\t},\n\t\"total\": \"10\"\n\t}"
+      },
+      "headersType": "Form",
+      "uri": {
+        "scheme": {
+          "name": "http",
+          "version": "V11"
+        },
+        "host": "localhost:8080",
+        "path": "/api/v1/bills"
+      },
+      "id": "2196555E-6A03-4998-A2B3-452B126A2460",
+      "lastModified": "2017-04-13T16:55:18.676+02:00",
+      "name": "update a bill",
+      "headers": [
+        {
+          "enabled": true,
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "assertions": [
+        {
+          "comparison": "Equals",
+          "subject": "ResponseStatus",
+          "path": "code",
+          "value": "200"
+        },
+        {
+          "comparison": "Equals",
+          "subject": "ResponseHeader",
+          "path": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "comparison": "Equals",
+          "subject": "ResponseStatus",
+          "path": "code",
+          "value": "200"
+        }
+      ],
+      "metaInfo": {},
+      "parentId": "2D81E35A-555B-4414-A120-B5ECB8DB7DA1"
+    }
+  ]
+}
