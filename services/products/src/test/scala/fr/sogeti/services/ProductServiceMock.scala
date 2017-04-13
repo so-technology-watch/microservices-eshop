@@ -1,12 +1,8 @@
-package fr.sogeti.verticles
+package fr.sogeti.services
 
-import fr.sogeti.services.ProductService
 import org.mockito.Mockito
 import org.mockito.Matchers
 import fr.sogeti.entities.Product
-import org.mockito.stubbing.Answer
-import org.mockito.invocation.InvocationOnMock
-import fr.sogeti.services.IEntityService
 
 class ProductServiceMock extends GenericServiceMock[Product, ProductService](classOf[ProductService]) {
   

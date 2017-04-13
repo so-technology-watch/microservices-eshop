@@ -4,26 +4,25 @@ import io.vertx.core.{Handler, AsyncResult}
 import io.vertx.core.buffer.Buffer
 import io.vertx.ext.unit.{TestContext, Async, TestSuite, TestCompletion}
 import io.vertx.lang.scala.ScalaVerticle
+import io.vertx.scala.core.http.{HttpClientRequest, HttpClientResponse, HttpClient, HttpServerRequest}
 import io.vertx.scala.core.Vertx
-import io.vertx.scala.core.http.{HttpClient, HttpServerRequest, HttpClientRequest, HttpClientResponse}
 import io.vertx.scala.ext.web.Router
-import fr.sogeti.entities.Product
-import fr.sogeti.rest.common.JsonHelperTesting
-import fr.sogeti.services.ProductServiceMock
+import fr.sogeti.entities.Supplier
+import fr.sogeti.services.SupplierServiceMock
 import fr.sogeti.rest.common.JsonHelperTesting
 import fr.sogeti.verticles.common.RequestsHelper
 
-class ProductTest {
+class SupplierTest {
   
-  def testGetProduct() : Unit = {
+  def testGetSupplier() : Unit = {
     val vertx = Vertx.vertx
     val router : Router = Router.router(vertx)
     
-    vertx.deployVerticle( ScalaVerticle.nameForVerticle[StubProductVerticle] )
-    val suiteName = "product test suite"
+    vertx.deployVerticle( ScalaVerticle.nameForVerticle[StubSupplierVerticle] )
+    val suiteName = "supplier test suite"
     val suite : TestSuite = TestSuite.create(suiteName)
-    suite.test("get_product_test", getProductTest(vertx))
-    suite.test("get_all_product_test", getAllProductTest(vertx))
+    suite.test("get_supplier_test", getSupplierTest(vertx))
+    suite.test("get_all_suppliers_test", getAllSupplierTest(vertx))
     
     val completion : TestCompletion = suite.run
     completion.await
@@ -41,13 +40,13 @@ class ProductTest {
     })
   }
 
-  def getProductTest(vertx : Vertx) : Handler[TestContext] = {
-    println("get product test running")
+  def getSupplierTest(vertx : Vertx) : Handler[TestContext] = {
+    println("get supplier test running")
     return new Handler[TestContext] {
       
       override def handle(context : TestContext) : Unit = {
         val client : HttpClient = vertx.createHttpClient
-        val req : HttpClientRequest = client.get(8080, "localhost", "/api/v1/products/4");
+        val req : HttpClientRequest = client.get(8080, "localhost", "/api/v1/suppliers/4");
         val async : Async = context.async
         
         req.handler(new Handler[HttpClientResponse]{
@@ -55,22 +54,21 @@ class ProductTest {
             RequestsHelper.onResponse(response, (resp) => {
               context.assertFalse(resp.isEmpty)
             
-              val product : Product = ProductServiceMock.getProduct
+              val supplier : Supplier = SupplierServiceMock.getSupplier
               val gsonHelper = new JsonHelperTesting
-              val optObtained = gsonHelper.fromJson(resp, classOf[Product], true)
+              val optObtained = gsonHelper.fromJson(resp, classOf[Supplier], true)
               if(!optObtained.isDefined){
                 context.fail("received invalid response %s".format(resp))
                 async.complete
                 return
               }
-              val obtained : Product = optObtained.get 
+              val obtained : Supplier = optObtained.get
               context.assertEquals(200, response.statusCode)
-              context.assertEquals( obtained.getCategory, product.getCategory )
-              context.assertEquals( obtained.getDescription, product.getDescription )
-              context.assertEquals( obtained.getDesignation , product.getDesignation )
-              context.assertEquals( obtained.getId , product.getId )
-              context.assertTrue( obtained.getPrice == product.getPrice )
-              println("get product test completed")
+              context.assertEquals( obtained.getCompanyName, supplier.getCompanyName )
+              context.assertEquals( obtained.getEmail, supplier.getEmail )
+              context.assertEquals( obtained.getPhoneNumber , supplier.getPhoneNumber )
+              context.assertEquals( obtained.getId , supplier.getId )
+              println("get supplier test completed")
               async.complete
             })
           }
@@ -81,13 +79,13 @@ class ProductTest {
     }
   }
   
-  def getAllProductTest(vertx : Vertx) : Handler[TestContext] = {
-    println("get all product test running")
+  def getAllSupplierTest(vertx : Vertx) : Handler[TestContext] = {
+    println("get all supplier test running")
     return new Handler[TestContext] {
       
       override def handle(context : TestContext) : Unit = {
         val client : HttpClient = vertx.createHttpClient
-        val req : HttpClientRequest = client.get(8080, "localhost", "/api/v1/products");
+        val req : HttpClientRequest = client.get(8080, "localhost", "/api/v1/suppliers");
         val async : Async = context.async
         
         req.handler(new Handler[HttpClientResponse]{
@@ -95,26 +93,27 @@ class ProductTest {
             RequestsHelper.onResponse(response, (resp) => {
               context.assertFalse(resp.isEmpty)
             
-              val products : List[Product] = ProductServiceMock.getProducts
-              val obtained : Option[List[Product]] = new JsonHelperTesting().listFromJsonProduct(resp, true)
+              val suppliers : List[Supplier] = SupplierServiceMock.getSuppliers
+              val obtained : Option[List[Supplier]] = new JsonHelperTesting().listFromJsonSupplier(resp, true)
               
               if(!obtained.isDefined){
                 context.fail("not product obtained")
                 async.complete
                 return
               }
+              
               context.assertEquals( 200, response.statusCode )
-              for( i : Int <- 0 to products.size-1 ) {
+              for( i : Int <- 0 to suppliers.size-1 ) {
                 val got = obtained.get(i)
-                val product = products(i)
+                val supplier = suppliers(i)
                 
-                context.assertEquals( got.getCategory, product.getCategory )
-                context.assertEquals( got.getDescription, product.getDescription )
-                context.assertEquals( got.getDesignation , product.getDesignation )
-                context.assertEquals( got.getId , product.getId )
-                context.assertTrue( got.getPrice == product.getPrice )
+                context.assertEquals(200, response.statusCode)
+                context.assertEquals( got.getCompanyName, supplier.getCompanyName )
+                context.assertEquals( got.getEmail, supplier.getEmail )
+                context.assertEquals( got.getPhoneNumber , supplier.getPhoneNumber )
+                context.assertEquals( got.getId , supplier.getId )
               }
-              println("get all product test completed")
+              println("get all supplier test completed")
               async.complete
             })
           }

@@ -1,8 +1,6 @@
-package fr.sogeti.verticles
+package fr.sogeti.services
 
-import fr.sogeti.services.IEntityService
-import org.mockito.Mockito
-import org.mockito.Matchers
+import org.mockito.{Mockito, Matchers}
 
 abstract class GenericServiceMock[Entity, Type <: IEntityService[Entity]](clazz : Class[Type]) extends IGenericServiceMock {
   var service : IEntityService[Entity] = _

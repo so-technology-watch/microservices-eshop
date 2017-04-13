@@ -1,24 +1,23 @@
 package fr.sogeti.verticles
 
+import fr.sogeti.services.IEntityService
+import fr.sogeti.entities.Category
 import io.vertx.scala.ext.web.Router
-import fr.sogeti.rest.ProductResource
-import fr.sogeti.services.ProductService
+import io.vertx.scala.ext.web.handler.BodyHandler
+import fr.sogeti.rest.CategoryResource
 import io.vertx.core.Handler
 import io.vertx.scala.core.http.HttpServerRequest
-import io.vertx.scala.ext.web.handler.BodyHandler
-import fr.sogeti.services.IEntityService
-import fr.sogeti.entities.Product
-import fr.sogeti.services.ProductServiceMock
+import fr.sogeti.services.CategoryServiceMock
 
-class StubProductVerticle extends ProductVerticle {
-  val productService : IEntityService[Product] = new ProductServiceMock().get()
+class StubCategoryVerticle extends CategoryVerticle {
+  val categoryService : IEntityService[Category] = new CategoryServiceMock().get()
   
   override def start() = {
       val router : Router = Router.router(vertx)
       
       router.route.handler( BodyHandler.create )
       
-      val productResource : ProductResource = new ProductResource( router, productService )
+      val categoryResource : CategoryResource = new CategoryResource( router, categoryService )
       
       vertx.createHttpServer.requestHandler( new Handler[HttpServerRequest]() {
         override def handle( request : HttpServerRequest ) : Unit = {
@@ -26,5 +25,4 @@ class StubProductVerticle extends ProductVerticle {
         }
       } ).listen( 8080 )
   }
-  
 }
