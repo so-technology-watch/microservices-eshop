@@ -9,7 +9,7 @@ import io.vertx.core.Handler
 import io.vertx.scala.core.http.HttpServerRequest
 import fr.sogeti.services.CategoryServiceMock
 
-class StubCategoryVerticle extends CategoryVerticle {
+class StubCategoryVerticle extends HttpServerVerticle {
   val categoryService : IEntityService[Category] = new CategoryServiceMock().get()
   
   override def start() = {

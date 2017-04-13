@@ -10,7 +10,7 @@ import fr.sogeti.services.IEntityService
 import fr.sogeti.entities.Product
 import fr.sogeti.services.ProductServiceMock
 
-class StubProductVerticle extends ProductVerticle {
+class StubProductVerticle extends HttpServerVerticle {
   val productService : IEntityService[Product] = new ProductServiceMock().get()
   
   override def start() = {

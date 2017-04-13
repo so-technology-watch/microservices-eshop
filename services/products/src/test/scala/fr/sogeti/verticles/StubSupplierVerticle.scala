@@ -9,7 +9,7 @@ import io.vertx.scala.core.http.HttpServerRequest
 import fr.sogeti.services.IEntityService
 import io.vertx.core.Handler
 
-class StubSupplierVerticle extends SupplierVerticle {
+class StubSupplierVerticle extends HttpServerVerticle {
   val supplierService : IEntityService[Supplier] = new SupplierServiceMock().get()
   
   override def start() = {

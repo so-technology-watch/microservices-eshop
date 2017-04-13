@@ -2,19 +2,14 @@ package fr.sogeti.dao.common
 
 import javax.persistence.{EntityManagerFactory, EntityManager, Persistence}
 
-class ManagerFactory {
-  
+object ManagerFactory {
+  val INSTANCE : EntityManagerFactory = Persistence.createEntityManagerFactory("persistence")
   
   def createEntityManager : EntityManager = {
-    return ManagerFactory.INSTANCE.createEntityManager
+    INSTANCE.createEntityManager
   }
   
   def getInstance : EntityManagerFactory = {
-    return ManagerFactory.INSTANCE
+    ManagerFactory.INSTANCE
   }
-  
-}
-
-object ManagerFactory {
-  val INSTANCE : EntityManagerFactory = Persistence.createEntityManagerFactory("persistence")
 }

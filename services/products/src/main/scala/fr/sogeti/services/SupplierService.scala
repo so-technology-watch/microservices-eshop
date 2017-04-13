@@ -5,7 +5,7 @@ import fr.sogeti.dao.common.GenericDAO
 import fr.sogeti.dao.common.ManagerFactory
 
 class SupplierService extends IEntityService[Supplier] {
-  private val dao : GenericDAO[Supplier, Integer] = new GenericDAO[Supplier, Integer]( classOf[Supplier], new ManagerFactory().createEntityManager );
+  private val dao : GenericDAO[Supplier, Integer] = new GenericDAO[Supplier, Integer]( classOf[Supplier], ManagerFactory.createEntityManager );
   
   override def getAll(begin : Int, end : Int) : List[Supplier] = {
     return dao.getAll(begin, end);
