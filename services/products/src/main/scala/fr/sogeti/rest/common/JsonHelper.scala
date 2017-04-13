@@ -10,7 +10,6 @@ import scala.collection.mutable.ListBuffer
 import collection.JavaConversions._
 import java.lang.reflect.Type
 import com.google.gson.reflect.TypeToken
-import fr.sogeti.entities.Product
 
 class JsonHelper {
   
@@ -66,22 +65,9 @@ class JsonHelper {
   def fromJson[Type](text : String, clazz : Class[Type]) : Option[Type] = {
     fromJson(text, clazz, false)
   }
-  
-  def listFromJson(text : String, expose : Boolean) : Option[List[Product]] = {
-    try {
-      val converter : Gson = if(expose) gson else gson
-      val tokenType = new TypeToken[ju.List[Product]](){}.getType
-      
-      val list : ju.List[Product] = converter.fromJson(text, tokenType)
-      val result = ListBuffer[Product]()
-      for( e <- list ) result += e
-      return Some(result.toList)
-    } catch {
-      case e : Exception => return None
-    }
-  }
-  
+    
   private def fromJson[Type](text : String, clazz : Class[Type], gson : Gson) : Type = {
      return gson.fromJson(text, clazz)   
   }
+  
 }

@@ -14,6 +14,7 @@ import io.vertx.scala.core.http.HttpServerRequest
 abstract class GenericService[Type](router : Router, service : IEntityService[Type], clazz : Class[Type]) {
   protected val requestHelper : RequestHelper = new RequestHelper
   protected val jsonHelper: JsonHelper = new JsonHelper
+  protected val contentType : String = "application/json"
   
   /**
    * find an entity by id
@@ -31,6 +32,8 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     }
       
     val entity = service.find(id.get)
+    
+    response.headers().add("content-type", contentType)
     response.end( jsonHelper.toJson( entity , true ) )
   }
   
@@ -46,6 +49,7 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     
     response.headers().add("Content-Range", "%d-%d".format(begin, end))
     response.headers().add("Accept-Range", "products 100")
+    response.headers().add("content-type", contentType)
     
     response.end( jsonHelper.toJson( entities , true ) )
   }
@@ -66,6 +70,8 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
         service.create(entity.get)
       }
     }
+    
+    response.headers().add("content-type", contentType)
     response.end("OK")
   }
   
@@ -85,6 +91,8 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
         service.update(entity.get)
       }
     }
+    
+    response.headers().add("content-type", contentType)
     response.end("OK")
   }
   
@@ -104,6 +112,8 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     }
     val product = service.find(id.get)
     service.deleteById( id.get )
+    
+    response.headers().add("content-type", contentType)
     response.end("OK")
   }
   

@@ -18,12 +18,12 @@ class CategoryService extends IEntityService[Category] {
     return dao.find(id)
   }
   
-  override def create(product : Category) : Unit = {
-    dao.create(product)
+  override def create(category : Category) : Unit = {
+    dao.create(category)
   }
   
-  override def update(product : Category) : Unit = {
-    dao.update(product)
+  override def update(category : Category) : Unit = {
+    dao.update(category)
   }
   
   override def deleteById(id : Integer) : Unit = {

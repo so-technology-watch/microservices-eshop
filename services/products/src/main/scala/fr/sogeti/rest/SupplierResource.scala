@@ -13,35 +13,35 @@ class SupplierResource(router : Router, supplierService : IEntityService[Supplie
    * manage a get request on suppliers to find a specific product
    * get the id parameter
    */
-  router.get("/api/v1/supplier/:id").handler(new BaseHandler {
+  router.get("/api/v1/suppliers/:id").produces(contentType).handler(new BaseHandler {
     override def handle( context : RoutingContext ) = findById(context)
   } )
   
   /**
    * manage a get request on suppliers to get all the products
    */
-  router.get("/api/v1/supplier").handler( new BaseHandler {
+  router.get("/api/v1/suppliers").produces(contentType).handler( new BaseHandler {
     override def handle( context : RoutingContext ) = getAll(context)
   } )
   
   /**
    * manage a post request on suppliers to create a new one
    */
-  router.post("/api/v1/supplier").handler( new BaseHandler {
+  router.post("/api/v1/suppliers").produces(contentType).handler( new BaseHandler {
     override def handle( context : RoutingContext ) = create(context)
   } )
   
   /**
    * manage a put request on suppliers to update a product 
    */
-  router.put("/api/v1/supplier").handler( new BaseHandler {
+  router.put("/api/v1/suppliers").produces(contentType).handler( new BaseHandler {
     override def handle( context : RoutingContext ) = update(context)
   } )
   
   /**
    * manage a delete request on suppliers to update a product
    */
-  router.delete("/api/v1/supplier/:id").handler( new BaseHandler {
+  router.delete("/api/v1/suppliers/:id").produces(contentType).handler( new BaseHandler {
     override def handle( context : RoutingContext ) = delete(context)
   } )
 }
