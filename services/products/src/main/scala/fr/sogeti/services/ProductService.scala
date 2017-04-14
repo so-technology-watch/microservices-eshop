@@ -1,6 +1,5 @@
 package fr.sogeti.services
 
-import fr.sogeti.dao.ProductDao
 import fr.sogeti.dao.common.{GenericDAO, ManagerFactory}
 import fr.sogeti.entities.Product
 

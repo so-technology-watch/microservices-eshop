@@ -12,7 +12,6 @@ import io.vertx.scala.core.http.HttpServerRequest
  * @param clazz the entity's class
  */
 abstract class GenericService[Type](router : Router, service : IEntityService[Type], clazz : Class[Type]) {
-  protected val requestHelper : RequestHelper = new RequestHelper
   protected val jsonHelper: JsonHelper = new JsonHelper
   protected val contentType : String = "application/json"
   
@@ -24,7 +23,7 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     val request = context.request
     val response = context.response
     
-    val id = requestHelper.getParameterAsInt(request, "id")
+    val id = RequestHelper.getParameterAsInt(request, "id")
     
     if( !id.isDefined ) {
       response.setStatusCode(404).end("entity not found")
@@ -105,7 +104,7 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
   def delete(context : RoutingContext) : Unit = {
     val request = context.request
     val response = context.response
-    val id = requestHelper.getParameterAsInt(request, "id")
+    val id = RequestHelper.getParameterAsInt(request, "id")
     
     if( !id.isDefined ) {
       response.setStatusCode(404).end("entity not found")

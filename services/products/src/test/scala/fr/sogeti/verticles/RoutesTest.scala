@@ -67,24 +67,31 @@ class RoutesTest {
       
       override def handle(context : TestContext) : Unit = {
         val client : HttpClient = vertx.createHttpClient
-        
-        for( url <- routes ){
-          val req : HttpClientRequest = client.request(method, 8080, "localhost", if(method != HttpMethod.DELETE) url else url + "/4");
-          println("test %s on %s".format(method, url))
-          val async : Async = context.async
+        val size = routes.size-1
+        val async : Async = context.async(size+1)        
+        for( i <- 0 to size ){
+          val url = routes(i)
+          val tmpUrl = if(method != HttpMethod.DELETE) url else url + "/4"
+          val code = if(method != HttpMethod.POST) 200 else 201
+          val req : HttpClientRequest = client.request(method, 8080, "localhost", tmpUrl);
+          println("test %s on %s".format(method, tmpUrl))
+          
           
           req.handler(new Handler[HttpClientResponse]{
             override def handle(response : HttpClientResponse) : Unit = {
               RequestsHelper.onResponse(response, (resp) => {
                 context.assertFalse(resp.isEmpty)
                 
-                context.assertEquals(200, response.statusCode)
+                context.assertEquals(code, response.statusCode)
                 context.assertEquals("OK", resp)
                 context.assertTrue(response.getHeader("content-type").isDefined)
                 context.assertEquals("application/json", response.getHeader("content-type").get)
                 
-                println("%S test completed on %s".format(method, url))
-                async.complete
+                println("%S test completed on %s".format(method, tmpUrl))
+                async.countDown
+                if(async.count == 0){
+                  async.complete
+                }
               })
             }
           })

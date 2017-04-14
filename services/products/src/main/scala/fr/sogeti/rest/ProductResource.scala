@@ -1,15 +1,9 @@
 package fr.sogeti.rest
 
-import fr.sogeti.rest.common.{JsonHelper, RequestHelper}
 import io.vertx.scala.ext.web.{Router, RoutingContext}
 import fr.sogeti.rest.common.BaseHandler
-import io.vertx.core.Handler
-import io.vertx.scala.core.http.HttpServerRequest
-import io.vertx.scala.ext.web.handler.BodyHandler
-import scala.collection.mutable.Buffer
-import com.google.gson.Gson
 import fr.sogeti.entities.Product
-import fr.sogeti.services.{IEntityService, ProductService}
+import fr.sogeti.services.IEntityService
 
 class ProductResource(router : Router, productService : IEntityService[Product]) extends GenericService[Product](router, productService, classOf[Product]){
   

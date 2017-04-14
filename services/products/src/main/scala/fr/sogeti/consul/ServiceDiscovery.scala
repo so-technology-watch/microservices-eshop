@@ -6,8 +6,11 @@ import java.util.Arrays
 
 class ServiceDiscovery(client : ConsulClient) {
   
-  val id = "products service"
+  val id = "products-service"
   
+  /**
+   * register the service to the consul server
+   */
   def register() : Unit = {
     val newService : NewService = new NewService()
     newService.setId(id)
@@ -24,9 +27,15 @@ class ServiceDiscovery(client : ConsulClient) {
     client.agentServiceRegister(newService)  
   }
   
+  /**
+   * unregister the service from the consul server
+   */
   def unregister() : Unit = {
     client.agentServiceDeregister(id)
   }
   
+  /**
+   * @return the service's id 
+   */
   def getId() : String = id
 }

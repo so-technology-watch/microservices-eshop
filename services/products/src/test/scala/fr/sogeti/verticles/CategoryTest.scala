@@ -125,7 +125,7 @@ class CategoryTest {
                 context.assertEquals( got.getId, category.getId )
                 context.assertEquals( got.getName, category.getName )
                 context.assertEquals(category.getProducts.size, got.getProducts.size)
-                for( i <- 0 to category.getProducts.size ){
+                for( i <- 0 to category.getProducts.size-1 ){
                   val product = category.getProducts().get(i)
                   val obt = got.getProducts().get(i)
                   context.assertEquals( product.getCategory, obt.getCategory )

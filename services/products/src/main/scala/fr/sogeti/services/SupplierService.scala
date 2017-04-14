@@ -1,8 +1,7 @@
 package fr.sogeti.services
 
 import fr.sogeti.entities.Supplier
-import fr.sogeti.dao.common.GenericDAO
-import fr.sogeti.dao.common.ManagerFactory
+import fr.sogeti.dao.common.{GenericDAO, ManagerFactory}
 
 class SupplierService extends IEntityService[Supplier] {
   private val dao : GenericDAO[Supplier, Integer] = new GenericDAO[Supplier, Integer]( classOf[Supplier], ManagerFactory.createEntityManager );

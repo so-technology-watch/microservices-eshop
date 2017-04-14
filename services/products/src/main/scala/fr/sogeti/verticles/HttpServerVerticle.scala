@@ -2,15 +2,11 @@ package fr.sogeti.verticles
 
 import io.vertx.lang.scala.ScalaVerticle
 import io.vertx.scala.ext.web.Router
-import fr.sogeti.rest.CategoryResource
-import fr.sogeti.services.CategoryService
 import io.vertx.core.Handler
 import io.vertx.scala.core.http.HttpServerRequest
 import io.vertx.scala.ext.web.handler.BodyHandler
-import fr.sogeti.rest.ProductResource
-import fr.sogeti.rest.SupplierResource
-import fr.sogeti.services.SupplierService
-import fr.sogeti.services.ProductService
+import fr.sogeti.rest.{ProductResource, SupplierResource, CategoryResource}
+import fr.sogeti.services.{SupplierService, ProductService, CategoryService}
 
 class HttpServerVerticle extends ScalaVerticle {
   override def start() : Unit = {

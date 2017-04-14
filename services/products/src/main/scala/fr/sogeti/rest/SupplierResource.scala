@@ -1,10 +1,8 @@
 package fr.sogeti.rest
 
-import io.vertx.scala.ext.web.Router
-import fr.sogeti.services.SupplierService
+import io.vertx.scala.ext.web.{Router, RoutingContext}
 import fr.sogeti.entities.Supplier
 import fr.sogeti.rest.common.BaseHandler
-import io.vertx.scala.ext.web.RoutingContext
 import fr.sogeti.services.IEntityService
 
 class SupplierResource(router : Router, supplierService : IEntityService[Supplier]) extends GenericService[Supplier](router, supplierService, classOf[Supplier]) {

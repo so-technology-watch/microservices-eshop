@@ -3,9 +3,7 @@ package fr.sogeti.verticles
 import io.vertx.lang.scala.ScalaVerticle
 import fr.sogeti.services.ProductService
 import fr.sogeti.amqp.ClientRabbitMQ
-import fr.sogeti.consul.Config
-import fr.sogeti.consul.ConsulSingleton
-import fr.sogeti.consul.ConfigRabbitMq
+import fr.sogeti.consul.{Config, ConsulSingleton, ConfigRabbitMq}
 
 class ClientAmqpVerticle extends ScalaVerticle {
   

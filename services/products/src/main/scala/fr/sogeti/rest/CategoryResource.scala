@@ -3,7 +3,7 @@ package fr.sogeti.rest
 import fr.sogeti.entities.Category
 import fr.sogeti.rest.common.BaseHandler
 import io.vertx.scala.ext.web.{Router, RoutingContext}
-import fr.sogeti.services.{CategoryService, IEntityService}
+import fr.sogeti.services.IEntityService
 
 class CategoryResource(router : Router, categoryService : IEntityService[Category]) extends GenericService[Category](router, categoryService, classOf[Category]){
   /**

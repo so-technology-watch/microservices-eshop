@@ -2,8 +2,7 @@ package fr.sogeti.entities
 
 import javax.persistence.{Id, Basic, Column, JoinColumn, ManyToOne, Table, Entity, GeneratedValue, GenerationType}
 import scala.beans.BeanProperty
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.google.gson.annotations.{Expose, SerializedName}
 
 /**
  * Product
