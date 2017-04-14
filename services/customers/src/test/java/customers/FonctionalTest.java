@@ -26,7 +26,7 @@ public class FonctionalTest {
 	    basePath = "/api/v1/";
 	}
 
-	RestAssured.basePath = basePath = basePath;
+	RestAssured.basePath = basePath;
 
 	String baseHost = System.getenv("server.host");
 
