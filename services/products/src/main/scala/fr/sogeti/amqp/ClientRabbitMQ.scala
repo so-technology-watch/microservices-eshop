@@ -2,7 +2,7 @@ package fr.sogeti.amqp
 
 import fr.sogeti.rest.common.JsonHelper
 import fr.sogeti.entities.Product
-import fr.sogeti.services.{ProductService, SupplierService}
+import fr.sogeti.services.{ProductService}
 import com.rabbitmq.client.{Connection, Consumer, Channel, ConnectionFactory}
 
 class ClientRabbitMQ(host : String, user : String, password : String, virtualHost : String, service : ProductService) {

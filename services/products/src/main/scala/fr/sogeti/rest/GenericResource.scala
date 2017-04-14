@@ -72,6 +72,7 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     }
     
     response.headers().add("content-type", contentType)
+    response.setStatusCode(201)
     response.end("OK")
   }
   
