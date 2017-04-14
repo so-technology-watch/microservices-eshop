@@ -56,7 +56,9 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     
     if( data.isDefined ) {
       val entity = jsonHelper.fromJson( data.get, clazz, true )
-      service.create(entity)
+      if(entity.isDefined){
+        service.create(entity.get)
+      }
     }
     response.end("OK")
   }
@@ -73,7 +75,9 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     
     if( data.isDefined ) {
       val entity = jsonHelper.fromJson( data.get, clazz, true )
-      service.update(entity)
+      if(entity.isDefined){
+        service.update(entity.get)
+      }
     }
     response.end("OK")
   }
