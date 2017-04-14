@@ -1,19 +1,46 @@
 package main;
 
 import config.CustomersConfiguration;
+import dao.AuthDAO;
+import dao.DAO;
+import dao.GenericDAO;
+import domain.Credentials;
+import domain.Customer;
+import elements.AuthToken;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
+import resources.AuthResource;
+import resources.CustomerResource;
+import services.AuthService;
+import services.CustomerServices;
 
-public class CustomersApplication extends Application<CustomersConfiguration>{
+public class CustomersApplication extends Application<CustomersConfiguration> {
 
-	
+    public static void main(String[] args) {
 
-	@Override
-	public void run(CustomersConfiguration arg0, Environment arg1) throws Exception {
-		// TODO Auto-generated method stub
-		
+	try {
+	    new CustomersApplication().run(args);
+	} catch (Exception e) {
+	    e.printStackTrace();
 	}
-	
-	
+    }
+
+    @Override
+    public void run(CustomersConfiguration configuration, Environment environment) throws Exception {
+
+	DAO dao = new DAO();
+	GenericDAO<Customer> customerDAO = new GenericDAO<>(Customer.class, dao);
+	AuthDAO authDAO = new AuthDAO(dao.getDb());
+
+	AuthService authService = new AuthService(dao);
+	CustomerServices customerServices = new CustomerServices(customerDAO);
+
+	final AuthResource authResource = new AuthResource(authService);
+	final CustomerResource customerResource = new CustomerResource(customerServices);
+
+	environment.jersey().register(authResource);
+	environment.jersey().register(customerResource);
+
+    }
 
 }

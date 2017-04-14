@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentMap;
 
 import org.mapdb.DB;
@@ -9,32 +10,45 @@ public class GenericDAO<T> {
     public static String MAP_NAME;
 
     private Class<T> clazz;
-    private DB db;
+    private DAO dao;
     protected ConcurrentMap<Integer, T> map;
 
-    public GenericDAO(Class<T> clazz, DB db) {
+    public GenericDAO(Class<T> clazz, DAO dao) {
 
 	this.setClazz(clazz);
-	this.db = db;
+	this.setDao(dao);
 	MAP_NAME = clazz.getCanonicalName();
-	db.hashMap(clazz.getCanonicalName()).createOrOpen();
+	map = (ConcurrentMap<Integer, T>) dao.getDb().hashMap(clazz.getCanonicalName()).createOrOpen();
 
     }
 
     public void addElement(Integer id, T t) {
 
 	map.put(id, t);
+	dao.commit();
+	
     }
 
     public T retreiveElement(Integer id) {
 
+	
 	return map.get(id);
 
+    }
+    
+    public ArrayList<T> retreiveAllElements(){
+	
+	
+
+	return new ArrayList<T>(map.values());
+	
+	
     }
 
     public void removeElement(Integer id) {
 
 	map.remove(id);
+	dao.commit();
     }
 
     public Class<T> getClazz() {
@@ -47,16 +61,6 @@ public class GenericDAO<T> {
 	this.clazz = clazz;
     }
 
-    public DB getDb() {
-
-	return db;
-    }
-
-    public void setDb(DB db) {
-
-	this.db = db;
-    }
-
     public ConcurrentMap<Integer, T> getList() {
 
 	return map;
@@ -65,6 +69,16 @@ public class GenericDAO<T> {
     public void setList(ConcurrentMap<Integer, T> list) {
 
 	this.map = list;
+    }
+
+    public DAO getDao() {
+
+	return dao;
+    }
+
+    public void setDao(DAO dao) {
+
+	this.dao = dao;
     }
 
 }

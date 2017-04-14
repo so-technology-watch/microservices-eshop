@@ -9,9 +9,15 @@ public class DAO {
 
     public DAO() {
 
-	this.setDb(DBMaker.memoryDB().make());
+	this.db = DBMaker.fileDB("customers.db").make();
     }
-
+    
+    
+    public void commit(){
+	
+	db.commit();
+    }
+    		
     public DB getDb() {
 
 	return db;

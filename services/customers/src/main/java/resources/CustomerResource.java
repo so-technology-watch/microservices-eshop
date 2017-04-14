@@ -1,5 +1,7 @@
 package resources;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -11,19 +13,32 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import domain.Customer;
+import services.CustomerServices;
 
 @Path("/api/v1/customers")
 @Produces(MediaType.APPLICATION_JSON)
 public class CustomerResource {
 
+    private CustomerServices customerServices;
+
+    public CustomerResource(CustomerServices customerServices) {
+	this.customerServices = customerServices;
+    }
+
     @GET
-    @Path("/{id}")
+    @Path("/{customerID}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Customer getCustomer(@PathParam("id") int id) {
+    public Customer getCustomer(@PathParam("customerID") int customerID) {
 
-	// TODO
+	return customerServices.getCustomer(customerID);
+    }
 
-	return null;
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public ArrayList<Customer> getCustomers() {
+
+	System.out.println("yo");
+	return customerServices.getCustomers();
     }
 
     @POST
@@ -31,8 +46,9 @@ public class CustomerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public int postCustomer(Customer customer) {
 
-	// TODO
-	return 0;
+	customerServices.addCustomer(customer);
+
+	return customer.getId();
     }
 
     @PUT
@@ -40,16 +56,26 @@ public class CustomerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public int putCustomer(Customer customer) {
 
-	// TODO
-	return 0;
+	customerServices.modifyCustomer(customer);
+	return customer.getId();
     }
 
     @DELETE
-    @Path("/{id}")
-    public String deleteCustomer(@PathParam("id") int id) {
+    @Path("/{customersID}")
+    public String deleteCustomer(@PathParam("customerID") int customerID) {
 
-	// TODO
-	return "";
+	customerServices.removeCustomer(customerID);
+	return "Client supprimé avec succès.";
+    }
+
+    public CustomerServices getCustomerServices() {
+
+	return customerServices;
+    }
+
+    public void setCustomerServices(CustomerServices customerServices) {
+
+	this.customerServices = customerServices;
     }
 
 }

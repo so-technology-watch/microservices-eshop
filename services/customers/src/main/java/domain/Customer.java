@@ -1,9 +1,15 @@
 package domain;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Customer {
+public class Customer implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5037328775785059700L;
     private int id;
     private String firstname;
     private String lastname;
@@ -15,7 +21,8 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(int id, String firstname, String lastname, String email, String address, String phoneNumber, Credentials credentials) {
+    public Customer(int id, String firstname, String lastname, String email, String address, String phoneNumber,
+	    Credentials credentials) {
 	this.id = id;
 	this.firstname = firstname;
 	this.lastname = lastname;

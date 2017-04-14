@@ -1,7 +1,11 @@
 package services;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import dao.GenericDAO;
 import domain.Customer;
+import groovyjarjarantlr.collections.List;
 
 public class CustomerServices {
 
@@ -10,6 +14,17 @@ public class CustomerServices {
     public CustomerServices(GenericDAO<Customer> dao) {
 
 	this.dao = dao;
+    }
+    
+    
+    public Customer getCustomer(int customerID){
+	
+	return dao.retreiveElement(customerID);
+    }
+    
+    public ArrayList<Customer> getCustomers(){
+	
+	return dao.retreiveAllElements();
     }
 
     public void addCustomer(Customer customer) {

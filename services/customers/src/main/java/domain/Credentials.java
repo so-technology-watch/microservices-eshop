@@ -1,8 +1,10 @@
 package domain;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Credentials {
+public class Credentials implements Serializable{
 
     private String email;
     private String passWord;

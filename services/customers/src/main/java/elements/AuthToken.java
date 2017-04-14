@@ -1,17 +1,23 @@
 package elements;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.Date;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class AuthToken {
 
     private int customerID;
-    private long timestamp;
 
     public AuthToken() {
+    }
+
+    public AuthToken(String token) {
+
+	decodeToken(token);
+
     }
 
     public AuthToken(int customerID) {
@@ -21,24 +27,40 @@ public class AuthToken {
 
     public String encodeToJWT() {
 
-	timestamp = System.currentTimeMillis();
 	String token = "";
 
 	try {
-	    Algorithm algorithm = Algorithm.HMAC256(customerID + timestamp + "");
-	    token = JWT.create().withIssuer("auth0").sign(algorithm);
-	} catch (IllegalArgumentException e) {
-	    e.printStackTrace();
-	} catch (UnsupportedEncodingException e) {
+	    Algorithm algorithm = Algorithm.HMAC256("algo");
+	    token = JWT.create().withIssuer("auth0").withClaim("customerID", customerID).sign(algorithm);
+	} catch (UnsupportedEncodingException | IllegalArgumentException e) {
 	    e.printStackTrace();
 	}
 
 	return token;
     }
 
-    public void decodeFromJWT(String string){
-	
-	//TODO : Décoder le token JWT et initialise les différents champs de l'objet.
+    public boolean verifyToken(String string) {
+
+	try {
+	    Algorithm algorithm = Algorithm.HMAC256("algo");
+	    JWTVerifier verifier = JWT.require(algorithm).withIssuer("auth0").build();
+	    DecodedJWT jwt = verifier.verify(string);
+	    return true;
+
+	} catch (IllegalArgumentException | UnsupportedEncodingException e) {
+	    e.printStackTrace();
+	    return false;
+
+	}
+
+    }
+
+    private void decodeToken(String token) {
+
+	DecodedJWT jwt = JWT.decode(token);
+
+	this.customerID = jwt.getClaim("customerID").asInt();
+	System.out.println(customerID);
     }
 
     public int getCustomerID() {
@@ -49,16 +71,6 @@ public class AuthToken {
     public void setCustomerID(int customerID) {
 
 	this.customerID = customerID;
-    }
-
-    public long getTimestamp() {
-
-	return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-
-	this.timestamp = timestamp;
     }
 
 }

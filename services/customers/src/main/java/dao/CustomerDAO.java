@@ -2,14 +2,12 @@ package dao;
 
 import java.util.Map;
 
-import org.mapdb.DB;
-
 import domain.Customer;
 
 public class CustomerDAO extends GenericDAO<Customer> {
 
-    public CustomerDAO(DB db) {
-	super(Customer.class, db);
+    public CustomerDAO(DAO dao) {
+	super(Customer.class, dao);
     }
 
     public Customer retreiveElementByEmail(String email) {
