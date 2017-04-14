@@ -18,7 +18,7 @@ public class AuthService {
     public AuthService(DAO dao) {
 	this.setDao(dao);
 	this.customerDAO = new CustomerDAO(dao);
-	this.authDAO = new AuthDAO(dao.getDb());
+	this.authDAO = new AuthDAO(dao);
 
     }
 

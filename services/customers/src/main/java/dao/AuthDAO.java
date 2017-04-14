@@ -2,28 +2,26 @@ package dao;
 
 import java.util.concurrent.ConcurrentMap;
 
-import org.mapdb.DB;
-
 public class AuthDAO {
     
     
     public static final String MAP_NAME = "Auth";
 
-    private DB db;
+    private DAO dao;
     protected ConcurrentMap<Integer, String> map;
 
-    public AuthDAO(DB db) {
+    public AuthDAO(DAO dao) {
 
-	this.setDb(db);
-	map = (ConcurrentMap<Integer, String>) db.hashMap(MAP_NAME).createOrOpen();
-	db.commit();
+	this.dao = dao;
+	map = (ConcurrentMap<Integer, String>) dao.getDb().hashMap(MAP_NAME).createOrOpen();
+	dao.commit();
 
     }
 
     public void addElement(Integer CusomerID, String token) {
 
 	map.put(CusomerID, token);
-	db.commit();
+	dao.commit();
     }
 
     public String retreiveElement(Integer customerID) {
@@ -36,18 +34,22 @@ public class AuthDAO {
     public void removeElement(Integer customerID) {
 
 	map.remove(customerID);
-	db.commit();
+	dao.commit();
     }
 
-    public DB getDb() {
-
-	return db;
+    
+    public DAO getDao() {
+    
+        return dao;
     }
 
-    public void setDb(DB db) {
-
-	this.db = db;
+    
+    public void setDao(DAO dao) {
+    
+        this.dao = dao;
     }
+
+
 
 
 }

@@ -3,8 +3,6 @@ package dao;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentMap;
 
-import org.mapdb.DB;
-
 public class GenericDAO<T> {
 
     public static String MAP_NAME;

@@ -1,6 +1,7 @@
 package customers;
 
 import static com.jayway.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.containsString;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -12,9 +13,6 @@ import domain.Credentials;
 import domain.Customer;
 import elements.AuthStatus;
 import elements.AuthToken;
-
-import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.containsString;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

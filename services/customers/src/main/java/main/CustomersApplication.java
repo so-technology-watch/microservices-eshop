@@ -4,9 +4,7 @@ import config.CustomersConfiguration;
 import dao.AuthDAO;
 import dao.DAO;
 import dao.GenericDAO;
-import domain.Credentials;
 import domain.Customer;
-import elements.AuthToken;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 import resources.AuthResource;
@@ -30,7 +28,7 @@ public class CustomersApplication extends Application<CustomersConfiguration> {
 
 	DAO dao = new DAO();
 	GenericDAO<Customer> customerDAO = new GenericDAO<>(Customer.class, dao);
-	AuthDAO authDAO = new AuthDAO(dao.getDb());
+	AuthDAO authDAO = new AuthDAO(dao);
 
 	AuthService authService = new AuthService(dao);
 	CustomerServices customerServices = new CustomerServices(customerDAO);
