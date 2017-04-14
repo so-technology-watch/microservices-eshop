@@ -2,14 +2,32 @@ package fr.sogeti.services
 
 trait IEntityService[Type] {
   
-  def getAll() : List[Type]
+  /**
+   * @param begin the begining index
+   * @param end the ending index
+   * @return a list of products delimited by the given range
+   */
+  def getAll(begin : Int, end : Int) : List[Type]
   
+  /**
+   * @param id the id of the entity to find
+   * @return the entity found
+   */
   def find(id : Int) : Type
   
-  def create(product : Type)
+  /**
+   * @param the entity to create
+   */
+  def create(entity : Type) : Unit
   
-  def update(product : Type)
+  /**
+   * @param entity the entity to update
+   */
+  def update(entity : Type) : Unit
   
-  def deleteById(id : Integer)
+  /**
+   * @param id the id of the entity to delete 
+   */
+  def deleteById(id : Integer) : Unit
   
 }

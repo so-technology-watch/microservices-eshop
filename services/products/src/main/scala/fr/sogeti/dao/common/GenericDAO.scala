@@ -16,13 +16,15 @@ class GenericDAO[Type >: Null, IdType](clazz : Class[Type], manager : EntityMana
    * List all the entities of the dao's type
    * @return a list of all the objects found for the given entity
    */
-  def getAll() : List[Type] = {
+  def getAll(begin : Int, end : Int) : List[Type] = {
     var results : List[Type] = List()
     
     val strategy : ITransactionStrategy = new ITransactionStrategy {
       override def execute() : Unit = {
         val name : String = clazz.getName
         val query : Query = manager.createQuery( "SELECT e FROM %s e".format( name ), clazz )
+        query.setFirstResult(begin)
+        query.setMaxResults(end)
         results = query.getResultList().toList.asInstanceOf[ List[Type] ]
       }
     }

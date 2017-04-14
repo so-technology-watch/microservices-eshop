@@ -1,6 +1,6 @@
 package fr.sogeti.entities
 
-import javax.persistence.{Table, Entity, OneToMany, Column, Basic, Id, Access, AccessType, FetchType, GeneratedValue, GenerationType}
+import javax.persistence.{Table, Entity, OneToMany, Column, Basic, Id, GeneratedValue, GenerationType}
 import java.{util => ju}
 import scala.beans.BeanProperty
 import com.google.gson.annotations.Expose

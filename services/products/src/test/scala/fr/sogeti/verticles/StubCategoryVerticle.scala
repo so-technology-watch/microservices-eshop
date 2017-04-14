@@ -1,20 +1,23 @@
 package fr.sogeti.verticles
 
-import io.vertx.lang.scala.ScalaVerticle
+import fr.sogeti.services.IEntityService
+import fr.sogeti.entities.Category
 import io.vertx.scala.ext.web.Router
+import io.vertx.scala.ext.web.handler.BodyHandler
+import fr.sogeti.rest.CategoryResource
 import io.vertx.core.Handler
 import io.vertx.scala.core.http.HttpServerRequest
-import io.vertx.scala.ext.web.handler.BodyHandler
-import fr.sogeti.services.CategoryService
-import fr.sogeti.rest.CategoryResource
+import fr.sogeti.services.CategoryServiceMock
 
-class CategoryVerticle extends ScalaVerticle {
+class StubCategoryVerticle extends HttpServerVerticle {
+  val categoryService : IEntityService[Category] = new CategoryServiceMock().get()
+  
   override def start() = {
       val router : Router = Router.router(vertx)
       
       router.route.handler( BodyHandler.create )
       
-      val productResource : CategoryResource = new CategoryResource( router, new CategoryService )
+      val categoryResource : CategoryResource = new CategoryResource( router, categoryService )
       
       vertx.createHttpServer.requestHandler( new Handler[HttpServerRequest]() {
         override def handle( request : HttpServerRequest ) : Unit = {

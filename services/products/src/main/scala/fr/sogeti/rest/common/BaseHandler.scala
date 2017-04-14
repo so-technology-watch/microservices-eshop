@@ -6,7 +6,6 @@ import com.google.gson.Gson
 
 abstract class BaseHandler extends Handler[RoutingContext] {
   
-  protected val requestHelper : RequestHelper = new RequestHelper()
-  protected val jsonHelper: JsonHelper = new JsonHelper()
+  protected val jsonHelper: JsonHelper = new JsonHelper
   
 }

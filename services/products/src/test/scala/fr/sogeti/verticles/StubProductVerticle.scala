@@ -6,9 +6,12 @@ import fr.sogeti.services.ProductService
 import io.vertx.core.Handler
 import io.vertx.scala.core.http.HttpServerRequest
 import io.vertx.scala.ext.web.handler.BodyHandler
+import fr.sogeti.services.IEntityService
+import fr.sogeti.entities.Product
+import fr.sogeti.services.ProductServiceMock
 
-class StubProductVerticle extends ProductVerticle {
-  val productService : ProductService = new ProductServiceMock().get()
+class StubProductVerticle extends HttpServerVerticle {
+  val productService : IEntityService[Product] = new ProductServiceMock().get()
   
   override def start() = {
       val router : Router = Router.router(vertx)

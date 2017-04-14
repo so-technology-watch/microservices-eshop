@@ -85,6 +85,11 @@
 		<version>4.1.0</version>
 	</dependency>
 
+	<dependency>
+	  <groupId>com.ecwid.consul</groupId>
+	  <artifactId>consul-api</artifactId>
+	  <version>1.2.2</version>
+	</dependency>
 	
   </dependencies>
 
@@ -105,7 +110,6 @@
             </goals>
             <configuration>
               <args>
-                <arg>-make:transitive</arg>
                 <arg>-dependencyfile</arg>
                 <arg>${project.build.directory}/.scala_dependencies</arg>
               </args>

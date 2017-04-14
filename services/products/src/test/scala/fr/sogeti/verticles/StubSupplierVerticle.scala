@@ -1,21 +1,23 @@
 package fr.sogeti.verticles
 
-import io.vertx.lang.scala.ScalaVerticle
+import fr.sogeti.entities.Supplier
+import fr.sogeti.services.SupplierServiceMock
 import io.vertx.scala.ext.web.Router
 import io.vertx.scala.ext.web.handler.BodyHandler
-import fr.sogeti.rest.ProductResource
-import io.vertx.core.Handler
+import fr.sogeti.rest.SupplierResource
 import io.vertx.scala.core.http.HttpServerRequest
-import fr.sogeti.services.ProductService
+import fr.sogeti.services.IEntityService
+import io.vertx.core.Handler
 
-class ProductVerticle extends ScalaVerticle {
+class StubSupplierVerticle extends HttpServerVerticle {
+  val supplierService : IEntityService[Supplier] = new SupplierServiceMock().get()
   
   override def start() = {
       val router : Router = Router.router(vertx)
       
       router.route.handler( BodyHandler.create )
       
-      val productResource : ProductResource = new ProductResource( router, new ProductService )
+      val supplierResource : SupplierResource = new SupplierResource( router, supplierService )
       
       vertx.createHttpServer.requestHandler( new Handler[HttpServerRequest]() {
         override def handle( request : HttpServerRequest ) : Unit = {
@@ -23,5 +25,4 @@ class ProductVerticle extends ScalaVerticle {
         }
       } ).listen( 8080 )
   }
-  
 }
