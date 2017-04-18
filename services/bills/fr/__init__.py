@@ -21,7 +21,7 @@ if "__main__" == __name__:
     #atexit.register(at_exit, discovery, ['bills-http', 'bills-db'])
 
     consul = ConfigResolver("localhost")
-    consul.put_key("config/server-bills", {
+    consul.put_key("config/services/bills", {
         'host': 'localhost',
         'port': '8080'
     })
