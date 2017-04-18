@@ -1,6 +1,7 @@
 package main;
 
 import config.CustomersConfiguration;
+import config.Register;
 import dao.AuthDAO;
 import dao.DAO;
 import dao.GenericDAO;
@@ -12,6 +13,12 @@ import resources.CustomerResource;
 import services.AuthService;
 import services.CustomerServices;
 
+/**
+ * Main class registering the different resources.
+ * 
+ * @author guillaume
+ *
+ */
 public class CustomersApplication extends Application<CustomersConfiguration> {
 
     public static void main(String[] args) {
@@ -23,12 +30,14 @@ public class CustomersApplication extends Application<CustomersConfiguration> {
 	}
     }
 
+    /**
+     * This method is called to launch the application.
+     */
     @Override
     public void run(CustomersConfiguration configuration, Environment environment) throws Exception {
 
 	DAO dao = new DAO();
 	GenericDAO<Customer> customerDAO = new GenericDAO<>(Customer.class, dao);
-	AuthDAO authDAO = new AuthDAO(dao);
 
 	AuthService authService = new AuthService(dao);
 	CustomerServices customerServices = new CustomerServices(customerDAO);
@@ -38,6 +47,9 @@ public class CustomersApplication extends Application<CustomersConfiguration> {
 
 	environment.jersey().register(authResource);
 	environment.jersey().register(customerResource);
+
+	Register register = new Register();
+	register.register();
 
     }
 
