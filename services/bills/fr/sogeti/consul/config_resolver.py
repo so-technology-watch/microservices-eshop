@@ -50,9 +50,11 @@ class ConfigResolver:
 
 
 class _Config:
-    def __init__(self, host, port, *args, **kwargs):
+    def __init__(self, host, port, db_host, db_port, *args, **kwargs):
         self.host = host
-        self.port = port
+        self.port = int(port)
+        self.db_host = db_host
+        self.db_port = int(db_port)
 
     def to_json(self):
         return json.dumps(self.to_dict())
@@ -60,7 +62,9 @@ class _Config:
     def to_dict(self):
         return {
             'host': self.host,
-            'port': self.port
+            'port': self.port,
+            'db_host': self.db_host,
+            'db_port': self.db_port
         }
 
     def __repr__(self):
