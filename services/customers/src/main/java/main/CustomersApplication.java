@@ -1,6 +1,8 @@
 package main;
 
+import config.Configuration;
 import config.CustomersConfiguration;
+import config.KVStore;
 import config.Register;
 import dao.AuthDAO;
 import dao.DAO;
@@ -36,6 +38,9 @@ public class CustomersApplication extends Application<CustomersConfiguration> {
     @Override
     public void run(CustomersConfiguration configuration, Environment environment) throws Exception {
 
+	KVStore kvStore = new KVStore();
+	
+	
 	DAO dao = new DAO();
 	GenericDAO<Customer> customerDAO = new GenericDAO<>(Customer.class, dao);
 
@@ -48,7 +53,8 @@ public class CustomersApplication extends Application<CustomersConfiguration> {
 	environment.jersey().register(authResource);
 	environment.jersey().register(customerResource);
 
-	Register register = new Register();
+	Register register = new Register(kvStore.retrieveConfig());
+	System.out.println("salut");
 	register.register();
 
     }

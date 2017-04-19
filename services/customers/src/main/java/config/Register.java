@@ -22,6 +22,14 @@ public class Register {
      */
     private NewService newService;
 
+    private Configuration configuration;
+
+    public Register(Configuration configuration) {
+	this.consulClient = new ConsulClient("10.226.159.191");
+	this.newService = new NewService();
+	this.configuration = configuration;
+    }
+
     /**
      * 
      */
@@ -36,13 +44,16 @@ public class Register {
      */
     public void register() {
 
+//	consulClient.setKVValue("config/services/customers", "{\"host\": \"127.0.0.1\", \"port\": \"8080\" }");
+//	consulClient.setKVValue("config/services/carts",
+//		"{\"host\": \"127.0.0.1\", \"port\": \"8080\", \"rabbitmq\": {\"host\":\"amqp\"://pi:pi@10.226.159.191:5672//pi\", \"key\": \"productUpdate\"}, \"redis\": {\"address\": \"10.226.159.191:6379\", \"pwd\": \"\", \"db\": 0}}");
 	newService.setId("customers");
 	newService.setName("Customers service");
-	newService.setAddress("127.0.0.1");
+	newService.setAddress(configuration.getHost());
 	newService.setTags(Arrays.asList("service", "customers", "customer", "auth", "authentication"));
-	newService.setPort(8080);
+	newService.setPort(Integer.parseInt(configuration.getPort()));
 	NewService.Check check = new NewService.Check();
-	check.setHttp("http://127.0.0.1:8080");
+	check.setHttp(configuration.getHost() + ":" + configuration.getPort());
 	check.setInterval("30s");
 	newService.setCheck(check);
 	consulClient.agentServiceRegister(newService);
@@ -84,6 +95,16 @@ public class Register {
     public void setNewService(NewService newService) {
 
 	this.newService = newService;
+    }
+
+    public Configuration getConfiguration() {
+
+	return configuration;
+    }
+
+    public void setConfiguration(Configuration configuration) {
+
+	this.configuration = configuration;
     }
 
 }

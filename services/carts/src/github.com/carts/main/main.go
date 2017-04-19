@@ -6,22 +6,29 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/carts/consul"
 	"github.com/carts/handlers"
 	"github.com/carts/services"
 )
 
 func main() {
 
+	//Creating consul client
+	consulClient := &consul.Client{}
+	consulClient.CreateClient()
+	//Retrieving configuration
+	config := consulClient.RetrieveConfig()
+
 	clientRedis := &services.RedisClient{}
-	clientRedis.CreateClient()
+	clientRedis.CreateClient(config.RedisConf.Address, config.RedisConf.PWD, config.RedisConf.DB)
 	router := handlers.Router(clientRedis)
 
 	clientRabbitMQ := &services.RabbitMQClient{}
-	clientRabbitMQ.Connect("amqp://pi:pi@10.226.159.191:5672//pi")
+	clientRabbitMQ.Connect(config.RabbitMQConf.Host)
 	clientRabbitMQ.GetChannel()
 	clientRabbitMQ.DeclareExchange("productUpdate", "topic")
 	clientRabbitMQ.DeclareQueue("productUpdate")
-	clientRabbitMQ.BindQueue("productUpdate", "productUpdateKey", "productUpdate")
+	clientRabbitMQ.BindQueue("productUpdate", config.RabbitMQConf.RoutingKey, "productUpdate")
 	messages := clientRabbitMQ.Consume("productUpdate")
 	go func() {
 		clientRabbitMQ.HandleMessages(clientRedis, messages)
@@ -32,10 +39,13 @@ func main() {
 	server := &http.Server{
 
 		Handler:           router,
-		Addr:              "localhost:8080",
+		Addr:              config.Host + ":" + config.Port,
 		WriteTimeout:      15 * time.Second,
 		ReadHeaderTimeout: 15 * time.Second,
 	}
+
+	//Registering service
+	consulClient.Register(config)
 
 	//Launchment of the http server
 	fmt.Printf("Listenig on : %s", server.Addr)
