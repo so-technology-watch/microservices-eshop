@@ -15,10 +15,16 @@ class Config{
   var port : Int = _
   
   /**
-   * the config for rabbitMQ
+   * the configuration for rabbitMQ
    */
   @BeanProperty
   var configRabbitMq : ConfigRabbitMq = _
   
-  override def toString : String = "address : %s, port : %d, configRabbitMQ : [ %s ]".format(address, port, configRabbitMq)
+  /**
+   * the configuration for the database
+   */
+  @BeanProperty
+  var configDatabase : ConfigDatabase = _
+  
+  override def toString : String = "address : %s, port : %d, configRabbitMQ : [ %s ], configDatabase : [ %s ]".format(address, port, configRabbitMq, configDatabase)
 }
