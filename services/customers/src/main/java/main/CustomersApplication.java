@@ -1,10 +1,8 @@
 package main;
 
-import config.Configuration;
 import config.CustomersConfiguration;
 import config.KVStore;
 import config.Register;
-import dao.AuthDAO;
 import dao.DAO;
 import dao.GenericDAO;
 import domain.Customer;

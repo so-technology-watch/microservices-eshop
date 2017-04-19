@@ -18,11 +18,12 @@ func main() {
 	consulClient.CreateClient()
 	//Retrieving configuration
 	config := consulClient.RetrieveConfig()
-
+	//Creating the redis client
 	clientRedis := &services.RedisClient{}
 	clientRedis.CreateClient(config.RedisConf.Address, config.RedisConf.PWD, config.RedisConf.DB)
+	//Creating the HTTP router
 	router := handlers.Router(clientRedis)
-
+	//Creating and initializing the rabitMQ client
 	clientRabbitMQ := &services.RabbitMQClient{}
 	clientRabbitMQ.Connect(config.RabbitMQConf.Host)
 	clientRabbitMQ.GetChannel()
@@ -33,9 +34,7 @@ func main() {
 	go func() {
 		clientRabbitMQ.HandleMessages(clientRedis, messages)
 	}()
-
 	//Http server creation
-
 	server := &http.Server{
 
 		Handler:           router,
@@ -43,11 +42,9 @@ func main() {
 		WriteTimeout:      15 * time.Second,
 		ReadHeaderTimeout: 15 * time.Second,
 	}
-
-	//Registering service
+	//Registering the service
 	consulClient.Register(config)
-
-	//Launchment of the http server
+	//starting the http server
 	fmt.Printf("Listenig on : %s", server.Addr)
 	log.Fatal(server.ListenAndServe())
 
