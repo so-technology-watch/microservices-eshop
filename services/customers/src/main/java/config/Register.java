@@ -25,7 +25,7 @@ public class Register {
     private Configuration configuration;
 
     public Register(Configuration configuration) {
-	this.consulClient = new ConsulClient("10.226.159.191");
+	this.consulClient = new ConsulClient(System.getenv("consul"));
 	this.newService = new NewService();
 	this.configuration = configuration;
     }
@@ -34,7 +34,7 @@ public class Register {
      * 
      */
     public Register() {
-	this.consulClient = new ConsulClient("10.226.159.191");
+	this.consulClient = new ConsulClient(System.getenv("consul"));
 	this.newService = new NewService();
 
     }

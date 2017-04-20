@@ -1,6 +1,7 @@
 package consul
 
 import (
+	"os"
 	"strconv"
 
 	"github.com/carts/config"
@@ -16,7 +17,7 @@ type Client struct {
 func (c *Client) CreateClient() {
 	var err error
 	consulConfig := api.DefaultConfig()
-	consulConfig.Address = "10.226.159.191:8500"
+	consulConfig.Address = os.Getenv("consul")
 
 	c.client, err = api.NewClient(consulConfig)
 	if err != nil {
