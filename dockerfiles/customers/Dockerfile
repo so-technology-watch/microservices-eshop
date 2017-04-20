@@ -1,4 +1,4 @@
-FROM armhf/alpine:edge
+FROM eshop-base
 RUN apk --update add openjdk8-jre
 ADD customers.jar /customers.jar
 ADD customers.db /customers.db
