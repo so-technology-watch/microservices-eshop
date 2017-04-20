@@ -1,10 +1,14 @@
 from bottle import get, post, put, delete, request, response, hook
+
+from fr.sogeti.consul.config_resolver import ConfigResolver
 from fr.sogeti.services.bills_service import BillsService
 from bson.json_util import dumps
 from fr.sogeti.entities.bill import from_json as bill_from_json
+import os
 
-
-bills_service = BillsService('localhost', 27017, 'db_bills')
+consul = ConfigResolver(os.environ.get('CONSUL_CLIENT'))
+config = consul.get_config("config/services/bills")
+bills_service = BillsService(config.db_host, config.db_port, 'db_bills')
 invalid_parameters = "Invalid parameters"
 
 
