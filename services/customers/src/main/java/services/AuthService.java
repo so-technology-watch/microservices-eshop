@@ -1,5 +1,7 @@
 package services;
 
+import java.util.Objects;
+
 import dao.AuthDAO;
 import dao.CustomerDAO;
 import dao.DAO;
@@ -9,12 +11,30 @@ import elements.AuthStatus;
 import elements.AuthToken;
 import elements.Error;
 
+/**
+ * Class containing the different services dealing with customers.
+ * 
+ * @author guillaume
+ */
 public class AuthService {
 
+    /**
+     * DAO class referencing the DB.
+     */
     private DAO dao;
+    /**
+     * DAO class dealing with the customer map.
+     */
     private CustomerDAO customerDAO;
+    /**
+     * DAO class dealign with the authentication.
+     */
     private AuthDAO authDAO;
 
+    /**
+     * 
+     * @param dao
+     */
     public AuthService(DAO dao) {
 	this.setDao(dao);
 	this.customerDAO = new CustomerDAO(dao);
@@ -22,13 +42,19 @@ public class AuthService {
 
     }
 
+    /**
+     * Tries to authenticate a customer using the given credentials.
+     * 
+     * @param credentials
+     * @return token or error in JSON format.
+     */
     public String authentification(Credentials credentials) {
 
 	Customer customer = customerDAO.retreiveElementByEmail(credentials.getEmail());
 	System.out.println(customer.getCredentials().getPassWord());
 	System.out.println(credentials.getPassWord());
 
-	if (customer == null) {
+	if (Objects.isNull(customer)) {
 
 	    return new Error(Error.CODE_NOT_FOUND, Error.MSG_NOT_FOUND).toJson();
 
@@ -51,12 +77,18 @@ public class AuthService {
 
     }
 
+    /**
+     * Retrieves the authStatus of a customer using the given token.
+     * 
+     * @param token
+     * @return AuthStatus
+     */
     public AuthStatus retreiveAuthStatus(String token) {
 
 	AuthToken authToken = new AuthToken(token);
-	String storedToken = authDAO.retreiveElement(authToken.getCustomerID());
+	String storedToken = authDAO.retrieveElement(authToken.getCustomerID());
 
-	if (storedToken != null && storedToken.equals(token) ) {
+	if (storedToken != null && storedToken.equals(token)) {
 
 	    return new AuthStatus(AuthStatus.CODE_AUTH, AuthStatus.MSG_AUTH);
 
@@ -67,6 +99,12 @@ public class AuthService {
 
     }
 
+    /**
+     * Deletes the stored token.
+     * 
+     * @param token
+     * @return message of type string.
+     */
     public String deleteAuthToken(String token) {
 
 	AuthToken authToken = new AuthToken(token);
@@ -75,11 +113,19 @@ public class AuthService {
 
     }
 
+    /**
+     * 
+     * @return dao of type DAO
+     */
     public DAO getDao() {
 
 	return dao;
     }
 
+    /**
+     * 
+     * @param dao
+     */
     public void setDao(DAO dao) {
 
 	this.dao = dao;

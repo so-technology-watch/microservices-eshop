@@ -1,7 +1,8 @@
 package main;
 
 import config.CustomersConfiguration;
-import dao.AuthDAO;
+import config.KVStore;
+import config.Register;
 import dao.DAO;
 import dao.GenericDAO;
 import domain.Customer;
@@ -12,6 +13,12 @@ import resources.CustomerResource;
 import services.AuthService;
 import services.CustomerServices;
 
+/**
+ * Main class registering the different resources.
+ * 
+ * @author guillaume
+ *
+ */
 public class CustomersApplication extends Application<CustomersConfiguration> {
 
     public static void main(String[] args) {
@@ -23,12 +30,17 @@ public class CustomersApplication extends Application<CustomersConfiguration> {
 	}
     }
 
+    /**
+     * This method is called to launch the application.
+     */
     @Override
     public void run(CustomersConfiguration configuration, Environment environment) throws Exception {
 
+	KVStore kvStore = new KVStore();
+	
+	
 	DAO dao = new DAO();
 	GenericDAO<Customer> customerDAO = new GenericDAO<>(Customer.class, dao);
-	AuthDAO authDAO = new AuthDAO(dao);
 
 	AuthService authService = new AuthService(dao);
 	CustomerServices customerServices = new CustomerServices(customerDAO);
@@ -38,6 +50,10 @@ public class CustomersApplication extends Application<CustomersConfiguration> {
 
 	environment.jersey().register(authResource);
 	environment.jersey().register(customerResource);
+
+	Register register = new Register(kvStore.retrieveConfig());
+	System.out.println("salut");
+	register.register();
 
     }
 

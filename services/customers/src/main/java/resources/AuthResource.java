@@ -14,10 +14,23 @@ import services.AuthService;
 
 @Path("api/v1/auth")
 @Produces(MediaType.APPLICATION_JSON)
+/**
+ * Resource dealing with the authentication.
+ * 
+ * @author guillaume
+ *
+ */
 public class AuthResource {
 
+    /**
+     * Service dealing with the authentication.
+     */
     private AuthService authService;
 
+    /**
+     * 
+     * @param authService
+     */
     public AuthResource(AuthService authService) {
 	super();
 	this.authService = authService;
@@ -25,6 +38,12 @@ public class AuthResource {
 
     @GET
     @Path("/{token}")
+    /**
+     * Handles the GET method.
+     * 
+     * @param token
+     * @return authStatus
+     */
     public AuthStatus getAuthStatus(@PathParam("token") String token) {
 
 	return authService.retreiveAuthStatus(token);
@@ -33,6 +52,12 @@ public class AuthResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+    /**
+     * Handles the POST method.
+     * 
+     * @param credentials
+     * @return authToken or an error of type string.
+     */
     public String authentification(Credentials credentials) {
 
 	return authService.authentification(credentials);
@@ -41,16 +66,29 @@ public class AuthResource {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{token}")
+    /**
+     * 
+     * @param token
+     * @return message of type string or an error of type string
+     */
     public String disconnect(@PathParam("token") String token) {
 
 	return authService.deleteAuthToken(token);
     }
 
+    /**
+     * 
+     * @return AuthService
+     */
     public AuthService getAuthService() {
 
 	return authService;
     }
 
+    /**
+     * 
+     * @param authService
+     */
     public void setAuthService(AuthService authService) {
 
 	this.authService = authService;
