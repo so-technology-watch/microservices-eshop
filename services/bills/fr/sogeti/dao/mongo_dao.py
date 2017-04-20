@@ -5,6 +5,7 @@ from pymongo import MongoClient
 
 class MongoDAO:
     def __init__(self, host, port, database, database_name):
+        print(host, port)
         self.client = MongoClient(host, port)
         self.database = self.client[database]
         self.posts = self.database[database_name]

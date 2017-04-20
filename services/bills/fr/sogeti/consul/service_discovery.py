@@ -2,8 +2,8 @@ import consul
 
 
 class ServiceDiscovery:
-    def __init__(self):
-        self.consul = consul.Consul()
+    def __init__(self, host):
+        self.consul = consul.Consul(host)
 
     def register(self, id, name, address, port, protocol, tags=tuple(), interval=30, timeout=2, route=''):
         """
