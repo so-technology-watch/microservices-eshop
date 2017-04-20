@@ -1,5 +1,9 @@
-#!/bin/sh
-env = 'consul=10.226.159.191:8500'
-sudo docker run -d -e $env -p 8080:8080 -it lechelong/customers:latest
+#!/bin/bash
+if [ $# -ne 1 ]
+then
+	echo "CONSUL_CLIENT address needed"
+	exit 1
+fi
+docker run --name customers -p 8080:8080 -e consul=$1 lechelong/customers:latest
 
 exit 0
