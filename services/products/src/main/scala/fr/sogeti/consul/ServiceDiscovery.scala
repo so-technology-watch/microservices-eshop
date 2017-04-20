@@ -1,30 +1,34 @@
 package fr.sogeti.consul
 
 import com.ecwid.consul.v1.ConsulClient
-import com.ecwid.consul.v1.agent.model.NewService
 import java.util.Arrays
+import com.ecwid.consul.v1.agent.model.NewService.Check
+import com.ecwid.consul.v1.agent.model.NewService
 
 class ServiceDiscovery(client : ConsulClient) {
   
   val id = "products-service"
+  var newService : NewService = _
   
   /**
    * register the service to the consul server
    */
-  def register() : Unit = {
-    val newService : NewService = new NewService()
+  def register(port : Int) : Unit = {
+    newService = new NewService()
     newService.setId(id)
     newService.setName("products service")
     newService.setAddress("localhost")
     newService.setTags(Arrays.asList("service","products"))
-    newService.setPort(8080)
+    newService.setPort(port)
    
-    val check : NewService.Check = new NewService.Check()
-    check.setHttp("http://localhost:8080")
-    check.setInterval("30s")
-    newService.setCheck(check)
-    
     client.agentServiceRegister(newService)  
+  }
+  
+  /**
+   * set a check on consul
+   */
+  def setCheck(newService : NewService, check : Check) : Unit = {
+    newService.setCheck(check)
   }
   
   /**
