@@ -1,4 +1,4 @@
-FROM hypriot/rpi-alpine-scratch
+FROM lechelong/eshop-base
 RUN apk --update add python3 py-pip
 
 WORKDIR /app
