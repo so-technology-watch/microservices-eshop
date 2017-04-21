@@ -9,6 +9,7 @@ import java.net.InetAddress
 class ServiceDiscovery(client : ConsulClient) {
   
   val id = "products-service"
+  val name = "products-service"
   var newService : NewService = _
   
   /**
@@ -17,7 +18,7 @@ class ServiceDiscovery(client : ConsulClient) {
   def register(host : String, port : Int) : Unit = {
     newService = new NewService()
     newService.setId(id)
-    newService.setName("products service")
+    newService.setName(name)
     
     var address : String = host
     if( host.equals("localhost") ){
