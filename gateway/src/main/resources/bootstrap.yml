@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: gateway-service
+---
+
+spring:
+  profiles: default
+  cloud:
+    consul:
+      config:
+        prefix: config/dev/
+        format: FILES
+      host: http://10.226.159.191
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+        enabled: true
+        serviceId: config-server
+    discovery: 
+        enabled: true
+spring.profiles.active: dev
