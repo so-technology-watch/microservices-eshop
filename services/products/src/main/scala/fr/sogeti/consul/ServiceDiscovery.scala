@@ -4,24 +4,30 @@ import com.ecwid.consul.v1.ConsulClient
 import java.util.Arrays
 import com.ecwid.consul.v1.agent.model.NewService.Check
 import com.ecwid.consul.v1.agent.model.NewService
+import java.net.InetAddress
 
 class ServiceDiscovery(client : ConsulClient) {
   
   val id = "products-service"
+  val name = "products-service"
   var newService : NewService = _
   
   /**
    * register the service to the consul server
    */
-  def register(port : Int) : Unit = {
+  def register(host : String, port : Int) : Unit = {
     newService = new NewService()
     newService.setId(id)
-    newService.setName("products service")
-    newService.setAddress("localhost")
+    newService.setName(name)
+    
+    var address : String = host
+    if( host.equals("localhost") ){
+      address = new String(InetAddress.getLocalHost.getAddress)
+    }
+    newService.setAddress(host)
     newService.setTags(Arrays.asList("service","products"))
     newService.setPort(port)
-   
-    client.agentServiceRegister(newService)  
+    client.agentServiceRegister(newService)
   }
   
   /**

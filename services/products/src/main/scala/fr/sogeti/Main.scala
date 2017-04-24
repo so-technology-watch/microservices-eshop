@@ -33,7 +33,7 @@ object Main extends App {
   println("found configuration : %s".format(config))
   
   serviceDiscovery.unregister
-  serviceDiscovery.register(config.getPort)
+  serviceDiscovery.register(config.getAddress, config.getPort)
   
   val check : NewService.Check = new NewService.Check()
   check.setHttp("http://%s:%d".format(config.getAddress, config.getPort))
