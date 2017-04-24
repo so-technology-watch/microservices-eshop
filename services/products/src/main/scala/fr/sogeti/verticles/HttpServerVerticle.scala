@@ -9,6 +9,7 @@ import fr.sogeti.rest.{ProductResource, SupplierResource, CategoryResource}
 import fr.sogeti.services.{SupplierService, ProductService, CategoryService}
 import fr.sogeti.consul.Config
 import fr.sogeti.consul.ConsulSingleton
+import fr.sogeti.consul.ServiceDiscovery
 
 class HttpServerVerticle extends ScalaVerticle {
   override def start() : Unit = {
@@ -27,6 +28,6 @@ class HttpServerVerticle extends ScalaVerticle {
         println("Request on : %s".format(request.uri))
         router.accept(request)
       }
-    } ).listen( config.getPort, config.getAddress )
+    } ).listen( config.getPort, ServiceDiscovery.getLocalAddress )
   }
 }

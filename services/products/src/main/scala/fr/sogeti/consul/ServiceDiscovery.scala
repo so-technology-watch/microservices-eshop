@@ -15,16 +15,13 @@ class ServiceDiscovery(client : ConsulClient) {
   /**
    * register the service to the consul server
    */
-  def register(host : String, port : Int) : Unit = {
+  def register(port : Int) : Unit = {
     newService = new NewService()
     newService.setId(id)
     newService.setName(name)
     
-    var address : String = host
-    if( host.equals("localhost") ){
-      address = new String(InetAddress.getLocalHost.getAddress)
-    }
-    newService.setAddress(host)
+    val address = ServiceDiscovery.getLocalAddress
+    newService.setAddress(address)
     newService.setTags(Arrays.asList("service","products"))
     newService.setPort(port)
     client.agentServiceRegister(newService)
@@ -48,4 +45,7 @@ class ServiceDiscovery(client : ConsulClient) {
    * @return the service's id 
    */
   def getId() : String = id
+}
+object ServiceDiscovery {
+  def getLocalAddress : String = InetAddress.getLocalHost.getHostAddress
 }

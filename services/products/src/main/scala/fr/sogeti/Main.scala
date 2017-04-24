@@ -10,8 +10,6 @@ import fr.sogeti.consul.Config
 import org.slf4j.LoggerFactory
 import fr.sogeti.dao.common.ManagerFactory
 import fr.sogeti.entities.Product
-import fr.sogeti.verticles.ClientAmqpVerticle
-import fr.sogeti.verticles.ClientAmqpVerticle
 
 object Main extends App {
   try{
@@ -33,10 +31,11 @@ object Main extends App {
   println("found configuration : %s".format(config))
   
   serviceDiscovery.unregister
-  serviceDiscovery.register(config.getAddress, config.getPort)
+  serviceDiscovery.register(config.getPort)
   
+  val address = ServiceDiscovery.getLocalAddress
   val check : NewService.Check = new NewService.Check()
-  check.setHttp("http://%s:%d".format(config.getAddress, config.getPort))
+  check.setHttp("http://%s:%d".format(address, config.getPort))
   check.setInterval("30s")
   
   val vertx = Vertx.vertx
@@ -44,6 +43,8 @@ object Main extends App {
   vertx.deployVerticle( ScalaVerticle.nameForVerticle[HttpServerVerticle] )
   vertx.deployVerticle( ScalaVerticle.nameForVerticle[ClientAmqpVerticle] )
   
+  println("running on %s".format(address))
+
   /**
    * test the connection to the database in order to not be killed by vert.x
    * raspberry pi takes to long time to init the database and cause a timeout
