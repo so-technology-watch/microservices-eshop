@@ -24,6 +24,7 @@ class HttpServerVerticle extends ScalaVerticle {
     
     vertx.createHttpServer.requestHandler( new Handler[HttpServerRequest]() {
       override def handle( request : HttpServerRequest ) : Unit = {
+        println("Request on : %s".format(request.uri))
         router.accept(request)
       }
     } ).listen( config.getPort, config.getAddress )

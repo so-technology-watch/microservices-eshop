@@ -10,7 +10,7 @@ spring:
       config:
         prefix: config/dev/
         format: FILES
-      host: http://10.226.159.191
+      host: 10.226.159.191
       port: 8500
       discovery:
         prefer-ip-address: true
