@@ -52,7 +52,6 @@ public class CustomersApplication extends Application<CustomersConfiguration> {
 	environment.jersey().register(customerResource);
 
 	Register register = new Register(kvStore.retrieveConfig());
-	System.out.println("salut");
 	register.register();
 
     }

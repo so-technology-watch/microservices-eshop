@@ -1,8 +1,11 @@
 package consul
 
 import (
+	"log"
+	"net"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/carts/config"
 	"github.com/hashicorp/consul/api"
@@ -28,21 +31,40 @@ func (c *Client) CreateClient() {
 //Register registers the new service to consul.
 func (c *Client) Register(config *config.Config) {
 
+	host := *GetIP()
 	check := &api.AgentServiceCheck{}
-	check.HTTP = "http://" + config.Host + ":" + config.Port
+	check.HTTP = "http://" + host + ":" + config.Port
 	check.Interval = "30s"
 	agentR := &api.AgentServiceRegistration{}
-	agentR.ID = "carts"
-	agentR.Name = "Carts service"
+	agentR.ID = "carts-service"
+	agentR.Name = "carts-service"
 	agentR.Tags = []string{"carts", "cart", "cartElement", "service"}
+	agentR.Address = host
+	log.Println(agentR.Address)
 	var err error
 	agentR.Port, err = strconv.Atoi(config.Port)
 	if err != nil {
 
 		panic(err)
 	}
-	agentR.Address = config.Host
 	agentR.EnableTagOverride = true
 	agent := c.client.Agent()
 	agent.ServiceRegister(agentR)
+}
+
+//GetIP retrieves the ip on which the application is running.
+func GetIP() *string {
+
+	ifaces, err := net.Interfaces()
+	if err != nil {
+		panic(err)
+	}
+	addrs, err := ifaces[1].Addrs()
+	if err != nil {
+		panic(err)
+	}
+	ip := addrs[0].String()
+	temp := strings.Split(ip, "/")
+	ip = temp[0]
+	return &ip
 }

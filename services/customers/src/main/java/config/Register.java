@@ -44,8 +44,8 @@ public class Register {
      */
     public void register() {
 
-	newService.setId("customers");
-	newService.setName("Customers service");
+	newService.setId("customers-service");
+	newService.setName("customers-service");
 	newService.setAddress(configuration.getHost());
 	newService.setTags(Arrays.asList("service", "customers", "customer", "auth", "authentication"));
 	newService.setPort(Integer.parseInt(configuration.getPort()));

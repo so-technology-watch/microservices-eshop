@@ -19,7 +19,6 @@ func (c *Client) RetrieveConfig() *config.Config {
 	configJSON := configPair.Value
 	log.Println(string(configPair.Value))
 	if err != nil {
-
 		panic(err)
 	}
 

@@ -38,7 +38,7 @@ func main() {
 	server := &http.Server{
 
 		Handler:           router,
-		Addr:              config.Host + ":" + config.Port,
+		Addr:              *consul.GetIP() + ":" + config.Port,
 		WriteTimeout:      15 * time.Second,
 		ReadHeaderTimeout: 15 * time.Second,
 	}
@@ -47,7 +47,6 @@ func main() {
 	//starting the http server
 	fmt.Printf("Listenig on : %s", server.Addr)
 	log.Fatal(server.ListenAndServe())
-
 }
 
 //failOnError checks for errors and panics to them if it's the case
