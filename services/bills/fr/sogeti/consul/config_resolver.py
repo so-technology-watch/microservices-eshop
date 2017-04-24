@@ -1,6 +1,8 @@
 from consul import Consul
 import threading
 import json
+import socket
+import psutil
 
 
 class ConfigResolver:
@@ -48,10 +50,24 @@ class ConfigResolver:
         data = data.decode('utf-8')
         return _Config(**json.loads(data))
 
+    def get_address(self, interface):
+        """
+        resolve the ip address for the given interface
+        or localhost if not found
+        :param interface: the interface, for example eth0
+        :return: the ipv4 address for the given interface
+        """
+        for interface_name, snics in psutil.net_if_addrs().items():
+            if interface_name != interface:
+                continue
+            for snic in snics:
+                if snic.family == socket.AF_INET:
+                    return snic.address
+        return "localhost"
 
 class _Config:
-    def __init__(self, host, port, db_host, db_port, *args, **kwargs):
-        self.host = host
+    def __init__(self, interface, port, db_host, db_port, *args, **kwargs):
+        self.interface = interface
         self.port = int(port)
         self.db_host = db_host
         self.db_port = int(db_port)
@@ -61,7 +77,7 @@ class _Config:
 
     def to_dict(self):
         return {
-            'host': self.host,
+            'interface': self.interface,
             'port': self.port,
             'db_host': self.db_host,
             'db_port': self.db_port

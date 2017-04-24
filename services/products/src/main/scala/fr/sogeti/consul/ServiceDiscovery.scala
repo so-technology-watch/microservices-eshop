@@ -35,7 +35,7 @@ class ServiceDiscovery(client : ConsulClient) {
   def setCheck(newService : NewService, check : Check) : Unit = {
     newService.setCheck(check)
   }
-  
+    
   /**
    * unregister the service from the consul server
    */
