@@ -1,8 +1,15 @@
 package fr.sogeti.consul
 
 import scala.beans.BeanProperty
+import scala.annotation.meta.field
 
 class Config{
+  /**
+   * the network interface to look for the deployment
+   */
+   @BeanProperty
+   var interface : String = _
+  
   /**
    * the port on which we want to deploy our server
    */

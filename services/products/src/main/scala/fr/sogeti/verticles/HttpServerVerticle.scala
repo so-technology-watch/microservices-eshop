@@ -28,6 +28,6 @@ class HttpServerVerticle extends ScalaVerticle {
         println("Request on : %s".format(request.uri))
         router.accept(request)
       }
-    } ).listen( config.getPort, ServiceDiscovery.getLocalAddress )
+    } ).listen( config.getPort, ServiceDiscovery.getLocalAddress(config.getInterface) )
   }
 }

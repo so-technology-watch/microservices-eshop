@@ -18,4 +18,3 @@ spring:
         serviceId: config-server
     discovery: 
         enabled: true
-spring.profiles.active: dev

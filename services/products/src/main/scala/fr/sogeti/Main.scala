@@ -30,10 +30,12 @@ object Main extends App {
   val config : Config = ConsulSingleton.getConfigResolverInstance.getConfig
   println("found configuration : %s".format(config))
   
+  val address = ServiceDiscovery.getLocalAddress(config.getInterface)
+
   serviceDiscovery.unregister
-  serviceDiscovery.register(config.getPort)
+  serviceDiscovery.register(address, config.getPort)
   
-  val address = ServiceDiscovery.getLocalAddress
+  
   val check : NewService.Check = new NewService.Check()
   check.setHttp("http://%s:%d".format(address, config.getPort))
   check.setInterval("30s")
