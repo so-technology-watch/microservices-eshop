@@ -16,7 +16,7 @@ if "__main__" == __name__:
         exit(1)
 
     discovery = ServiceDiscovery(consul_client)
-    deregister(discovery, ['bills-http', 'bills-db'])
+    deregister(discovery, ['bills-http'])
 
     consul = ConfigResolver(consul_client)
     consul.get_address("eth0")
@@ -24,7 +24,6 @@ if "__main__" == __name__:
 
     address = consul.get_address(config.interface)
     discovery.register('bills-http', 'bills-service', address, config.port, 'http', ('service', 'bills'), route='/api/v1/check')
-    discovery.register('bills-db', 'bills-service', config.db_host, config.db_port, 'tcp', ('database', 'bills'))
 
     thread = threading.Thread(target=rest.run, args=[address, config.port])
     thread.start()
