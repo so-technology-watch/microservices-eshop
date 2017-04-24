@@ -1,7 +1,11 @@
 package config;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.Arrays;
-
+import java.util.Enumeration;
 import com.ecwid.consul.v1.ConsulClient;
 import com.ecwid.consul.v1.agent.model.NewService;
 
@@ -46,15 +50,49 @@ public class Register {
 
 	newService.setId("customers-service");
 	newService.setName("customers-service");
-	newService.setAddress(configuration.getHost());
+	try {
+	    newService.setAddress(getLocalAddress("eth0"));
+	} catch (SocketException e) {
+	    e.printStackTrace();
+	}
 	newService.setTags(Arrays.asList("service", "customers", "customer", "auth", "authentication"));
 	newService.setPort(Integer.parseInt(configuration.getPort()));
-//	NewService.Check check = new NewService.Check();
-//	check.setHttp("http://" + configuration.getHost() + ":" + configuration.getPort());
-//	check.setInterval("30s");
-//	newService.setCheck(check);
+	NewService.Check check = new NewService.Check();
+	try {
+	    check.setHttp("http://" + getLocalAddress("ethO") + ":" + configuration.getPort() + "/api/v1/customers/1");
+	} catch (SocketException e) {
+	    e.printStackTrace();
+	}
+	check.setInterval("30s");
+	newService.setCheck(check);
+	System.out.println(newService.getAddress());
 	consulClient.agentServiceRegister(newService);
 
+    }
+
+    /**
+     * Takes an interface name as parameter and returns it's ipv4 address.
+     * 
+     * @param netInt
+     * @return host IP address
+     * @throws SocketException
+     */
+    private String getLocalAddress(String netInt) throws SocketException {
+
+	Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
+	while (nets.hasMoreElements()) {
+	    NetworkInterface interf = nets.nextElement();
+	    if (interf.getName().equalsIgnoreCase(netInt)) {
+		Enumeration<InetAddress> addresses = interf.getInetAddresses();
+		while (addresses.hasMoreElements()) {
+		    InetAddress next = addresses.nextElement();
+		    if (next instanceof Inet4Address) {
+			return next.getHostAddress();
+		    }
+		}
+	    }
+	}
+	return "localhost";
     }
 
     /**
