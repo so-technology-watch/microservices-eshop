@@ -3,6 +3,7 @@ package fr.sogeti.entities
 import javax.persistence.{Entity, Table, Id, Basic, Column, GeneratedValue, GenerationType}
 import com.google.gson.annotations.Expose
 import scala.beans.BeanProperty
+import com.google.gson.annotations.SerializedName
 
 /**
  * Supplier
@@ -20,6 +21,7 @@ class Supplier(company : String, mail : String, phone : String) {
     @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Expose
+    @SerializedName("id")
     @Column(name = "id")
     @BeanProperty
     var id : Integer = _;
@@ -29,6 +31,7 @@ class Supplier(company : String, mail : String, phone : String) {
      */
     @Column(name = "company_name")
     @Expose
+    @SerializedName("company")
     @BeanProperty
     var companyName : String = company;
     
@@ -37,6 +40,7 @@ class Supplier(company : String, mail : String, phone : String) {
      */
     @Column(name = "email")
     @Expose
+    @SerializedName("mail")
     @BeanProperty
     var email : String = mail;
     
@@ -45,6 +49,7 @@ class Supplier(company : String, mail : String, phone : String) {
      */
     @Column(name = "phone_number")
     @Expose
+    @SerializedName("phone")
     @BeanProperty
     var phoneNumber : String = phone;
     

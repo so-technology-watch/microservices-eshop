@@ -25,6 +25,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @Expose
+    @SerializedName("id")
     @BeanProperty
     var id : Int = _;
     
@@ -33,6 +34,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
      */
     @Column(name = "reference")
     @Expose
+    @SerializedName("reference")
     @BeanProperty
     var reference : String = ref;
     
@@ -41,6 +43,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
      */
     @Column(name = "designation")
     @Expose
+    @SerializedName("designation")
     @BeanProperty
     var designation : String = design;
     
@@ -49,6 +52,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
      */
     @Column(name = "description")
     @Expose
+    @SerializedName("description")
     @BeanProperty
     var description : String = desc;
     
@@ -57,6 +61,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
      */
     @Column(name = "price")
     @Expose
+    @SerializedName("price")
     @BeanProperty
     var price : Double = price1;
     
@@ -75,7 +80,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
     @Basic(optional = false)
     @Column(name = "id_supplier")
     @Expose
-    @SerializedName("id_supplier")
+    @SerializedName("idSupplier")
     @BeanProperty
     var idSupplier : Integer = _
     
@@ -84,6 +89,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
      */
     @Column(name = "image")
     @Expose
+    @SerializedName("image")
     @BeanProperty
     var image : String = img
     
@@ -99,7 +105,7 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
     
     @Column(name = "id_category")
     @Expose
-    @SerializedName("id_category")
+    @SerializedName("idCategory")
     @BeanProperty
     var idCategory : Integer = _
     
