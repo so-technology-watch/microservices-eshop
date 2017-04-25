@@ -56,8 +56,36 @@ public class ScenarioTest extends FonctionalTest {
         get(route).then().assertThat().contentType(ContentType.JSON);
         get(route).then().assertThat().statusCode(200);
     }
+
+    public void creerProduit() {
+    }
     
-    public void deleteClient(int id){
+    public void recupProduit() {
+        
+    }
+    
+    public void rechercheProduit() {
+        
+    }
+    
+    public void clientAjouteProduitPanier() {
+        
+    }
+    
+    public void clientConsultePanier(){
+        
+    }
+    
+    public void clientAchete(){
+        
+    }
+    
+    public void consulterFacture(){
+        
+    }
+    
+
+    public void deleteClient(int id) {
         delete("/customers/" + id).then().assertThat().statusCode(200);
     }
 }
