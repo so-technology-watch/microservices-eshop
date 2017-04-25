@@ -11,25 +11,31 @@ import org.junit.runner.RunWith;
 @RunWith(JUnitParamsRunner.class)
 public class ScenarioTest extends FonctionalTest {
 
-    public static Object[][] params(){
-        return new Object[][]{
-            new Object[]{2, "jean", "paul", "jean.paul2@mail.com", "password", "4 rue de la bergerie", "0956787678"},
-            new Object[]{3, "paul", "jean", "guillaume@mail.com", "fjeufhufrdk", "5 rue de la pierre ronde", "6060606065"},
-            new Object[]{2, "guss", "paulin", "jean.paul2@mail.com", "password", "6 rue jean paul", "08979594328"},
-            new Object[]{2, "guss", "paulin", "jean.paul2@mail.com", "password", "6 rue jean paul", "08979594328"},
-            new Object[]{2, "same", "mail", "jean.paul2@mail.com", "password", "6 rue jean paul", "08979594328"},
-        };
-    }
-    
-	@Test
-    @Parameters(method = "params")
-	public void run(int id, String firstname, String lastname, String email, String password, String address, String phoneNumber) {
+	public static Object[][] params() {
+		return new Object[][] {
+				new Object[] { 2, "jean", "paul", "jean.paul2@mail.com", "password", "4 rue de la bergerie",
+						"0956787678" },
+				new Object[] { 3, "paul", "jean", "guillaume@mail.com", "fjeufhufrdk", "5 rue de la pierre ronde",
+						"6060606065" },
+				new Object[] { 2, "guss", "paulin", "jean.paul2@mail.com", "password", "6 rue jean paul",
+						"08979594328" },
+				new Object[] { 2, "guss", "paulin", "jean.paul2@mail.com", "password", "6 rue jean paul",
+						"08979594328" },
+				new Object[] { 2, "same", "mail", "jean.paul2@mail.com", "password", "6 rue jean paul",
+						"08979594328" }, };
+	}
 
-        creerClient(id, firstname, lastname, email, password, address, phoneNumber);
-        recupClient(id, firstname, lastname, email, address, phoneNumber);
-        deleteClient(id);
-	}    
-    
+	@Test
+	@Parameters(method = "params")
+	public void run(int id, String firstname, String lastname, String email, String password, String address,
+			String phoneNumber) {
+
+		creerClient(id, firstname, lastname, email, password, address, phoneNumber);
+		recupClient(id, firstname, lastname, email, address, phoneNumber);
+		//recupProduit(id, reference, designation, price, idSupplier, companyname, email, phoneNumber, image, idCategory);
+		deleteClient(id);
+	}
+
 	private void creerClient(int id, String firstname, String lastname, String email, String passsword, String address,
 			String phoneNumber) {
 
@@ -43,49 +49,58 @@ public class ScenarioTest extends FonctionalTest {
 		given().contentType(ContentType.JSON).body(customerJSON).when().post("/customers").then()
 				.body(containsString("" + id));
 	}
-    
-    public void recupClient(int id, String firstname, String lastname, String email, String address, String phoneNumber) {
-        String route = "/customers/" + id;
-        get(route).then().assertThat().body("id", equalTo(id));
-        get(route).then().assertThat().body("firstname", equalTo(firstname));
-        get(route).then().assertThat().body("lastname", equalTo(lastname));
-        get(route).then().assertThat().body("email", equalTo(email));
-        get(route).then().assertThat().body("address", equalTo(address));
-        get(route).then().assertThat().body("phoneNumber", equalTo(phoneNumber));
-        
-        get(route).then().assertThat().contentType(ContentType.JSON);
-        get(route).then().assertThat().statusCode(200);
-    }
 
-    public void creerProduit() {
-    }
-    
-    public void recupProduit() {
-        
-    }
-    
-    public void rechercheProduit() {
-        
-    }
-    
-    public void clientAjouteProduitPanier() {
-        
-    }
-    
-    public void clientConsultePanier(){
-        
-    }
-    
-    public void clientAchete(){
-        
-    }
-    
-    public void consulterFacture(){
-        
-    }
-    
+	public void recupClient(int id, String firstname, String lastname, String email, String address,
+			String phoneNumber) {
+		String route = "/customers/" + id;
+		get(route).then().assertThat().body("id", equalTo(id));
+		get(route).then().assertThat().body("firstname", equalTo(firstname));
+		get(route).then().assertThat().body("lastname", equalTo(lastname));
+		get(route).then().assertThat().body("email", equalTo(email));
+		get(route).then().assertThat().body("address", equalTo(address));
+		get(route).then().assertThat().body("phoneNumber", equalTo(phoneNumber));
 
-    public void deleteClient(int id) {
-        delete("/customers/" + id).then().assertThat().statusCode(200);
-    }
+		get(route).then().assertThat().contentType(ContentType.JSON);
+		get(route).then().assertThat().statusCode(200);
+	}
+
+	public void creerProduit() {
+	}
+
+	public void recupProduit(int id, String reference, String designation, int price, int idSupplier,
+			String companyName, String email, String phoneNumber, String image, String idCategory) {
+		String customerJSON = String.format(
+				"{\"id\":%d,\"reference\":\"%s\",\"designation\":\"%s\",\"price\":%d,"
+						+ "\"supplier\":{\"id\": %d,\"companyName\":\"%s\", \"email\": \"%s\", \"phoneNumber\": \"%s\"},"
+						+ "\"idSupplier\": %d,\"image\":\"%s\", \"idCategory\": %d}",
+				id, reference, designation, price, idSupplier, companyName, email, phoneNumber, idSupplier, image,
+				idCategory);
+
+		given().when().get("/products/" + id).then().body(containsString(customerJSON));
+	}
+
+	public void rechercheProduit() {
+
+	}
+
+	public void clientAjouteProduitPanier() {
+
+	}
+
+	public void clientConsultePanier() {
+
+	}
+
+	public void clientAchete() {
+
+	}
+
+	public void consulterFacture() {
+
+	}
+
+	public void deleteClient(int id) {
+		delete("/customers/" + id).then().assertThat().statusCode(200);
+	}
+
 }
