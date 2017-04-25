@@ -79,14 +79,70 @@ public class ScenarioTest extends FonctionalTest {
 		get(route).then().assertThat().statusCode(200);
 	}
     
+    /**
+     * Creer un fournisseur
+     * @param fournisseur 
+     */
 	private void creationFounisseur(Fournisseur fournisseur) {
+        final String json = format(
+            "{"
+            + "\"company\": %s,"
+            + "\"email\": %s,"
+            + "\"id\": %s,"
+            + "\"phone\": %s"
+            + "}",
+            fournisseur.getCompany(), fournisseur.getMail(), fournisseur.getId(), fournisseur.getPhone());
+        given()
+            .contentType(ContentType.JSON)
+            .body(json)
+            .when()
+            .post(ROUTE_FOURNISSEUR)
+            .then()
+            .assertThat()
+            .statusCode(201);
 	}
     
+    /**
+     * Vérifie un fournisseur, vérifie si il y a bien son id et le nom de son entreprise
+     * @param fournisseur 
+     */
 	private void recupFounisseur(Fournisseur fournisseur) {
+        final String route = ROUTE_FOURNISSEUR + "/" + fournisseur.getId();
+        get(route).then().assertThat().body("id", equalTo(fournisseur.getId()));
+        get(route).then().assertThat().body("company", equalTo(fournisseur.getCompany()));
+        get(route).then().assertThat().contentType(ContentType.JSON);
+        get(route).then().assertThat().statusCode(200);
 	}
     
-    
+    /**
+     * Créer une categorie
+     * @param categorie 
+     */
 	private void creationCategorie(Categorie categorie) {
+        final String json = format(
+            "{"
+            + "\"description\": %s,"
+            + "\"id\": %s,"
+            + "\"name\": %s"
+            + "}",
+            categorie.getDescription(), categorie.getName(), categorie.getId());
+        given()
+            .contentType(ContentType.JSON)
+            .body(json)
+            .when()
+            .post(ROUTE_CATEGORY)
+            .then()
+            .assertThat()
+            .statusCode(201);
+	}
+    
+    private void recupCategorie(Categorie categorie) {
+        final String route = ROUTE_CATEGORY + "/" + categorie.getId();
+        get(route).then().assertThat().body("categorie", equalTo(categorie.getDescription()));
+        get(route).then().assertThat().body("id", equalTo(categorie.getId()));
+        get(route).then().assertThat().body("name", equalTo(categorie.getName()));
+        get(route).then().assertThat().statusCode(200);
+        get(route).then().assertThat().contentType(ContentType.JSON);
 	}
     
     public void recupProduit(Produit produit) {
@@ -112,9 +168,6 @@ public class ScenarioTest extends FonctionalTest {
 	}
     
     private void recupFacture(Facture facture) {
-	}
-    
-    private void recupCategorie(Categorie categorie) {
 	}
     
 	private void ajoutProduitPanier(Produit produit, Client client) {
