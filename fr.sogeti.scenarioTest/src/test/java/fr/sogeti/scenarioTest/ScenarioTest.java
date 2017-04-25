@@ -6,6 +6,7 @@ import beans.Facture;
 import beans.Fournisseur;
 import beans.Panier;
 import beans.Produit;
+import com.google.gson.Gson;
 import static com.jayway.restassured.RestAssured.*;
 import com.jayway.restassured.http.ContentType;
 import static java.lang.String.format;
@@ -145,10 +146,29 @@ public class ScenarioTest extends FonctionalTest {
         get(route).then().assertThat().contentType(ContentType.JSON);
 	}
     
-    public void recupProduit(Produit produit) {
+    private void creationProduit(Produit produit) {
+        final String json = new Gson().toJson(produit);
+        given()
+            .contentType(ContentType.JSON)
+            .body(json)
+            .when()
+            .post(ROUTE_PRODUIT)
+            .then()
+            .assertThat()
+            .statusCode(201);
 	}
     
-    private void creationProduit(Produit produit) {
+    public void recupProduit(Produit produit) {
+        final String route = ROUTE_PRODUIT + "/" + produit.getId();
+        get(route).then().assertThat().body("designation", equalTo(produit.getDesignation()));
+        get(route).then().assertThat().body("id", equalTo(produit.getId()));
+        get(route).then().assertThat().body("idCategory", equalTo(produit.getIdCategory()));
+        get(route).then().assertThat().body("idSupplier", equalTo(produit.getIdSupplier()));
+        get(route).then().assertThat().body("image", equalTo(produit.getImage()));
+        get(route).then().assertThat().body("price", equalTo(produit.getPrice()));
+        get(route).then().assertThat().body("reference", equalTo(produit.getReference()));
+        get(route).then().assertThat().contentType(ContentType.JSON);
+        get(route).then().assertThat().statusCode(200);
 	}
     
     private void rechercheProduit(Produit produit) {
