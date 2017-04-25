@@ -8,7 +8,7 @@ spring:
   cloud:
     consul:
       config:
-        prefix: config/dev/
+        prefix: config/dev
         format: FILES
       host: 10.226.159.191
       port: 8500
