@@ -106,7 +106,6 @@ class Product(ref : String, design : String, desc : String, price1 : Double, img
     @Column(name = "id_category")
     @Expose
     @SerializedName("idCategory")
-    @SerializedName("id_category")
     @BeanProperty
     var idCategory : Integer = _
     
