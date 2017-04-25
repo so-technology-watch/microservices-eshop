@@ -4,6 +4,7 @@ import javax.persistence.{Table, Entity, OneToMany, Column, Basic, Id, Generated
 import java.{util => ju}
 import scala.beans.BeanProperty
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 /**
  * Category
@@ -22,6 +23,7 @@ class Category (name1 : String, desc : String) {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @Expose
+  @SerializedName("id")
   @BeanProperty
   var id : Integer = _;
   
@@ -30,6 +32,7 @@ class Category (name1 : String, desc : String) {
    */
   @Column(name = "name")
   @Expose
+  @SerializedName("name")
   @BeanProperty
   var name : String = name1;
   
@@ -38,6 +41,7 @@ class Category (name1 : String, desc : String) {
    */
   @Column(name = "description")
   @Expose
+  @SerializedName("description")
   @BeanProperty
   var description : String = desc;
   
@@ -46,6 +50,7 @@ class Category (name1 : String, desc : String) {
    */
   @OneToMany(mappedBy = "idCategory")
   @Expose
+  @SerializedName("products")
   @BeanProperty
   var products : ju.List[Product] = new ju.ArrayList[Product]();
 
