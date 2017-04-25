@@ -6,12 +6,28 @@ import static org.hamcrest.CoreMatchers.containsString;
 
 import org.junit.Test;
 
-public class ScenarioTest {
+import com.jayway.restassured.http.ContentType;
+
+public class ScenarioTest extends FonctionalTest {
 
 	@Test
 	public void creerClient() {
-		
-		String client = "{\"CustomerID\": 1, [{\"ElementID\":2,\"ProductID\":1,\"Quantity\":1,\"UnitPrice\":1}]}";
+
+		creerClient(2, "jean", "paul", "jean.paul2@mail.com", "pwd", "4 rue de la bergerie", "0956787678");
+
 	}
 
+	private void creerClient(int id, String firstname, String lastname, String email, String passsword, String address,
+			String phoneNumber) {
+
+		String customerJSON = String.format(
+				"{\"id\":%d,\"firstname\":\"%s\",\"lastname\":\"%s\",\"email\":\"%s\","
+						+ "\"credentials\":{\"email\":\"%s\",\"passWord\":\"%s\"},"
+						+ "\"address\":\"%s\",\"phoneNumber\":\"%s\"}",
+				id, firstname, lastname, email, email, passsword, address, phoneNumber);
+		System.out.println(customerJSON);
+
+		given().contentType(ContentType.JSON).body(customerJSON).when().post("/customers").then()
+				.body(containsString("" + id));
+	}
 }
