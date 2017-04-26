@@ -63,15 +63,17 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     val response = context.response
     val data : Option[String] = context.getBodyAsString
     
+    response.headers().add("content-type", contentType)
     if( data.isDefined ) {
       val entity = jsonHelper.fromJson( data.get, clazz, true )
       if(entity.isDefined){
         service.create(entity.get)
+        response.setStatusCode(201)
+        response.end(jsonHelper.toJson(entity.get, true))
+        return
       }
     }
-    
-    response.headers().add("content-type", contentType)
-    response.setStatusCode(201)
+    response.setStatusCode(200)
     response.end("OK")
   }
   

@@ -18,7 +18,7 @@ class Supplier(company : String, mail : String, phone : String) {
      * The suppliers's id
      */
     @Id
-    @Basic(optional = false)
+    @Basic(optional = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Expose
     @SerializedName("id")

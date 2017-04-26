@@ -21,7 +21,10 @@ class TransactionStrategy(manager : EntityManager, strategy : ITransactionStrate
       
       transaction.commit
     }catch{
-      case unknow : Throwable => transaction.rollback
+      case unknow : Throwable => {
+        transaction.rollback
+        unknow.printStackTrace
+      }
     }
   }
 }

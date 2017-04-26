@@ -83,7 +83,7 @@ class GenericDAO[Type >: Null, IdType](clazz : Class[Type], manager : EntityMana
   def create(entity : Type) : Unit = {
     val strategy : ITransactionStrategy = new ITransactionStrategy {
       override def execute() : Unit = {
-        manager.persist( entity )        
+        manager.persist( entity )
       }
     }
     new TransactionStrategy(manager, strategy).execute
