@@ -235,6 +235,7 @@ public class ScenarioTest extends FonctionalTest {
     }
 
     private void deleteClient(Client client) {
+
     }
 
     private void deleteCategorie(Categorie categorie) {

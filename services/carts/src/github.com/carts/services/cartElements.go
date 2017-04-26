@@ -31,6 +31,7 @@ func (c *RedisClient) AddCartElement(customerID int, element *models.CartElement
 	if found && gateWayClient.CheckProductExists(element) && gateWayClient.CheckProductPrice(element) {
 		cart := jsonToCart(cartJSON)
 		cart.AddElement(element)
+		cart.ComputeTotalPrice()
 		updatedCartJSON := cartToJSON(cart)
 		c.Client.Set(key, updatedCartJSON, 0)
 	}
@@ -46,6 +47,7 @@ func (c *RedisClient) ModifyCartElement(customerID int, elementID int, element *
 
 	if found && gateWayClient.CheckProductExists(element) && gateWayClient.CheckProductPrice(element) {
 		cart := jsonToCart(cartJSON)
+		cart.ComputeTotalPrice()
 		e, _, _ := cart.GetElement(elementID)
 		*e = *element
 		updatedCartJSON := cartToJSON(cart)
