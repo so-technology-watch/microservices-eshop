@@ -63,6 +63,7 @@ public class ScenarioTest extends FonctionalTest {
 	ajoutFacture(panier);
 	recupFacture(facture);
 	verifPanierVide(client);
+	clean(client, produit, categorie, fournisseur, panier, facture);
 
     }
 
@@ -77,6 +78,8 @@ public class ScenarioTest extends FonctionalTest {
 
 	given().contentType(ContentType.JSON).body(customerJSON).when().post("/customers").then()
 		.body(containsString("" + client.getId()));
+
+	System.out.println("customer created");
     }
 
     public void recupClient(Client client) {
@@ -91,6 +94,8 @@ public class ScenarioTest extends FonctionalTest {
 
 	get(route).then().assertThat().contentType(ContentType.JSON);
 	get(route).then().assertThat().statusCode(200);
+
+	System.out.println("client retrieved");
     }
 
     /**
@@ -105,6 +110,8 @@ public class ScenarioTest extends FonctionalTest {
 	Integer id = given().contentType(ContentType.JSON).body(json).when().post(ROUTE_FOURNISSEUR).then().assertThat()
 		.statusCode(201).extract().path("id");
 	fournisseur.setId(id);
+
+	System.out.println("supplier created");
     }
 
     /**
@@ -120,6 +127,8 @@ public class ScenarioTest extends FonctionalTest {
 	get(route).then().assertThat().body("company", equalTo(fournisseur.getCompany()));
 	get(route).then().assertThat().contentType(ContentType.JSON);
 	get(route).then().assertThat().statusCode(200);
+
+	System.out.println("supplier retrieved");
     }
 
     /**
@@ -134,6 +143,8 @@ public class ScenarioTest extends FonctionalTest {
 	int id = given().contentType(ContentType.JSON).body(json).when().post(ROUTE_CATEGORY).then().assertThat()
 		.statusCode(201).extract().path("id");
 	categorie.setId(id);
+
+	System.out.println("category created");
     }
 
     private void recupCategorie(Categorie categorie) {
@@ -144,6 +155,8 @@ public class ScenarioTest extends FonctionalTest {
 	get(route).then().assertThat().body("name", equalTo(categorie.getName()));
 	get(route).then().assertThat().statusCode(200);
 	get(route).then().assertThat().contentType(ContentType.JSON);
+
+	System.out.println("retrieved category");
     }
 
     private void creationProduit(Produit produit) {
@@ -157,6 +170,8 @@ public class ScenarioTest extends FonctionalTest {
 	int id = given().contentType(ContentType.JSON).body(json).when().post(ROUTE_PRODUIT).then().assertThat()
 		.statusCode(201).extract().path("id");
 	produit.setId(id);
+
+	System.out.println("product created");
     }
 
     public void recupProduit(Produit produit) {
@@ -187,6 +202,8 @@ public class ScenarioTest extends FonctionalTest {
 
 	given().when().get(ROUTE_PRODUIT + "/" + produit.getId()).then().assertThat().body("idCategory",
 		equalTo(produit.getIdCategory()));
+
+	System.out.println("product category checked");
     }
 
     private void achat(Client client) {
@@ -217,6 +234,8 @@ public class ScenarioTest extends FonctionalTest {
 
 	given().content(ContentType.JSON).body(panierJSON).when().post(ROUTE_PANIER).then().assertThat().body("message",
 		equalTo("OK"));
+
+	System.out.println("product added");
     }
 
     public void clean(Client client, Produit produit, Categorie categorie, Fournisseur fournisseur, Panier panier,
@@ -236,17 +255,29 @@ public class ScenarioTest extends FonctionalTest {
 
     private void deleteClient(Client client) {
 
+	given().when().delete(ROUTE_CLIENT + "/" + client.getId()).then().assertThat().statusCode(200);
+	System.out.println("Customer succesfully deleted");
+
     }
 
     private void deleteCategorie(Categorie categorie) {
+
+	given().when().delete(ROUTE_CATEGORY + "/" + categorie.getId()).then().assertThat().statusCode(200);
+	System.out.println("Category successfully deleted");
 
     }
 
     private void deleteFournisseur(Fournisseur fournisseur) {
 
+	given().when().delete(ROUTE_FOURNISSEUR + "/" + fournisseur.getId()).then().assertThat().statusCode(200);
+	System.out.println("Supplier successfully deleted");
+
     }
 
     private void deleteProduit(Produit produit) {
+
+	given().when().delete(ROUTE_PRODUIT + "/" + produit.getId()).then().assertThat().statusCode(200);
+	System.out.println("Product successfully deleted");
 
     }
 }
