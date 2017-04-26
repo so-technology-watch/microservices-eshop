@@ -1,63 +1,64 @@
 package services
 
 import (
-	"encoding/json"
-
-	"log"
-
 	"github.com/carts/models"
 )
 
-//Position denfines a two dimensional array containing the ID of a client and an element.
-type Position struct {
-	CustomerID int
-	ElementID  int
+//Product defines a product such as returned by the products service.
+type Product struct {
+	ID          int       `json:"id"`
+	Reference   string    `json:"reference"`
+	Designation string    `json:"designation"`
+	Price       float32   `json:"price"`
+	Supplier    *Supplier `json:"supplier"`
+	SupplierID  int       `json:"idSupplier"`
+	Image       string    `json:"image"`
+	CategoryID  int       `json:"idCategory"`
 }
 
-//ProductUpdate defines the data needed for a product price change
-type ProductUpdate struct {
-	ProductID int
-	UnitPrice float32
+//Supplier defines a supplier such as returned by the products service.
+type Supplier struct {
+	ID          int    `json:"id"`
+	CompanyName string `json:"company"`
+	Email       string `json:"email"`
+	PhoneNumber string `json:"phone"`
 }
 
-//FindProducts returns the postions of every CartElments corresponding to a a given product.
-func (c *RedisClient) FindProducts(productID int) *[]Position {
+//CheckProductExists verifies if the product of the given element does indeed exist.
+func (g *GateWayClient) CheckProductExists(element *models.CartElement) bool {
 
-	var res []Position
-	keys, err := c.Client.Keys("*").Result()
-	failOnError(err)
-	var elements []int
-	cart := &models.Cart{}
+	_, found := g.GetProduct(element.ProductID)
 
-	for _, key := range keys {
+	return *found
+}
 
-		cartJSON, err := c.Client.Get(key).Result()
-		failOnError(err)
-		json.Unmarshal([]byte(cartJSON), &cart)
-		elements = *cart.FindProduct(productID)
-		if len(elements) > 0 {
-			for _, element := range elements {
+//CheckProductPrice checks if the price og the product is the right one.
+func (g *GateWayClient) CheckProductPrice(element *models.CartElement) bool {
 
-				pos := &Position{CustomerID: cart.CustomerID, ElementID: element}
-				res = append(res, *pos)
-			}
+	product, _ := g.GetProduct(element.ProductID)
+	isTheSame := false
 
+	if product.Price == element.UnitPrice {
+
+		isTheSame = true
+
+	}
+
+	return isTheSame
+}
+
+//CheckcartValidity checks if the content of a cart is valid.
+func (g *GateWayClient) CheckcartValidity(cart *models.Cart) bool {
+
+	valid := true
+
+	for _, element := range cart.CartElements {
+
+		if !g.CheckProductExists(element) || !g.CheckProductPrice(element) {
+
+			valid = false
 		}
-
 	}
-	log.Println("Found ", len(res), " elements containing this product.")
-	return &res
-}
 
-//ChangeProductPrice changes the unit price of a gven product to the new given price
-func (c *RedisClient) ChangeProductPrice(productID int, price float32) {
-
-	positions := *c.FindProducts(productID)
-	for _, position := range positions {
-
-		element, _ := c.GetCartElement(position.CustomerID, position.ElementID)
-		element.UnitPrice = price
-		c.ModifyCartElement(position.CustomerID, position.ElementID, element)
-
-	}
+	return valid
 }

@@ -69,14 +69,14 @@ func (r *RabbitMQClient) Consume(queueName string) *<-chan amqp.Delivery {
 }
 
 //HandleMessages handles the reeived messages.
-func (r *RabbitMQClient) HandleMessages(redisClient *RedisClient, messages *<-chan amqp.Delivery) {
+func (r *RabbitMQClient) HandleMessages(redisClient *RedisClient, messages *<-chan amqp.Delivery, gateWayClient *GateWayClient) {
 
 	log.Println("Handling messages.")
 
 	for message := range *messages {
 
 		productUpdate := jsonToProductUpdate(message.Body)
-		redisClient.ChangeProductPrice(productUpdate.ProductID, productUpdate.UnitPrice)
+		redisClient.ChangeProductPrice(productUpdate.ProductID, productUpdate.UnitPrice, gateWayClient)
 		log.Println("Message has been handled.")
 
 	}

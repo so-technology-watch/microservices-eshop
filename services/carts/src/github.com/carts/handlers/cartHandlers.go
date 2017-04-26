@@ -32,13 +32,13 @@ func HandleCartGet(client *services.RedisClient) http.HandlerFunc {
 }
 
 //HandleCartPost handles POST request by storing the given custmer cart
-func HandleCartPost(client *services.RedisClient) http.HandlerFunc {
+func HandleCartPost(client *services.RedisClient, gateWayClient *services.GateWayClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := ioutil.ReadAll(r.Body)
 		failOnError(err)
 		theCart := &models.Cart{}
 		json.Unmarshal([]byte(body), theCart)
-		client.AddCart(theCart)
+		client.AddCart(theCart, gateWayClient)
 		message := "{\"message\" : \"OK\"}"
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(message))
@@ -46,8 +46,8 @@ func HandleCartPost(client *services.RedisClient) http.HandlerFunc {
 }
 
 //HandleCartPut handles PUT request by updating the customer with the given cart
-func HandleCartPut(client *services.RedisClient) http.HandlerFunc {
-	return HandleCartPost(client)
+func HandleCartPut(client *services.RedisClient, gateWayClient *services.GateWayClient) http.HandlerFunc {
+	return HandleCartPost(client, gateWayClient)
 
 }
 

@@ -9,13 +9,17 @@ import (
 )
 
 //AddCart adds a cart to redis KV store
-func (c *RedisClient) AddCart(cart *models.Cart) {
+func (c *RedisClient) AddCart(cart *models.Cart, gateWayClient *GateWayClient) {
 
-	key := strconv.Itoa(cart.CustomerID)
-	value, err := json.Marshal(cart)
-	failOnError(err)
-	err = c.Client.Set(key, value, 0).Err()
-	failOnError(err)
+	if gateWayClient.CheckcartValidity(cart) {
+
+		key := strconv.Itoa(cart.CustomerID)
+		value, err := json.Marshal(cart)
+		failOnError(err)
+		err = c.Client.Set(key, value, 0).Err()
+		failOnError(err)
+
+	}
 
 }
 

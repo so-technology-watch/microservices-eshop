@@ -21,8 +21,11 @@ func main() {
 	//Creating the redis client
 	clientRedis := &services.RedisClient{}
 	clientRedis.CreateClient(config.RedisConf.Address, config.RedisConf.PWD, config.RedisConf.DB)
+	//Creating the gateWayClient
+	gateWayClient := &services.GateWayClient{}
+	gateWayClient.CreateClient(config)
 	//Creating the HTTP router
-	router := handlers.Router(clientRedis)
+	router := handlers.Router(clientRedis, gateWayClient)
 	//Creating and initializing the rabitMQ client
 	clientRabbitMQ := &services.RabbitMQClient{}
 	clientRabbitMQ.Connect(config.RabbitMQConf.Host)
@@ -32,7 +35,7 @@ func main() {
 	clientRabbitMQ.BindQueue("productUpdate", config.RabbitMQConf.RoutingKey, "productUpdate")
 	messages := clientRabbitMQ.Consume("productUpdate")
 	go func() {
-		clientRabbitMQ.HandleMessages(clientRedis, messages)
+		clientRabbitMQ.HandleMessages(clientRedis, messages, gateWayClient)
 	}()
 	//Http server creation
 	server := &http.Server{

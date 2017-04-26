@@ -38,14 +38,14 @@ func HandleCartElementGet(client *services.RedisClient) http.HandlerFunc {
 }
 
 //HandleCartElementPost handles POST request by storing the given custmer cart
-func HandleCartElementPost(client *services.RedisClient) http.HandlerFunc {
+func HandleCartElementPost(client *services.RedisClient, gateWayClient *services.GateWayClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		payloadJSON, err := ioutil.ReadAll(r.Body)
 		failOnError(err)
 		payload := &models.ElementPayload{}
 		json.Unmarshal([]byte(payloadJSON), payload)
-		client.AddCartElement(payload.CustomerID, payload.CartElement)
+		client.AddCartElement(payload.CustomerID, payload.CartElement, gateWayClient)
 		message := "{\"message\" : \"OK\"}"
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(message))
@@ -55,14 +55,14 @@ func HandleCartElementPost(client *services.RedisClient) http.HandlerFunc {
 }
 
 //HandleCartElementPut handles PUT request by updating the customer with the given cart
-func HandleCartElementPut(client *services.RedisClient) http.HandlerFunc {
+func HandleCartElementPut(client *services.RedisClient, gateWayClient *services.GateWayClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		payloadJSON, err := ioutil.ReadAll(r.Body)
 		failOnError(err)
 		payload := &models.ElementPayload{}
 		json.Unmarshal([]byte(payloadJSON), payload)
-		client.ModifyCartElement(payload.CustomerID, payload.CartElement.ElementID, payload.CartElement)
+		client.ModifyCartElement(payload.CustomerID, payload.CartElement.ElementID, payload.CartElement, gateWayClient)
 		message := "{\"message\" : \"OK\"}"
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(message))
