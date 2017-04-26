@@ -54,10 +54,10 @@ def update_bill():
         return error_handler(400, invalid_parameters)
 
 
-@delete('/api/v1/bills/<id_product>')
-def delete_bill(id_product):
+@delete('/api/v1/bills/<id_bill>')
+def delete_bill(id_bill):
     try:
-        bills_service.delete(id_product)
+        bills_service.delete(id_bill)
         return "OK"
     except TypeError:
         return error_handler(400, invalid_parameters)

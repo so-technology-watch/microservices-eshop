@@ -2,7 +2,7 @@ from bson.json_util import loads
 
 
 class Supplier:
-    def __init__(self, id, company_name, email, phone_number):
+    def __init__(self, id, company_name, email, phone_number, *args, **kwargs):
         self.id = id
         self.company_name = company_name
         self.email = email
@@ -11,9 +11,9 @@ class Supplier:
     def to_dict(self):
         return {
             'id': self.id,
-            'company_name': self.company_name,
+            'companyName': self.company_name,
             'email': self.email,
-            'phone_number': self.phone_number
+            'phoneNumber': self.phone_number
         }
 
     def __repr__(self):

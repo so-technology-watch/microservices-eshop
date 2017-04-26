@@ -1,4 +1,5 @@
 from fr.sogeti.rest.bills_resource import *
+from fr.sogeti.rest.payment_resource import *
 
 
 @get('/api/v1/check')

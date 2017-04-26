@@ -2,7 +2,7 @@ from bson.json_util import loads
 
 
 class Product:
-    def __init__(self, id, reference, designation, price):
+    def __init__(self, id, reference, designation, price, *args, **kwargs):
         self.id = id
         self.reference = reference
         self.designation = designation

@@ -65,12 +65,14 @@ class ConfigResolver:
                     return snic.address
         return "localhost"
 
+
 class _Config:
-    def __init__(self, interface, port, db_host, db_port, *args, **kwargs):
+    def __init__(self, interface, port, db_host, db_port, gateway, *args, **kwargs):
         self.interface = interface
         self.port = int(port)
         self.db_host = db_host
         self.db_port = int(db_port)
+        self.gateway = gateway
 
     def to_json(self):
         return json.dumps(self.to_dict())
@@ -80,7 +82,8 @@ class _Config:
             'interface': self.interface,
             'port': self.port,
             'db_host': self.db_host,
-            'db_port': self.db_port
+            'db_port': self.db_port,
+            'gateway': self.gateway
         }
 
     def __repr__(self):

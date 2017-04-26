@@ -2,7 +2,7 @@ from bson.json_util import loads
 
 
 class Customer:
-    def __init__(self, id=None):
+    def __init__(self, id=None, *args, **kwargs):
         self.id = id
 
     def to_dict(self):
