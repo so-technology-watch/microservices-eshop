@@ -30,6 +30,9 @@ class Bill:
             '_id': ObjectId(self.id)
         }
 
+    def __repr__(self):
+        return str(self.to_dict())
+
 
 def from_json(str_json):
     return Bill(** loads(str_json))
