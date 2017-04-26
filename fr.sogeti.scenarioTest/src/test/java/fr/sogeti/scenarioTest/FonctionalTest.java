@@ -5,8 +5,8 @@ import org.junit.BeforeClass;
 
 public class FonctionalTest {
 
-    @BeforeClass
-    public static void setup() {
+	@BeforeClass
+	public static void setup() {
 
         String port = System.getProperty("server.port");
 
