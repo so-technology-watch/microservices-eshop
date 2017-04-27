@@ -23,6 +23,7 @@ func HandleCartGet(client *services.RedisClient) http.HandlerFunc {
 
 		if !found {
 			json = ("{\"Error\" : \"No element corresponding to the given parameters.\"}")
+			w.WriteHeader(http.StatusNotFound)
 		}
 
 		w.Header().Set("Content-Type", "application/json,")
