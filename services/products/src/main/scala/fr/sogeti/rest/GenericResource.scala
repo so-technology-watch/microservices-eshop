@@ -26,11 +26,16 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     val id = RequestHelper.getParameterAsInt(request, "id")
     
     if( !id.isDefined ) {
+      response.setStatusCode(401).end("invalid parameters")
+      return
+    }
+    
+    val entity = service.find(id.get)
+    
+    if( entity == null ){
       response.setStatusCode(404).end("entity not found")
       return
     }
-      
-    val entity = service.find(id.get)
     
     response.headers().add("content-type", contentType)
     response.end( jsonHelper.toJson( entity , true ) )
@@ -109,7 +114,7 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     val id = RequestHelper.getParameterAsInt(request, "id")
     
     if( !id.isDefined ) {
-      response.setStatusCode(404).end("entity not found")
+      response.setStatusCode(401).end("invalid parameters")
       return
     }
     val product = service.find(id.get)

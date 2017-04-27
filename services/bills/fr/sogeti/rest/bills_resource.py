@@ -31,7 +31,11 @@ def get_all():
 
 @get('/api/v1/bills/<id_bill>')
 def get_by_id(id_bill):
-    return dumps(bills_service.get_by_id(id_bill))
+    bill = bills_service.get_by_id(id_bill)
+    if bill is None:
+        response.status = 404
+        return None
+    return dumps(bill)
 
 
 @post('/api/v1/bills')
