@@ -42,6 +42,7 @@ func HandleCartPost(client *services.RedisClient, gateWayClient *services.GateWa
 		client.AddCart(theCart, gateWayClient)
 		message := "{\"message\" : \"OK\"}"
 		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusCreated)
 		w.Write([]byte(message))
 	}
 }

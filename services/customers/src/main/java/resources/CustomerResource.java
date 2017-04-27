@@ -107,7 +107,7 @@ public class CustomerResource {
     public String deleteCustomer(@PathParam("customerID") int customerID) {
 
 	customerServices.removeCustomer(customerID);
-	return "Client supprimé avec succès.";
+	return "Client has been successfully deleted.";
     }
 
     /**
