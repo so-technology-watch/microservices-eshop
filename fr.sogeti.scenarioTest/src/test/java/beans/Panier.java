@@ -5,14 +5,15 @@ import java.util.List;
 
 public class Panier {
     private int id;
-    private List<Integer> cartElement;
-    private int idCustomer;
+    private List<CartElement> cartElement;
+    private float timeStamp;
+    private int customerID;
     private double price;
 
-    public Panier(int id, List<Integer> cartElement, int idCustomer, double price) {
+    public Panier(int id, List<CartElement> cartElement, int idCustomer, double price) {
         this.id = id;
         this.cartElement = cartElement;
-        this.idCustomer = idCustomer;
+        this.customerID = idCustomer;
         this.price = price;
     }
 
@@ -24,20 +25,20 @@ public class Panier {
         this.id = id;
     }
 
-    public List<Integer> getCartElement() {
+    public List<CartElement> getCartElement() {
         return cartElement;
     }
 
-    public void setCartElement(List<Integer> cartElement) {
+    public void setCartElement(List<CartElement> cartElement) {
         this.cartElement = cartElement;
     }
 
     public int getIdCustomer() {
-        return idCustomer;
+        return customerID;
     }
 
     public void setIdCustomer(int idCustomer) {
-        this.idCustomer = idCustomer;
+        this.customerID = idCustomer;
     }
 
     public double getPrice() {
@@ -47,5 +48,13 @@ public class Panier {
     public void setPrice(double price) {
         this.price = price;
     }
+
+	public float getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(float timeStamp) {
+		this.timeStamp = timeStamp;
+	}
     
 }

@@ -14,6 +14,7 @@ func (c *RedisClient) AddCart(cart *models.Cart, gateWayClient *GateWayClient) {
 	if gateWayClient.CheckcartValidity(cart) {
 
 		key := strconv.Itoa(cart.CustomerID)
+		cart.ComputeTotalPrice()
 		value, err := json.Marshal(cart)
 		failOnError(err)
 		err = c.Client.Set(key, value, 0).Err()
