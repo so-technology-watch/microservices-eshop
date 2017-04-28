@@ -23,6 +23,7 @@ func HandleCartGet(client *services.RedisClient) http.HandlerFunc {
 
 		if !found {
 			json = ("{\"Error\" : \"No element corresponding to the given parameters.\"}")
+			w.WriteHeader(http.StatusNotFound)
 		}
 
 		w.Header().Set("Content-Type", "application/json,")
@@ -41,6 +42,7 @@ func HandleCartPost(client *services.RedisClient, gateWayClient *services.GateWa
 		client.AddCart(theCart, gateWayClient)
 		message := "{\"message\" : \"OK\"}"
 		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusCreated)
 		w.Write([]byte(message))
 	}
 }

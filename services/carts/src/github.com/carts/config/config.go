@@ -2,7 +2,6 @@ package config
 
 //Config contains the configaration of the service.
 type Config struct {
-	Host         string          `json:"host"`
 	Port         string          `json:"port"`
 	RabbitMQConf *RabbitMQConfig `json:"rabbitmq"`
 	RedisConf    *RedisConfig    `json:"redis"`

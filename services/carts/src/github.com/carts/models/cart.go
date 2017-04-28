@@ -2,19 +2,19 @@ package models
 
 //CartElement defines an element of a cart
 type CartElement struct {
-	ElementID int     //id of the element
-	ProductID int     //id of the product contained in the element
-	Quantity  int     //quantity of the product contained in the element
-	UnitPrice float32 //Unit price of the product contained in the element
+	ElementID int     `json:"elementID"` //id of the element
+	ProductID int     `json:"productID"` //id of the product contained in the element
+	Quantity  int     `json:"quantity"`  //quantity of the product contained in the element
+	UnitPrice float32 `json:"unitPrice"` //Unit price of the product contained in the element
 }
 
 //Cart defines a cart.
 type Cart struct {
-	ID           int            //unique id of the cart
-	CartElements []*CartElement //Slice of cartElements
-	TimeStamp    string         //Time at which the cart has been last modified
-	CustomerID   int            //id of the customer who's linked to the cart
-	TotalPrice   float32        //the total price of the elements contained in the cart
+	ID           int            `json:"id"`           //unique id of the cart
+	CartElements []*CartElement `json:"cartElements"` //Slice of cartElements
+	TimeStamp    string         `json:"timeStamp"`    //Time at which the cart has been last modified
+	CustomerID   int            `json:"customerID"`   //id of the customer who's linked to the cart
+	TotalPrice   float32        `json:"totalPrice"`   //the total price of the elements contained in the cart
 }
 
 //ElementPayload defines a payload sent to add a CartElment.
