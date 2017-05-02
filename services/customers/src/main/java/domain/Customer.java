@@ -19,7 +19,7 @@ public class Customer implements Serializable {
     /**
      * unique id of the customer.
      */
-    private int id;
+    private String id;
     /**
      * Customer's first name.
      */
@@ -62,7 +62,7 @@ public class Customer implements Serializable {
      * @param phoneNumber
      * @param credentials
      */
-    public Customer(int id, String firstname, String lastname, String email, String address, String phoneNumber,
+    public Customer(String id, String firstname, String lastname, String email, String address, String phoneNumber,
 	    Credentials credentials) {
 	this.id = id;
 	this.firstname = firstname;
@@ -78,7 +78,7 @@ public class Customer implements Serializable {
      * @return id of type int.
      */
     @JsonProperty
-    public int getId() {
+    public String getId() {
 
 	return id;
     }
@@ -87,7 +87,7 @@ public class Customer implements Serializable {
      * 
      * @param id
      */
-    public void setId(int id) {
+    public void setId(String id) {
 
 	this.id = id;
     }

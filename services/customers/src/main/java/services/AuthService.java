@@ -1,6 +1,6 @@
 package services;
 
-import java.util.Objects;
+import java.util.Optional;
 
 import dao.AuthDAO;
 import dao.CustomerDAO;
@@ -50,15 +50,15 @@ public class AuthService {
      */
     public String authentification(Credentials credentials) {
 
-	Customer customer = customerDAO.retreiveElementByEmail(credentials.getEmail());
-	System.out.println(customer.getCredentials().getPassWord());
-	System.out.println(credentials.getPassWord());
+	Optional<Customer> optCustomer = customerDAO.retreiveElementByEmail(credentials.getEmail());
 
-	if (Objects.isNull(customer)) {
+	if (!optCustomer.isPresent()) {
 
 	    return new Error(Error.CODE_NOT_FOUND, Error.MSG_NOT_FOUND).toJson();
 
 	} else {
+
+	    Customer customer = optCustomer.get();
 
 	    if (customer.getCredentials().getPassWord().equals(credentials.getPassWord())) {
 

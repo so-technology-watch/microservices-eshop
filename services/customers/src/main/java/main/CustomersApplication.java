@@ -3,6 +3,7 @@ package main;
 import config.CustomersConfiguration;
 import config.KVStore;
 import config.Register;
+import dao.CustomerDAO;
 import dao.DAO;
 import dao.GenericDAO;
 import domain.Customer;
@@ -40,10 +41,12 @@ public class CustomersApplication extends Application<CustomersConfiguration> {
 	
 	
 	DAO dao = new DAO();
-	GenericDAO<Customer> customerDAO = new GenericDAO<>(Customer.class, dao);
-
+	CustomerDAO customerDAO = new CustomerDAO(dao);
+	customerDAO.getList().clear();
+	
 	AuthService authService = new AuthService(dao);
 	CustomerServices customerServices = new CustomerServices(customerDAO);
+	
 
 	final AuthResource authResource = new AuthResource(authService);
 	final CustomerResource customerResource = new CustomerResource(customerServices);

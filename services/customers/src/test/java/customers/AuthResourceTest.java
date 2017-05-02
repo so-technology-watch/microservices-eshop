@@ -21,7 +21,7 @@ public class AuthResourceTest extends FonctionalTest {
     @Test
     public void Aauthentification() {
 
-	Customer customer = new Customer(1, "jean", "paul", "jean.paul@mail.com", "4 rue de la bergerie", "0956787678",
+	Customer customer = new Customer("", "jean", "paul", "jean.paul@mail.com", "4 rue de la bergerie", "0956787678",
 		new Credentials("jean.paul@mail.com", "pwd"));
 
 	Gson gson = new Gson();
@@ -34,7 +34,7 @@ public class AuthResourceTest extends FonctionalTest {
     @Test
     public void BauthStatus() {
 
-	Customer customer = new Customer(1, "jean", "paul", "jean.paul@mail.com", "4 rue de la bergerie", "0956787678",
+	Customer customer = new Customer("", "jean", "paul", "jean.paul@mail.com", "4 rue de la bergerie", "0956787678",
 		new Credentials("jean.paul@mail.com", "pwd"));
 
 	AuthToken authToken = new AuthToken(customer.getId());
@@ -49,7 +49,7 @@ public class AuthResourceTest extends FonctionalTest {
     @Test
     public void deleteToken() {
 
-	Customer customer = new Customer(1, "jean", "paul", "jean.paul@mail.com", "4 rue de la bergerie", "0956787678",
+	Customer customer = new Customer("", "jean", "paul", "jean.paul@mail.com", "4 rue de la bergerie", "0956787678",
 		new Credentials("jean.paul@mail.com", "pwd"));
 
 	AuthToken authToken = new AuthToken(customer.getId());

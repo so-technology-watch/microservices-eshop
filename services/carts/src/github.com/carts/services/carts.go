@@ -2,7 +2,7 @@ package services
 
 import (
 	"encoding/json"
-	"strconv"
+	"log"
 
 	"github.com/carts/models"
 	"github.com/go-redis/redis"
@@ -13,11 +13,11 @@ func (c *RedisClient) AddCart(cart *models.Cart, gateWayClient *GateWayClient) {
 
 	if gateWayClient.CheckcartValidity(cart) {
 
-		key := strconv.Itoa(cart.CustomerID)
 		cart.ComputeTotalPrice()
 		value, err := json.Marshal(cart)
+		log.Println(value)
 		failOnError(err)
-		err = c.Client.Set(key, value, 0).Err()
+		err = c.Client.Set(cart.CustomerID, value, 0).Err()
 		failOnError(err)
 
 	}
@@ -25,18 +25,16 @@ func (c *RedisClient) AddCart(cart *models.Cart, gateWayClient *GateWayClient) {
 }
 
 //RemoveCart removes a car from redis KV store
-func (c *RedisClient) RemoveCart(clientID int) {
+func (c *RedisClient) RemoveCart(clientID string) {
 
-	key := strconv.Itoa(clientID)
-	c.Client.Del(key)
+	c.Client.Del(clientID)
 }
 
 //GetCart retrieves the cart of a client in the redis KV store
-func (c *RedisClient) GetCart(clientID int) (string, bool) {
+func (c *RedisClient) GetCart(clientID string) (string, bool) {
 
 	found := false
-	key := strconv.Itoa(clientID)
-	value, err := c.Client.Get(key).Result()
+	value, err := c.Client.Get(clientID).Result()
 	failOnError(err)
 
 	if value != "" {

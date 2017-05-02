@@ -1,5 +1,7 @@
 package models
 
+import "log"
+
 //CartElement defines an element of a cart
 type CartElement struct {
 	ElementID int     `json:"elementID"` //id of the element
@@ -10,16 +12,16 @@ type CartElement struct {
 
 //Cart defines a cart.
 type Cart struct {
-	ID           int            `json:"id"`           //unique id of the cart
+	ID           string         `json:"id"`           //unique id of the cart
 	CartElements []*CartElement `json:"cartElements"` //Slice of cartElements
 	TimeStamp    string         `json:"timeStamp"`    //Time at which the cart has been last modified
-	CustomerID   int            `json:"customerID"`   //id of the customer who's linked to the cart
+	CustomerID   string         `json:"customerID"`   //id of the customer who's linked to the cart
 	TotalPrice   float32        `json:"totalPrice"`   //the total price of the elements contained in the cart
 }
 
 //ElementPayload defines a payload sent to add a CartElment.
 type ElementPayload struct {
-	CustomerID  int          //The ID of the customer
+	CustomerID  string       //The ID of the customer
 	CartElement *CartElement //The CartElement to be added
 }
 
@@ -80,10 +82,13 @@ func (c *Cart) ComputeTotalPrice() {
 	for _, p := range c.CartElements {
 
 		res += p.UnitPrice
+
+		log.Println("ah")
 	}
 
 	c.TotalPrice = res
 
+	log.Println("here")
 }
 
 //FindProduct returns the IDs of elements containing the given product

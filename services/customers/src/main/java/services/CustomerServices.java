@@ -1,7 +1,9 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
+import dao.CustomerDAO;
 import dao.GenericDAO;
 import domain.Customer;
 
@@ -16,14 +18,14 @@ public class CustomerServices {
     /**
      * DAO class dealing with the customer map.
      */
-    private GenericDAO<Customer> dao;
+    private CustomerDAO dao;
 
     /**
      * Creates a new customerServices object from a given dao class.
      * 
      * @param dao
      */
-    public CustomerServices(GenericDAO<Customer> dao) {
+    public CustomerServices(CustomerDAO dao) {
 
 	this.dao = dao;
     }
@@ -34,7 +36,7 @@ public class CustomerServices {
      * @param customerID
      * @return customer
      */
-    public Customer getCustomer(int customerID) {
+    public Customer getCustomer(String customerID) {
 
 	return dao.retrieveElement(customerID);
     }
@@ -54,9 +56,19 @@ public class CustomerServices {
      * 
      * @param customer
      */
-    public void addCustomer(Customer customer) {
+    public Customer addCustomer(Customer customer) {
 
-	dao.addElement(customer.getId(), customer);
+	customer.setId(generateID());
+
+	if (!dao.retreiveElementByEmail(customer.getEmail()).isPresent()) {
+
+	    dao.addElement(customer.getId(), customer);
+
+	} else {
+
+	    customer.setId(dao.retreiveElementByEmail(customer.getEmail()).get().getId());
+	}
+	return customer;
     }
 
     /**
@@ -64,9 +76,10 @@ public class CustomerServices {
      * 
      * @param customer
      */
-    public void modifyCustomer(Customer customer) {
+    public Customer modifyCustomer(Customer customer) {
 
 	dao.addElement(customer.getId(), customer);
+	return customer;
     }
 
     /**
@@ -74,9 +87,15 @@ public class CustomerServices {
      * 
      * @param id
      */
-    public void removeCustomer(int id) {
+    public void removeCustomer(String id) {
 
 	dao.removeElement(id);
+    }
+
+    private String generateID() {
+
+	return UUID.randomUUID().toString();
+
     }
 
     /**
@@ -92,7 +111,7 @@ public class CustomerServices {
      * 
      * @param dao
      */
-    public void setDao(GenericDAO<Customer> dao) {
+    public void setDao(CustomerDAO dao) {
 
 	this.dao = dao;
     }

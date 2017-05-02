@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"io/ioutil"
+	"log"
 	"net/http"
-	"strconv"
 
 	"encoding/json"
 
@@ -17,9 +17,7 @@ func HandleCartGet(client *services.RedisClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		parameters := mux.Vars(r)
 		customerID := parameters["ID"]
-		key, err := strconv.Atoi(customerID)
-		failOnError(err)
-		json, found := client.GetCart(key)
+		json, found := client.GetCart(customerID)
 
 		if !found {
 			json = ("{\"Error\" : \"No element corresponding to the given parameters.\"}")
@@ -38,7 +36,9 @@ func HandleCartPost(client *services.RedisClient, gateWayClient *services.GateWa
 		body, err := ioutil.ReadAll(r.Body)
 		failOnError(err)
 		theCart := &models.Cart{}
+		log.Println(string(body))
 		json.Unmarshal([]byte(body), theCart)
+		log.Println(theCart)
 		client.AddCart(theCart, gateWayClient)
 		message := "{\"message\" : \"OK\"}"
 		w.Header().Set("Content-Type", "application/json")
@@ -58,9 +58,7 @@ func HandleCartDelete(client *services.RedisClient) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		parameters := mux.Vars(r)
 		customerID := parameters["ID"]
-		key, err := strconv.Atoi(customerID)
-		failOnError(err)
-		client.RemoveCart(key)
+		client.RemoveCart(customerID)
 		message := "{\"message\" : \"OK\"}"
 		w.Header().Set("Content-Type", "application/json")
 		w.Write([]byte(message))

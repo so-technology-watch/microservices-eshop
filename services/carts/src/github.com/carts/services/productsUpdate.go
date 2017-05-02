@@ -10,7 +10,7 @@ import (
 
 //Position denfines a two dimensional array containing the ID of a client and an element.
 type Position struct {
-	CustomerID int
+	CustomerID string
 	ElementID  int
 }
 

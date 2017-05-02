@@ -1,6 +1,8 @@
 package services
 
 import (
+	"log"
+
 	"github.com/carts/models"
 )
 
@@ -37,10 +39,11 @@ func (g *GateWayClient) CheckProductPrice(element *models.CartElement) bool {
 
 	product, _ := g.GetProduct(element.ProductID)
 	isTheSame := false
-
+	log.Println("product:", *product, " ++++++++ element:", element)
 	if product.Price == element.UnitPrice {
 
 		isTheSame = true
+		log.Println("product's price is correct")
 
 	}
 
@@ -54,9 +57,10 @@ func (g *GateWayClient) CheckcartValidity(cart *models.Cart) bool {
 
 	for _, element := range cart.CartElements {
 
-		if !g.CheckProductExists(element) || !g.CheckProductPrice(element) {
+		if !g.CheckProductExists(element) && !g.CheckProductPrice(element) {
 
 			valid = false
+			log.Println("product isn't valid")
 		}
 	}
 
