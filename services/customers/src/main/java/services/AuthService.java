@@ -1,5 +1,6 @@
 package services;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import dao.AuthDAO;
@@ -50,11 +51,13 @@ public class AuthService {
      */
     public String authentification(Credentials credentials) {
 
+	System.out.println(credentials.getEmail() + " _____ "  + credentials.getPassWord());
 	Optional<Customer> optCustomer = customerDAO.retreiveElementByEmail(credentials.getEmail());
 
 	if (!optCustomer.isPresent()) {
 
 	    return new Error(Error.CODE_NOT_FOUND, Error.MSG_NOT_FOUND).toJson();
+	    
 
 	} else {
 
@@ -65,7 +68,10 @@ public class AuthService {
 		String token = new AuthToken(customer.getId()).encodeToJWT();
 		authDAO.addElement(customer.getId(), token);
 
-		return token;
+		String jsonResponse = String.format("{ \"code\": 0, \"token\": \"%s\"}", token);
+
+		return jsonResponse;
+
 	    }
 
 	    else {
@@ -85,15 +91,19 @@ public class AuthService {
      */
     public AuthStatus retreiveAuthStatus(String token) {
 
-	AuthToken authToken = new AuthToken(token);
+	AuthToken authToken = new AuthToken();
+	authToken.decodeToken(token);
 	String storedToken = authDAO.retrieveElement(authToken.getCustomerID());
+	System.out.println(authToken.getCustomerID());
 
-	if (storedToken != null && storedToken.equals(token)) {
+	if (storedToken != null && storedToken.equals(token) && !Objects.isNull(authToken.getCustomerID())) {
 
+	    System.out.println("auth");
 	    return new AuthStatus(AuthStatus.CODE_AUTH, AuthStatus.MSG_AUTH);
 
 	} else {
 
+	    System.out.println("not auth");
 	    return new AuthStatus(AuthStatus.CODE_NOT_AUTH, AuthStatus.MSG_NOT_AUTH);
 	}
 

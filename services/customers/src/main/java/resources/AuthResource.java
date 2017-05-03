@@ -6,6 +6,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import domain.Credentials;
@@ -37,14 +39,26 @@ public class AuthResource {
     }
 
     @GET
-    @Path("/{token}")
     /**
      * Handles the GET method.
      * 
      * @param token
      * @return authStatus
      */
-    public AuthStatus getAuthStatus(@PathParam("token") String token) {
+    public AuthStatus getAuthStatus(@Context HttpHeaders headers) {
+
+	String token = null;
+
+	try {
+
+	    token = headers.getRequestHeader("Authorization").stream().filter(i -> i.startsWith("Bearer")).findFirst()
+		    .get().split(" ")[1];
+	    System.out.println(token);
+
+	} catch (Exception e) {
+
+	    e.printStackTrace();
+	}
 
 	return authService.retreiveAuthStatus(token);
 

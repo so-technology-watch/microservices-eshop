@@ -32,6 +32,7 @@ public class ScenarioTest extends FonctionalTest {
     private static final String ROUTE_PANIER = "/carts";
     private static final String ROUTE_PRODUIT = "/products";
     private static final String ROUTE_ACHAT = "/pay";
+    private static final String ROUTE_AUTH = "/auth";
 
     public static Object[][] params() {
 
@@ -230,7 +231,8 @@ public class ScenarioTest extends FonctionalTest {
 
     private void achat(Client client, Facture facture) {
 
-	ArrayList<String> id = given().when().post(ROUTE_ACHAT + "/" + client.getId()).then().assertThat().statusCode(200).extract().path("_id.$oid");
+	ArrayList<String> id = given().when().post(ROUTE_ACHAT + "/" + client.getId()).then().assertThat()
+		.statusCode(200).extract().path("_id.$oid");
 	facture.setId(id.get(0));
 	System.out.println(id.get(0));
 	id.forEach(i -> System.out.println(i));
@@ -264,7 +266,7 @@ public class ScenarioTest extends FonctionalTest {
     public void clean(Client client, Produit produit, Categorie categorie, Fournisseur fournisseur, Panier panier,
 	    Facture facture) {
 
-	deleteClient(client);
+	// deleteClient(client);
 	deleteProduit(produit);
 	deleteFournisseur(fournisseur);
 	deleteCategorie(categorie);

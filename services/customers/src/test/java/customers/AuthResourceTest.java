@@ -2,6 +2,7 @@ package customers;
 
 import static com.jayway.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -14,34 +15,27 @@ import domain.Customer;
 import elements.AuthStatus;
 import elements.AuthToken;
 
-
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AuthResourceTest extends FonctionalTest {
 
     @Test
     public void Aauthentification() {
 
-	Customer customer = new Customer("", "jean", "paul", "jean.paul@mail.com", "4 rue de la bergerie", "0956787678",
-		new Credentials("jean.paul@mail.com", "pwd"));
+	String credentials = "{\"email\":\"mail2@mail.fr\",\"passWord\":\"passijjfeij\"}";
 
-	Gson gson = new Gson();
-
-	given().contentType("application/json").body(gson.toJson(customer.getCredentials())).post("/auth").then()
-		.body(containsString(customer.getId() + ""));
+	given().contentType("application/json").body(credentials).post("/auth").then().assertThat().body("code", equalTo(0));
 
     }
 
     @Test
     public void BauthStatus() {
 
-	Customer customer = new Customer("", "jean", "paul", "jean.paul@mail.com", "4 rue de la bergerie", "0956787678",
-		new Credentials("jean.paul@mail.com", "pwd"));
-
-	AuthToken authToken = new AuthToken(customer.getId());
+	String id = "385984b5-e7f6-4fcf-8309-27a995088927";
+	AuthToken authToken = new AuthToken(id);
 
 	Gson gson = new Gson();
 
-	given().when().get("/auth/" + authToken.encodeToJWT()).then()
+	given().header("Authorization", "Bearer " + authToken.encodeToJWT()).when().get("/auth").then()
 		.body(containsString(gson.toJson(new AuthStatus(AuthStatus.CODE_AUTH, AuthStatus.MSG_AUTH))));
 
     }

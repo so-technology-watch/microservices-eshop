@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 /**
@@ -17,7 +18,7 @@ public class AuthToken {
     /**
      * id of the customer which is going to be used to generate the JWT token.
      */
-    private int customerID;
+    private String customerID;
 
     /**
      * Empty constructor
@@ -30,18 +31,13 @@ public class AuthToken {
      * 
      * @param token
      */
-    public AuthToken(String token) {
-
-	decodeToken(token);
-
-    }
 
     /**
      * COnstructor that takes in parameter a customerID
      * 
      * @param customerID
      */
-    public AuthToken(int customerID) {
+    public AuthToken(String customerID) {
 
 	this.customerID = customerID;
     }
@@ -70,19 +66,27 @@ public class AuthToken {
      * 
      * @param token
      */
-    private void decodeToken(String token) {
+    public void decodeToken(String token) {
 
-	DecodedJWT jwt = JWT.decode(token);
+	try {
 
-	this.customerID = jwt.getClaim("customerID").asInt();
-	System.out.println(customerID);
+	    DecodedJWT jwt = JWT.decode(token);
+	    this.customerID = jwt.getClaim("customerID").asString();
+	    System.out.println(customerID);
+	} catch (JWTDecodeException e) {
+
+	    e.printStackTrace();
+	    this.customerID = null;
+
+	}
+
     }
 
     /**
      * 
      * @return customerID of type int.
      */
-    public int getCustomerID() {
+    public String getCustomerID() {
 
 	return customerID;
     }
@@ -91,7 +95,7 @@ public class AuthToken {
      * 
      * @param customerID
      */
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(String customerID) {
 
 	this.customerID = customerID;
     }

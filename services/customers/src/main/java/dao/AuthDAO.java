@@ -54,7 +54,7 @@ public class AuthDAO {
      * @param customerID
      * @return JWT Token.
      */
-    public String retrieveElement(Integer customerID) {
+    public String retrieveElement(String customerID) {
 
 	return map.get(customerID);
 
@@ -65,7 +65,7 @@ public class AuthDAO {
      * 
      * @param customerID
      */
-    public void removeElement(Integer customerID) {
+    public void removeElement(String customerID) {
 
 	map.remove(customerID);
 	dao.commit();
