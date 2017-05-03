@@ -5,8 +5,6 @@ import config.KVStore;
 import config.Register;
 import dao.CustomerDAO;
 import dao.DAO;
-import dao.GenericDAO;
-import domain.Customer;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 import resources.AuthResource;

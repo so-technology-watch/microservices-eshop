@@ -89,6 +89,7 @@ public class CustomerServices {
      */
     public void removeCustomer(String id) {
 
+	System.out.println(id);
 	dao.removeElement(id);
     }
 

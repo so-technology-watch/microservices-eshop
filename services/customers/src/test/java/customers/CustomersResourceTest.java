@@ -52,7 +52,7 @@ public class CustomersResourceTest extends FonctionalTest {
     @Test
     public void deleteCustomerTest() {
 
-	given().when().delete("/customers/3").then().body(containsString("Client supprimé avec succès."));
+	given().when().delete("/customers/").then().body(containsString("Client has been successfully deleted"));
     }
 
 }

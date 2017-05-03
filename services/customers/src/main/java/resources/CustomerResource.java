@@ -1,7 +1,6 @@
 package resources;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -99,7 +98,7 @@ public class CustomerResource {
     }
 
     @DELETE
-    @Path("/{customersID}")
+    @Path("/{customerID}")
     /**
      * Handles the DELETE method.
      * 
@@ -108,6 +107,7 @@ public class CustomerResource {
      */
     public String deleteCustomer(@PathParam("customerID") String customerID) {
 
+	System.out.println(customerID);
 	customerServices.removeCustomer(customerID);
 	return "Client has been successfully deleted.";
     }

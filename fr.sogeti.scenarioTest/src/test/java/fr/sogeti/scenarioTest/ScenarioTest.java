@@ -12,6 +12,9 @@ import com.google.gson.JsonObject;
 import static com.jayway.restassured.RestAssured.*;
 import com.jayway.restassured.http.ContentType;
 import static java.lang.String.format;
+
+import java.awt.geom.CubicCurve2D;
+import java.util.ArrayList;
 import java.util.Arrays;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -62,9 +65,10 @@ public class ScenarioTest extends FonctionalTest {
 	ajoutProduitPanier(produit, client);
 	recupPanier(client);
 	achat(client, facture);
-	// recupFacture(facture);
-	// verifPanierVide(client);
-	// clean(client, produit, categorie, fournisseur, panier, facture);
+	verifPanierVide(client);
+	recupFacture(facture);
+	verifPanierVide(client);
+	clean(client, produit, categorie, fournisseur, panier, facture);
 
     }
 
@@ -98,16 +102,14 @@ public class ScenarioTest extends FonctionalTest {
 
 	System.out.println(client.getId());
 	String route = ROUTE_CLIENT + "/" + client.getId();
-	System.out.println("zgz" + get(route).body().asString());
-//	get(route).then().assertThat().body("firstname", equalTo(client.getFirstname()));
-//	get(route).then().assertThat().body("lastname", equalTo(client.getLastname()));
-//	get(route).then().assertThat().body("email", equalTo(client.getEmail()));
-//	get(route).then().assertThat().body("address", equalTo(client.getAddress()));
-//	get(route).then().assertThat().body("phoneNumber", equalTo(client.getPhoneNumber()));
-
+	System.out.println(get(route).body().asString());
+	get(route).then().assertThat().body("firstname", equalTo(client.getFirstname()));
+	get(route).then().assertThat().body("lastname", equalTo(client.getLastname()));
+	get(route).then().assertThat().body("email", equalTo(client.getEmail()));
+	get(route).then().assertThat().body("address", equalTo(client.getAddress()));
+	get(route).then().assertThat().body("phoneNumber", equalTo(client.getPhoneNumber()));
 	get(route).then().assertThat().contentType(ContentType.JSON);
 	get(route).then().assertThat().statusCode(200);
-
 	System.out.println("client retrieved");
     }
 
@@ -214,7 +216,8 @@ public class ScenarioTest extends FonctionalTest {
 
     private void verifPanierVide(Client client) {
 
-	// TODO
+	given().when().get(ROUTE_PANIER + "/" + client.getId()).then().assertThat().statusCode(404);
+	System.out.println("cart is indeed empty");
     }
 
     private void verifProduitDansCategorie(Categorie categorie, Produit produit) {
@@ -227,16 +230,18 @@ public class ScenarioTest extends FonctionalTest {
 
     private void achat(Client client, Facture facture) {
 
-	given().when().post(ROUTE_ACHAT + "/" + client.getId()).then().assertThat().statusCode(200);
-	System.out.println(client.getId());
-	String bodyJSON = given().when().post(ROUTE_ACHAT + "/" + client.getId()).body().asString();
-	System.out.println(bodyJSON);
+	ArrayList<String> id = given().when().post(ROUTE_ACHAT + "/" + client.getId()).then().assertThat().statusCode(200).extract().path("_id.$oid");
+	facture.setId(id.get(0));
+	System.out.println(id.get(0));
+	id.forEach(i -> System.out.println(i));
+	System.out.println("cart successfully bought");
 
     }
 
     private void recupFacture(Facture facture) {
 
 	given().when().get(ROUTE_FACTURE + "/" + facture.getId()).then().assertThat().statusCode(200);
+	System.out.println("bill retieved successfully");
 
     }
 
@@ -245,7 +250,8 @@ public class ScenarioTest extends FonctionalTest {
 	String total = format("%f", 0.00).replace(",", ".");
 	String unitPrice = format("%f", produit.getPrice()).replace(",", ".");
 	String panierJSON = format(
-		"{\"id\": \"%s\"," + "\"cartElements\":[{\"elementID\":1,\"productID\":%d,\"quantity\":%d,\"unitPrice\":%s}]"
+		"{\"id\": \"%s\","
+			+ "\"cartElements\":[{\"elementID\":1,\"productID\":%d,\"quantity\":%d,\"unitPrice\":%s}]"
 			+ ",\"timeStamp\":\"\",\"customerID\":\"%s\",\"totalPrice\":%s}",
 		client.getId(), produit.getId(), 1, unitPrice, client.getId(), total);
 	System.out.println(panierJSON);
@@ -268,11 +274,13 @@ public class ScenarioTest extends FonctionalTest {
     private void deleteFacture(Facture facture) {
 
 	given().when().delete(ROUTE_FACTURE + "/" + facture.getId()).then().assertThat().statusCode(200);
+	System.out.println("Cart is indeed empty");
 
     }
 
     private void deleteClient(Client client) {
 
+	System.out.println(client.getId());
 	given().when().delete(ROUTE_CLIENT + "/" + client.getId()).then().assertThat().statusCode(200);
 	System.out.println("Customer succesfully deleted");
 

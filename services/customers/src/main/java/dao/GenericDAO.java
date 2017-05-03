@@ -88,7 +88,7 @@ public class GenericDAO<T> {
      * @param id
      */
     public void removeElement(String id) {
-
+	System.out.println(id);
 	map.remove(id);
 	dao.commit();
     }
