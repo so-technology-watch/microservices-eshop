@@ -17,6 +17,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySource;
+import org.springframework.util.AntPathMatcher;
 
 /**
  *
@@ -31,10 +32,12 @@ public class SecurityPropertiesResolver implements ApplicationListener<RefreshEv
     
     private Collection<AuthorizedUrl> authorizedUrls;
     private static final Logger LOG = Logger.getLogger(SecurityPropertiesResolver.class.getName());
+    private final AntPathMatcher matcher;
     private volatile boolean needRefresh;
     
     public SecurityPropertiesResolver(){
-        authorizedUrls = new ArrayList<>() ;
+        authorizedUrls = new ArrayList<>();
+        matcher = new AntPathMatcher();
         needRefresh = true;
     }
     
@@ -99,7 +102,7 @@ public class SecurityPropertiesResolver implements ApplicationListener<RefreshEv
         }
         return authorizedUrls
             .stream()
-            .filter(u -> url.matches(u.getRoute()))
+            .filter(u -> matcher.match(u.getRoute(), url))
             .anyMatch(u -> u.isAllowed(method));
     }
     
