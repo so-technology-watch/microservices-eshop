@@ -1,36 +1,44 @@
 
 package fr.sogeti;
 
+import fr.sogeti.security.AuthorizationsFilter;
+import fr.sogeti.security.SecurityPropertiesResolver;
 import static java.lang.String.format;
+import static java.lang.System.err;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import org.springframework.boot.SpringApplication;
+import static java.util.Objects.isNull;
+import javax.annotation.PostConstruct;
+import javax.servlet.Filter;
+import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.boot.SpringApplication.run;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RestController;
 
-//@EnableHystrixDashboard
-@SpringBootApplication
-@EnableZuulProxy
-@EnableDiscoveryClient
-//@EnableOAuth2Resource
-@EnableOAuth2Sso
-@EnableOAuth2Client
-@RestController
-@Service
+@EnableHystrixDashboard // dashboard hystrix
+@SpringBootApplication // permettre de lancer l'app
+@EnableZuulProxy // permet d'encapsulerles requetes vers les microservices dans zuul
+@EnableDiscoveryClient // ajout du discovery des services 
+@RestController // cette classe est un controlleur REST
 public class GatewayApplication {
+    @Autowired
+    private SecurityPropertiesResolver config;
+    
+    @Bean
+    @PostConstruct
+    public Filter authorizationsFilter() {
+        return new AuthorizationsFilter(config);
+    }
     
 	public static void main(String[] args) {
         String consulAddress = System.getenv("CONSUL_CLIENT");
-        if(Objects.isNull(consulAddress)){
-            System.err.println("Please set the CONSUL_CLIENT environment variable properly");
+        if(isNull(consulAddress)){
+            err.println("Please set the CONSUL_CLIENT environment variable properly");
             return;
         }
         
@@ -42,6 +50,6 @@ public class GatewayApplication {
         }
         
         args = arguments.toArray(new String[arguments.size()]);
-        ConfigurableApplicationContext spring = SpringApplication.run(GatewayApplication.class, args);
+        run(GatewayApplication.class, args);
 	}
 }
