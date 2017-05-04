@@ -61,7 +61,6 @@ public class CustomerResource {
      */
     public ArrayList<Customer> getCustomers() {
 
-	System.out.println("yo");
 	return customerServices.getCustomers();
     }
 
@@ -107,7 +106,6 @@ public class CustomerResource {
      */
     public String deleteCustomer(@PathParam("customerID") String customerID) {
 
-	System.out.println(customerID);
 	customerServices.removeCustomer(customerID);
 	return "Client has been successfully deleted.";
     }

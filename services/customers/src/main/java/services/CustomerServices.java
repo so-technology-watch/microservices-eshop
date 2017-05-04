@@ -3,8 +3,11 @@ package services;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import dao.CustomerDAO;
 import dao.GenericDAO;
+import domain.Credentials;
 import domain.Customer;
 
 /**
@@ -59,6 +62,7 @@ public class CustomerServices {
     public Customer addCustomer(Customer customer) {
 
 	customer.setId(generateID());
+	customer.getCredentials().setPassword(hashPasssword(customer.getCredentials()));
 
 	if (!dao.retreiveElementByEmail(customer.getEmail()).isPresent()) {
 
@@ -89,7 +93,6 @@ public class CustomerServices {
      */
     public void removeCustomer(String id) {
 
-	System.out.println(id);
 	dao.removeElement(id);
     }
 
@@ -97,6 +100,14 @@ public class CustomerServices {
 
 	return UUID.randomUUID().toString();
 
+    }
+
+    private String hashPasssword(Credentials credentials) {
+
+	String salt = BCrypt.gensalt(12);
+	credentials.setSalt(salt);
+	String hash = BCrypt.hashpw(credentials.getPassword(), salt);
+	return hash;
     }
 
     /**

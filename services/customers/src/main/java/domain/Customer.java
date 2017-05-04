@@ -2,7 +2,9 @@ package domain;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.Expose;
 
 /**
  * Bean representing a customer.
@@ -23,18 +25,22 @@ public class Customer implements Serializable {
     /**
      * Customer's first name.
      */
+
     private String firstname;
     /**
      * Customer's lastname.
      */
+
     private String lastname;
     /**
      * Customer's email.
      */
+
     private String email;
     /**
      * customer's credentials.
      */
+
     private Credentials credentials;
     /**
      * Customer's address

@@ -83,19 +83,14 @@ public class ScenarioTest extends FonctionalTest {
 
 	String customerJSON = format(
 		"{\"firstname\": \"%s\"," + "\"lastname\": \"%s\"," + "\"email\": \"%s\"," + "\"credentials\":{"
-			+ "\"email\": \"%s\"," + "\"passWord\": \"%s\"" + "}," + "\"address\": \"%s\","
+			+ "\"email\": \"%s\"," + "\"password\": \"%s\"" + "}," + "\"address\": \"%s\","
 			+ "\"phoneNumber\": \"%s\"" + "}",
 		client.getFirstname(), client.getLastname(), client.getEmail(), client.getEmail(),
 		client.getPasssword(), client.getAddress(), client.getPhoneNumber());
-
-	String body = given().contentType(ContentType.JSON).body(customerJSON).when().post("/customers").body()
-		.asString();
-	System.out.println(body);
 	String id = given().contentType(ContentType.JSON).body(customerJSON).when().post("/customers").then().extract()
 		.path("id");
 	System.out.println(id);
 	client.setId(id);
-	given().contentType(ContentType.JSON).body(customerJSON).when().post("/customers").then().statusCode(200);
 	System.out.println("customer created");
     }
 

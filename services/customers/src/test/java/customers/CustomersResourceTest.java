@@ -29,11 +29,9 @@ public class CustomersResourceTest extends FonctionalTest {
     @Test
     public void postCustomerTest() {
 
-	String customer = "{\"id\":\"d0dc30dc-61bb-437c-bc45-a27f242659fa\",\"firstname\":\"firstnamefjifj\",\"lastname\":\"last name fjie\",\"email\":\"mail2@mail.fr\","
-		+ "\"credentials\":{\"email\":\"mail2@mail.fr\",\"passWord\":\"passijjfeij\"},"
-		+ "\"address\":\"4 rue jean paul de pierre\",\"phoneNumber\":\"040504938\"}";
+	Customer customer = new Customer("", "morice", "de la tuile", "mail@mail.com", "8 ruen du chien", "9645678864567", new Credentials("mail@mail.com", "pass"));
 
-	given().contentType("application/json").body(customer).when().post("/customers").then().assertThat().statusCode(200);
+	given().contentType("application/json").body(new Gson().toJson(customer)).when().post("/customers").then().assertThat().statusCode(200);
 
     }
 

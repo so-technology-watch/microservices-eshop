@@ -2,7 +2,9 @@ package domain;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.Expose;
 
 /**
  * Bean representing the credentials of a customer.
@@ -21,9 +23,15 @@ public class Credentials implements Serializable {
      */
     private String email;
     /**
-     * PassWord of the customer
+     * Password of the customer
      */
-    private String passWord;
+    private String password;
+
+    /**
+     * Salt used to generate the hashed password
+     */
+    @JsonIgnore
+    private String salt;
 
     /**
      * Empty constructor.
@@ -35,19 +43,18 @@ public class Credentials implements Serializable {
      * Creates a new instance of the class.
      * 
      * @param email
-     * @param passWord
+     * @param password
      */
-    public Credentials(String email, String passWord) {
+    public Credentials(String email, String password) {
 
 	this.email = email;
-	this.passWord = passWord;
+	this.password = password;
     }
 
     /**
      * 
      * @return email of type String.
      */
-    @JsonProperty
     public String getEmail() {
 
 	return email;
@@ -64,21 +71,31 @@ public class Credentials implements Serializable {
 
     /**
      * 
-     * @return passWord of type String.
+     * @return password of type String.
      */
-    @JsonProperty
-    public String getPassWord() {
+    @JsonIgnore
+    public String getPassword() {
 
-	return passWord;
+	return password;
     }
 
     /**
      * 
-     * @param passWord
+     * @param password
      */
-    public void setPassWord(String passWord) {
+    public void setPassword(String password) {
 
-	this.passWord = passWord;
+	this.password = password;
+    }
+
+    public String getSalt() {
+
+	return salt;
+    }
+
+    public void setSalt(String salt) {
+
+	this.salt = salt;
     }
 
 }
