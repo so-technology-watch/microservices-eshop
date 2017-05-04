@@ -12,6 +12,9 @@ import com.google.gson.JsonObject;
 import static com.jayway.restassured.RestAssured.*;
 import com.jayway.restassured.http.ContentType;
 import static java.lang.String.format;
+
+import java.awt.geom.CubicCurve2D;
+import java.util.ArrayList;
 import java.util.Arrays;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -28,14 +31,16 @@ public class ScenarioTest extends FonctionalTest {
     private static final String ROUTE_FOURNISSEUR = "/suppliers";
     private static final String ROUTE_PANIER = "/carts";
     private static final String ROUTE_PRODUIT = "/products";
+    private static final String ROUTE_ACHAT = "/pay";
+    private static final String ROUTE_AUTH = "/auth";
 
     public static Object[][] params() {
 
-	Client client1 = new Client(555, "firstnamefjifj", "last name fjie", "mail@mail.fr", "passijjfeij",
+	Client client1 = new Client("", "firstnamefjifj", "last name fjie", "mail2@mail.fr", "passijjfeij",
 		"4 rue jean paul de pierre", "040504938");
-	Produit produit1 = new Produit(343, "reference 1", "designation 1", "image.png", 15.5, 144, 123);
-	Categorie categorie1 = new Categorie(3243, "description 1", "potatoes", Arrays.asList(produit1));
 	Fournisseur fournisseur1 = new Fournisseur(6454, "company 1", "phone 1", "mail@gmail.com");
+	Produit produit1 = new Produit(343, "reference 1", "designation 1", "image.png", 15.50, 444, 123);
+	Categorie categorie1 = new Categorie(3243, "description 1", "potatoes", Arrays.asList(produit1));
 	CartElement cartElement = new CartElement(1, produit1.getId(), 1, produit1.getPrice());
 	Panier panier1 = new Panier(213123, Arrays.asList(cartElement), fournisseur1.getId(), produit1.getPrice());
 	Facture facture1 = new Facture("", fournisseur1, client1, Arrays.asList(produit1));
@@ -54,47 +59,58 @@ public class ScenarioTest extends FonctionalTest {
 	recupFounisseur(fournisseur);
 	creationCategorie(categorie);
 	recupCategorie(categorie);
-	creationProduit(produit);
+	creationProduit(produit, fournisseur, categorie);
 	recupProduit(produit);
 	rechercheProduit(produit);
 	verifProduitDansCategorie(categorie, produit);
 	ajoutProduitPanier(produit, client);
-	achat(client);
-	ajoutFacture(panier);
+	recupPanier(client);
+	achat(client, facture);
+	verifPanierVide(client);
 	recupFacture(facture);
 	verifPanierVide(client);
 	clean(client, produit, categorie, fournisseur, panier, facture);
 
     }
 
+    private void recupPanier(Client client) {
+
+	given().when().get(ROUTE_PANIER + "/" + client.getId()).then().assertThat().statusCode(200);
+	System.out.println("cart retrieved");
+    }
+
     private void creerClient(Client client) {
 
 	String customerJSON = format(
-		"{" + "\"id\": %d," + "\"firstname\": \"%s\"," + "\"lastname\": \"%s\"," + "\"email\": \"%s\","
-			+ "\"credentials\":{" + "\"email\": \"%s\"," + "\"passWord\": \"%s\"" + "},"
-			+ "\"address\": \"%s\"," + "\"phoneNumber\": \"%s\"" + "}",
-		client.getId(), client.getFirstname(), client.getLastname(), client.getEmail(), client.getEmail(),
+		"{\"firstname\": \"%s\"," + "\"lastname\": \"%s\"," + "\"email\": \"%s\"," + "\"credentials\":{"
+			+ "\"email\": \"%s\"," + "\"passWord\": \"%s\"" + "}," + "\"address\": \"%s\","
+			+ "\"phoneNumber\": \"%s\"" + "}",
+		client.getFirstname(), client.getLastname(), client.getEmail(), client.getEmail(),
 		client.getPasssword(), client.getAddress(), client.getPhoneNumber());
 
-	given().contentType(ContentType.JSON).body(customerJSON).when().post("/customers").then()
-		.body(containsString("" + client.getId()));
-
+	String body = given().contentType(ContentType.JSON).body(customerJSON).when().post("/customers").body()
+		.asString();
+	System.out.println(body);
+	String id = given().contentType(ContentType.JSON).body(customerJSON).when().post("/customers").then().extract()
+		.path("id");
+	System.out.println(id);
+	client.setId(id);
+	given().contentType(ContentType.JSON).body(customerJSON).when().post("/customers").then().statusCode(200);
 	System.out.println("customer created");
     }
 
     public void recupClient(Client client) {
 
+	System.out.println(client.getId());
 	String route = ROUTE_CLIENT + "/" + client.getId();
-	get(route).then().assertThat().body("id", equalTo(client.getId()));
+	System.out.println(get(route).body().asString());
 	get(route).then().assertThat().body("firstname", equalTo(client.getFirstname()));
 	get(route).then().assertThat().body("lastname", equalTo(client.getLastname()));
 	get(route).then().assertThat().body("email", equalTo(client.getEmail()));
 	get(route).then().assertThat().body("address", equalTo(client.getAddress()));
 	get(route).then().assertThat().body("phoneNumber", equalTo(client.getPhoneNumber()));
-
 	get(route).then().assertThat().contentType(ContentType.JSON);
 	get(route).then().assertThat().statusCode(200);
-
 	System.out.println("client retrieved");
     }
 
@@ -110,7 +126,7 @@ public class ScenarioTest extends FonctionalTest {
 	Integer id = given().contentType(ContentType.JSON).body(json).when().post(ROUTE_FOURNISSEUR).then().assertThat()
 		.statusCode(201).extract().path("id");
 	fournisseur.setId(id);
-
+	System.out.println(id);
 	System.out.println("supplier created");
     }
 
@@ -159,8 +175,10 @@ public class ScenarioTest extends FonctionalTest {
 	System.out.println("retrieved category");
     }
 
-    private void creationProduit(Produit produit) {
+    private void creationProduit(Produit produit, Fournisseur fournisseur, Categorie categorie) {
 
+	produit.setIdSupplier(fournisseur.getId());
+	produit.setIdCategory(categorie.getId());
 	Gson gson = new Gson();
 	final String s = gson.toJson(produit);
 	final JsonObject object = gson.fromJson(s, JsonObject.class);
@@ -187,6 +205,9 @@ public class ScenarioTest extends FonctionalTest {
 	get(route).then().assertThat().body("reference", equalTo(produit.getReference()));
 	get(route).then().assertThat().contentType(ContentType.JSON);
 	get(route).then().assertThat().statusCode(200);
+	System.out.println(get(route).body().asString());
+
+	System.out.println("product retrieved");
     }
 
     private void rechercheProduit(Produit produit) {
@@ -196,6 +217,8 @@ public class ScenarioTest extends FonctionalTest {
 
     private void verifPanierVide(Client client) {
 
+	given().when().get(ROUTE_PANIER + "/" + client.getId()).then().assertThat().statusCode(404);
+	System.out.println("cart is indeed empty");
     }
 
     private void verifProduitDansCategorie(Categorie categorie, Produit produit) {
@@ -206,42 +229,44 @@ public class ScenarioTest extends FonctionalTest {
 	System.out.println("product category checked");
     }
 
-    private void achat(Client client) {
+    private void achat(Client client, Facture facture) {
 
-	// TODO : not implemented yet.
-    }
+	ArrayList<String> id = given().when().post(ROUTE_ACHAT + "/" + client.getId()).then().assertThat()
+		.statusCode(200).extract().path("_id.$oid");
+	facture.setId(id.get(0));
+	System.out.println(id.get(0));
+	id.forEach(i -> System.out.println(i));
+	System.out.println("cart successfully bought");
 
-    private void ajoutFacture(Panier panier) {
-	//
-	// String factureJSON = format("", args)
-	//
-	// given().content(ContentType.JSON).body()
-
-	// TODO: waiting for bills to be refactored.
     }
 
     private void recupFacture(Facture facture) {
 
-	// TODO: waiting for bills to be refactored.
+	given().when().get(ROUTE_FACTURE + "/" + facture.getId()).then().assertThat().statusCode(200);
+	System.out.println("bill retieved successfully");
+
     }
 
     private void ajoutProduitPanier(Produit produit, Client client) {
 
+	String total = format("%f", 0.00).replace(",", ".");
+	String unitPrice = format("%f", produit.getPrice()).replace(",", ".");
 	String panierJSON = format(
-		"{\"ID\":%d," + "\"CartElements\":[{\"ElementID\":1,\"ProductID\":%d,\"Quantity\":%d,\"UnitPrice\":%f}]"
-			+ ",\"TimeStamp\":\"\",\"CustomerID\":%d,\"TotalPrice\":%d}",
-		client.getId(), produit.getId(), 1, produit.getPrice(), client.getId(), 0);
+		"{\"id\": \"%s\","
+			+ "\"cartElements\":[{\"elementID\":1,\"productID\":%d,\"quantity\":%d,\"unitPrice\":%s}]"
+			+ ",\"timeStamp\":\"\",\"customerID\":\"%s\",\"totalPrice\":%s}",
+		client.getId(), produit.getId(), 1, unitPrice, client.getId(), total);
+	System.out.println(panierJSON);
 
-	given().content(ContentType.JSON).body(panierJSON).when().post(ROUTE_PANIER).then().assertThat().body("message",
-		equalTo("OK"));
-
-	System.out.println("product added");
+	given().content(ContentType.JSON).body(panierJSON).when().post(ROUTE_PANIER).then().assertThat()
+		.statusCode(201);
+	System.out.println("product added to cart");
     }
 
     public void clean(Client client, Produit produit, Categorie categorie, Fournisseur fournisseur, Panier panier,
 	    Facture facture) {
 
-	deleteClient(client);
+	// deleteClient(client);
 	deleteProduit(produit);
 	deleteFournisseur(fournisseur);
 	deleteCategorie(categorie);
@@ -249,12 +274,15 @@ public class ScenarioTest extends FonctionalTest {
     }
 
     private void deleteFacture(Facture facture) {
-	// TODO: waiting for bills to be refactored.
+
+	given().when().delete(ROUTE_FACTURE + "/" + facture.getId()).then().assertThat().statusCode(200);
+	System.out.println("Cart is indeed empty");
 
     }
 
     private void deleteClient(Client client) {
 
+	System.out.println(client.getId());
 	given().when().delete(ROUTE_CLIENT + "/" + client.getId()).then().assertThat().statusCode(200);
 	System.out.println("Customer succesfully deleted");
 

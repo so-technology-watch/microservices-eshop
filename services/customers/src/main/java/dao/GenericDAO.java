@@ -28,7 +28,7 @@ public class GenericDAO<T> {
     /**
      * The map containing the values of type T.
      */
-    protected ConcurrentMap<Integer, T> map;
+    protected ConcurrentMap<String, T> map;
 
     /**
      * Creates a Generic DAO from the given class using the given DAO object.
@@ -42,7 +42,7 @@ public class GenericDAO<T> {
 	this.setClazz(clazz);
 	this.setDao(dao);
 	MAP_NAME = clazz.getCanonicalName();
-	map = (ConcurrentMap<Integer, T>) dao.getDb().hashMap(clazz.getCanonicalName()).createOrOpen();
+	map = (ConcurrentMap<String, T>) dao.getDb().hashMap(clazz.getCanonicalName()).createOrOpen();
 
     }
 
@@ -52,7 +52,7 @@ public class GenericDAO<T> {
      * @param id
      * @param t
      */
-    public void addElement(Integer id, T t) {
+    public void addElement(String id, T t) {
 
 	map.put(id, t);
 	dao.commit();
@@ -65,7 +65,7 @@ public class GenericDAO<T> {
      * @param id
      * @return Object of type T
      */
-    public T retrieveElement(Integer id) {
+    public T retrieveElement(String id) {
 
 	return map.get(id);
 
@@ -87,8 +87,8 @@ public class GenericDAO<T> {
      * 
      * @param id
      */
-    public void removeElement(Integer id) {
-
+    public void removeElement(String id) {
+	System.out.println(id);
 	map.remove(id);
 	dao.commit();
     }
@@ -115,7 +115,7 @@ public class GenericDAO<T> {
      * 
      * @return The map.
      */
-    public ConcurrentMap<Integer, T> getList() {
+    public ConcurrentMap<String, T> getList() {
 
 	return map;
     }
@@ -124,7 +124,7 @@ public class GenericDAO<T> {
      * 
      * @param list
      */
-    public void setList(ConcurrentMap<Integer, T> list) {
+    public void setList(ConcurrentMap<String, T> list) {
 
 	this.map = list;
     }

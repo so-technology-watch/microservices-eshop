@@ -1,7 +1,7 @@
 package beans;
 
 public class Client {
-    private int id;
+    private String id;
     private String firstname;
     private String lastname;
     private String email;
@@ -9,7 +9,7 @@ public class Client {
     private String address;
     private String phoneNumber;
 
-    public Client(int id, String firstname, String lastname, String email, String passsword, String address, String phoneNumber) {
+    public Client(String id, String firstname, String lastname, String email, String passsword, String address, String phoneNumber) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -19,11 +19,11 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

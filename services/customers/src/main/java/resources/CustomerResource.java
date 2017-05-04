@@ -47,7 +47,7 @@ public class CustomerResource {
      * @param customerID
      * @return customer in JSON format.
      */
-    public Customer getCustomer(@PathParam("customerID") int customerID) {
+    public Customer getCustomer(@PathParam("customerID") String customerID) {
 
 	return customerServices.getCustomer(customerID);
     }
@@ -74,11 +74,11 @@ public class CustomerResource {
      * @param customer
      * @return customerID of type int.
      */
-    public int postCustomer(Customer customer) {
+    public String postCustomer(Customer customer) {
 
-	customerServices.addCustomer(customer);
+	customer = customerServices.addCustomer(customer);
+	return "{\"id\":" + "\"" + customer.getId() + "\"}";
 
-	return customer.getId();
     }
 
     @PUT
@@ -90,22 +90,24 @@ public class CustomerResource {
      * @param customer
      * @return customerID of type int
      */
-    public int putCustomer(Customer customer) {
+    public String putCustomer(Customer customer) {
 
 	customerServices.modifyCustomer(customer);
-	return customer.getId();
+	return "{\"id\":" + "\"" + customer.getId() + "\"}";
+
     }
 
     @DELETE
-    @Path("/{customersID}")
+    @Path("/{customerID}")
     /**
      * Handles the DELETE method.
      * 
      * @param customerID
      * @return a message of type string.
      */
-    public String deleteCustomer(@PathParam("customerID") int customerID) {
+    public String deleteCustomer(@PathParam("customerID") String customerID) {
 
+	System.out.println(customerID);
 	customerServices.removeCustomer(customerID);
 	return "Client has been successfully deleted.";
     }

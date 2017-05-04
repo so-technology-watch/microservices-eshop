@@ -21,7 +21,7 @@ public class AuthDAO {
     /**
      * Auth map.
      */
-    protected ConcurrentMap<Integer, String> map;
+    protected ConcurrentMap<String, String> map;
 
     /**
      * Creates a new instance of the class and creates the auth map.
@@ -31,7 +31,7 @@ public class AuthDAO {
     public AuthDAO(DAO dao) {
 
 	this.dao = dao;
-	map = (ConcurrentMap<Integer, String>) dao.getDb().hashMap(MAP_NAME).createOrOpen();
+	map = (ConcurrentMap<String, String>) dao.getDb().hashMap(MAP_NAME).createOrOpen();
 	dao.commit();
 
     }
@@ -42,7 +42,7 @@ public class AuthDAO {
      * @param CusomerID
      * @param token
      */
-    public void addElement(Integer CusomerID, String token) {
+    public void addElement(String CusomerID, String token) {
 
 	map.put(CusomerID, token);
 	dao.commit();
@@ -54,7 +54,7 @@ public class AuthDAO {
      * @param customerID
      * @return JWT Token.
      */
-    public String retrieveElement(Integer customerID) {
+    public String retrieveElement(String customerID) {
 
 	return map.get(customerID);
 
@@ -65,7 +65,7 @@ public class AuthDAO {
      * 
      * @param customerID
      */
-    public void removeElement(Integer customerID) {
+    public void removeElement(String customerID) {
 
 	map.remove(customerID);
 	dao.commit();

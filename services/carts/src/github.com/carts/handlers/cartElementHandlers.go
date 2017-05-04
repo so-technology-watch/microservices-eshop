@@ -18,11 +18,9 @@ func HandleCartElementGet(client *services.RedisClient) http.HandlerFunc {
 		parameters := mux.Vars(r)
 		customerID := parameters["customerID"]
 		elementID := parameters["elementID"]
-		key, err := strconv.Atoi(customerID)
-		failOnError(err)
 		id, err := strconv.Atoi(elementID)
 		failOnError(err)
-		element, found := client.GetCartElement(key, id)
+		element, found := client.GetCartElement(customerID, id)
 		var elementJSON []byte
 		if found {
 			elementJSON, err = json.Marshal(element)
@@ -79,11 +77,9 @@ func HandleCartElementDelete(client *services.RedisClient) http.HandlerFunc {
 		parameters := mux.Vars(r)
 		customerID := parameters["customerID"]
 		elementID := parameters["elementID"]
-		c, err := strconv.Atoi(customerID)
-		failOnError(err)
 		e, err := strconv.Atoi(elementID)
 		failOnError(err)
-		client.RemoveCartElement(c, e)
+		client.RemoveCartElement(customerID, e)
 		message := "{\"message\" : \"OK\"}"
 		w.Header().Set("Content-Type", "apllication/json")
 		w.Write([]byte(message))
