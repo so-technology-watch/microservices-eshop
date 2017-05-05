@@ -30,12 +30,14 @@ import org.springframework.web.client.RestTemplate;
 public class AuthorizationsFilter implements Filter {
 
     private static final Logger LOG = Logger.getLogger(AuthorizationsFilter.class.getName());
+    private final String authRoute;
     private final RestTemplate rest;
     private final SecurityPropertiesResolver config;
     
     public AuthorizationsFilter(SecurityPropertiesResolver config){
         rest = new RestTemplate();
         this.config = config;
+        authRoute = String.format("http://localhost:%s/api/v1/auth", config.getProperty("server.port"));
     }
     
     @Override
@@ -82,8 +84,6 @@ public class AuthorizationsFilter implements Filter {
         if(Objects.isNull(token)){
             return false;
         }
-        
-        String authRoute = "http://localhost:9090/api/v1/auth";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
         HttpEntity<String> entity = new HttpEntity<>("", headers);

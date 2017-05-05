@@ -91,6 +91,15 @@ public class SecurityPropertiesResolver implements ApplicationListener<RefreshEv
     
     /**
      * 
+     * @param property the property to find
+     * @return the property, or null if not found
+     */
+    public String getProperty(String property){
+        return env.getProperty(property);
+    }
+    
+    /**
+     * 
      * @param url
      * @param method
      * @return a boolean that indacted if the given url has to be secured
