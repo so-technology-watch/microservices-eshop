@@ -1,11 +1,14 @@
 package resources;
 
+import java.util.Objects;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -49,17 +52,23 @@ public class AuthResource {
 
 	String token = null;
 
-	try {
+	if (!Objects.isNull(headers.getRequestHeader("Authorization"))) {
 
-	    token = headers.getRequestHeader("Authorization").stream().filter(i -> i.startsWith("Bearer")).findFirst()
-		    .get().split(" ")[1];
-	    System.out.println(token);
+	    try {
 
-	} catch (Exception e) {
+		token = headers.getRequestHeader("Authorization").stream().filter(i -> i.startsWith("Bearer"))
+			.findFirst().get().split(" ")[1];
 
-	    e.printStackTrace();
+
+	    } catch (Exception e) {
+
+		e.printStackTrace();
+	    }
+	} else {
+
+	    new AuthStatus(AuthStatus.CODE_NOT_AUTH, "Authorization header is missing.");
+	    throw new WebApplicationException(400);
 	}
-
 	return authService.retreiveAuthStatus(token);
 
     }
@@ -73,7 +82,6 @@ public class AuthResource {
      * @return authToken or an error of type string.
      */
     public String authentification(Credentials credentials) {
-
 	return authService.authentification(credentials);
     }
 

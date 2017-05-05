@@ -66,7 +66,6 @@ public class Register {
 	}
 	check.setInterval("30s");
 	newService.setCheck(check);
-	System.out.println(newService.getAddress());
 	consulClient.agentServiceRegister(newService);
 
     }

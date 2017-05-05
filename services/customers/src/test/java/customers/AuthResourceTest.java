@@ -21,7 +21,7 @@ public class AuthResourceTest extends FonctionalTest {
     @Test
     public void Aauthentification() {
 
-	String credentials = "{\"email\":\"mail2@mail.fr\",\"passWord\":\"passijjfeij\"}";
+	String credentials = "{\"email\":\"mail@mail.com\",\"password\":\"pass\"}";
 
 	given().contentType("application/json").body(credentials).post("/auth").then().assertThat().body("code", equalTo(0));
 
@@ -30,7 +30,7 @@ public class AuthResourceTest extends FonctionalTest {
     @Test
     public void BauthStatus() {
 
-	String id = "385984b5-e7f6-4fcf-8309-27a995088927";
+	String id = "058f4838-ce60-44f2-8a4d-b836b81d074a";
 	AuthToken authToken = new AuthToken(id);
 
 	Gson gson = new Gson();

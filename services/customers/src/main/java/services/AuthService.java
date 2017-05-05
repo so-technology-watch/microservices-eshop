@@ -51,31 +51,26 @@ public class AuthService {
      */
     public String authentification(Credentials credentials) {
 
-	System.out.println(credentials.getEmail() + " _____ "  + credentials.getPassWord());
 	Optional<Customer> optCustomer = customerDAO.retreiveElementByEmail(credentials.getEmail());
-
 	if (!optCustomer.isPresent()) {
-
 	    return new Error(Error.CODE_NOT_FOUND, Error.MSG_NOT_FOUND).toJson();
-	    
 
 	} else {
 
 	    Customer customer = optCustomer.get();
 
-	    if (customer.getCredentials().getPassWord().equals(credentials.getPassWord())) {
+	    credentials.setSalt(customer.getCredentials().getSalt());
+
+	    if (customer.getCredentials().getPassword().equals(CustomerServices.hashPasssword(credentials))) {
 
 		String token = new AuthToken(customer.getId()).encodeToJWT();
 		authDAO.addElement(customer.getId(), token);
-
 		String jsonResponse = String.format("{ \"code\": 0, \"token\": \"%s\"}", token);
-
 		return jsonResponse;
 
 	    }
 
 	    else {
-
 		return new Error(Error.CODE_PWD_MISMATCH, Error.MSG_PWD_MISMATCH).toJson();
 	    }
 
@@ -94,16 +89,13 @@ public class AuthService {
 	AuthToken authToken = new AuthToken();
 	authToken.decodeToken(token);
 	String storedToken = authDAO.retrieveElement(authToken.getCustomerID());
-	System.out.println(authToken.getCustomerID());
 
 	if (storedToken != null && storedToken.equals(token) && !Objects.isNull(authToken.getCustomerID())) {
 
-	    System.out.println("auth");
 	    return new AuthStatus(AuthStatus.CODE_AUTH, AuthStatus.MSG_AUTH);
 
 	} else {
 
-	    System.out.println("not auth");
 	    return new AuthStatus(AuthStatus.CODE_NOT_AUTH, AuthStatus.MSG_NOT_AUTH);
 	}
 
