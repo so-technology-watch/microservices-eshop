@@ -24,6 +24,7 @@ public class HeadersFilter implements Filter {
         if(servletResponse instanceof HttpServletResponse){
             HttpServletResponse response = (HttpServletResponse) servletResponse;
             response.addHeader("Access-Control-Allow-Origin", "*");
+            response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         }
         fc.doFilter(servletRequest, servletResponse);
     }
