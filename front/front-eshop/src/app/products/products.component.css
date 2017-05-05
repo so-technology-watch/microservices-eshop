@@ -1,0 +1,7 @@
+.hidden {
+	display: none;
+}
+.pagination > .active > a {
+	background-color: #fe3517;
+	border-color: #ff2e0f;
+}

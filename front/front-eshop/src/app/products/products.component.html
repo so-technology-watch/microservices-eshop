@@ -1,0 +1,26 @@
+<div [ngClass]="{'hidden' : loading }">
+	<h1 class="text-center">Produits</h1>
+	<div class="container">
+		<ul class="list-group">
+			<li *ngFor="let product of getProducts()" class="list-group-item">
+				<h5 class="text-center">{{ product.designation }}</h5>
+				<div>Référence : {{ product.reference }}</div>
+				<div>Prix : {{ product.price }} €</div>
+				<img src="{{ product.image }}" class="img img-responsive"/>
+			</li>
+		</ul>
+	</div>
+	<div class="container text-center">
+		<ul class="pagination">
+			<li *ngFor="let i of pages" [ngClass]="{'active' : actualPage==i }">
+				<a (click)="updateProducts(i);">
+					{{ i }}
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div [ngClass]="{'hidden' : !loading}" class="text-center container">
+	<img src="/static/loader.gif">
+</div>
