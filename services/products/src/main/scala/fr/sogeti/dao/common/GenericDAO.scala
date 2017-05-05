@@ -24,7 +24,7 @@ class GenericDAO[Type >: Null, IdType](clazz : Class[Type], manager : EntityMana
         val name : String = clazz.getName
         val query : Query = manager.createQuery( "SELECT e FROM %s e".format( name ), clazz )
         query.setFirstResult(begin)
-        query.setMaxResults(end)
+        query.setMaxResults(end-begin)
         results = query.getResultList().toList.asInstanceOf[ List[Type] ]
       }
     }
