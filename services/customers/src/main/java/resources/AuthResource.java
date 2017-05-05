@@ -82,7 +82,6 @@ public class AuthResource {
      * @return authToken or an error of type string.
      */
     public String authentification(Credentials credentials) {
-
 	return authService.authentification(credentials);
     }
 

@@ -3,8 +3,6 @@ package services;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import dao.AuthDAO;
 import dao.CustomerDAO;
 import dao.DAO;
@@ -54,29 +52,25 @@ public class AuthService {
     public String authentification(Credentials credentials) {
 
 	Optional<Customer> optCustomer = customerDAO.retreiveElementByEmail(credentials.getEmail());
-
 	if (!optCustomer.isPresent()) {
-
 	    return new Error(Error.CODE_NOT_FOUND, Error.MSG_NOT_FOUND).toJson();
 
 	} else {
 
 	    Customer customer = optCustomer.get();
 
-	    if (customer.getCredentials().getPassword()
-		    .equals(BCrypt.hashpw(credentials.getPassword(), customer.getCredentials().getSalt()))) {
+	    credentials.setSalt(customer.getCredentials().getSalt());
+
+	    if (customer.getCredentials().getPassword().equals(CustomerServices.hashPasssword(credentials))) {
 
 		String token = new AuthToken(customer.getId()).encodeToJWT();
 		authDAO.addElement(customer.getId(), token);
-
 		String jsonResponse = String.format("{ \"code\": 0, \"token\": \"%s\"}", token);
-
 		return jsonResponse;
 
 	    }
 
 	    else {
-
 		return new Error(Error.CODE_PWD_MISMATCH, Error.MSG_PWD_MISMATCH).toJson();
 	    }
 

@@ -30,7 +30,7 @@ public class AuthResourceTest extends FonctionalTest {
     @Test
     public void BauthStatus() {
 
-	String id = "427b7e12-f78d-4936-a51f-5da2cb1ab0ff";
+	String id = "058f4838-ce60-44f2-8a4d-b836b81d074a";
 	AuthToken authToken = new AuthToken(id);
 
 	Gson gson = new Gson();

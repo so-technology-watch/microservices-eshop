@@ -74,8 +74,9 @@ public class CustomerResource {
      * @return customerID of type int.
      */
     public String postCustomer(Customer customer) {
-
+	System.out.println("1");
 	customer = customerServices.addCustomer(customer);
+	System.out.println("100");
 	return "{\"id\":" + "\"" + customer.getId() + "\"}";
 
     }

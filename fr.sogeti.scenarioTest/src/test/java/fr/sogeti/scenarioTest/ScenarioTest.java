@@ -10,6 +10,8 @@ import beans.Produit;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import static com.jayway.restassured.RestAssured.*;
+
+import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import static java.lang.String.format;
 

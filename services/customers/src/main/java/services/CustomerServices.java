@@ -1,9 +1,12 @@
 package services;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.security.crypto.keygen.KeyGenerators;
 
 import dao.CustomerDAO;
 import dao.GenericDAO;
@@ -62,6 +65,7 @@ public class CustomerServices {
     public Customer addCustomer(Customer customer) {
 
 	customer.setId(generateID());
+	customer.getCredentials().setSalt(KeyGenerators.string().generateKey());
 	customer.getCredentials().setPassword(hashPasssword(customer.getCredentials()));
 
 	if (!dao.retreiveElementByEmail(customer.getEmail()).isPresent()) {
@@ -69,7 +73,6 @@ public class CustomerServices {
 	    dao.addElement(customer.getId(), customer);
 
 	} else {
-
 	    customer.setId(dao.retreiveElementByEmail(customer.getEmail()).get().getId());
 	}
 	return customer;
@@ -102,12 +105,20 @@ public class CustomerServices {
 
     }
 
-    private String hashPasssword(Credentials credentials) {
+    public static String hashPasssword(Credentials credentials) {
 
-	String salt = BCrypt.gensalt(12);
-	credentials.setSalt(salt);
-	String hash = BCrypt.hashpw(credentials.getPassword(), salt);
-	return hash;
+	MessageDigest digest;
+	try {
+	    String saltedPass = credentials.getPassword() + credentials.getSalt();
+	    digest = MessageDigest.getInstance("SHA-1");
+	    byte[] hash = digest.digest(saltedPass.getBytes(StandardCharsets.UTF_8));
+	    return new String(hash);
+
+	} catch (NoSuchAlgorithmException e) {
+	    e.printStackTrace();
+	    return "";
+	}
+
     }
 
     /**
