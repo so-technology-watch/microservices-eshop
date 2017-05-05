@@ -24,7 +24,6 @@ export const rootRouterConfig: Routes = [
           { path: ':repo', component: RepoDetailComponent }
         ]
       }]
-  }
   },
   { path: 'contact', component: ContactComponent }
 ];
