@@ -2,6 +2,7 @@
 package fr.sogeti;
 
 import fr.sogeti.security.AuthorizationsFilter;
+import fr.sogeti.security.HeadersFilter;
 import fr.sogeti.security.SecurityPropertiesResolver;
 import static java.lang.String.format;
 import static java.lang.System.err;
@@ -33,6 +34,12 @@ public class GatewayApplication {
     @PostConstruct
     public Filter authorizationsFilter() {
         return new AuthorizationsFilter(config);
+    }
+    
+    @Bean
+    @PostConstruct
+    public Filter headersFilter() {
+        return new HeadersFilter();
     }
     
 	public static void main(String[] args) {
