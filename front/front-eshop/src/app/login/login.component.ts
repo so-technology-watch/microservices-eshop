@@ -22,7 +22,6 @@ export class LoginComponent {
 
     this.http.post(url, body, options).subscribe(
       response => {
-
         this.authResponse.code = response.json().code;
         this.authResponse.content = response.json().content;
       },
@@ -30,7 +29,6 @@ export class LoginComponent {
   }
 
   get json() { return JSON.stringify(this.credentials); }
-
   get authResponseJSON() { return JSON.stringify(this.authResponse); }
 
 }
