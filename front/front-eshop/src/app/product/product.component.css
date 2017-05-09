@@ -1,0 +1,10 @@
+.content {
+	border : solid 1px #dddddd;
+	padding: 7px;
+}
+.glyphicon-chevron-left {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	cursor: pointer;
+}

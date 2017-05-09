@@ -1,0 +1,33 @@
+<div class="container" *ngIf="product">
+	<div class="col-md-2"></div>
+	<div class="col-md-8 content">
+		<a (click)="goPreviousPage()">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+
+		<h2 class="text-center"> {{ product.designation }} </h2>
+		
+		<p>
+			Référence : {{ product.reference }}
+		</p>
+		<p>
+			Prix : {{ product.price }} €
+		</p>
+		<p>
+			Vendu par <strong> {{ product.supplier.company }} </strong>
+		</p>
+
+		<div class="text-center">
+			<img src="{{ product.image }}" class="img img-responsive center-block thumbnail"/>
+		</div>
+
+		<div class="text-right">
+			<button class="btn btn-primary">
+				Ajouter au panier &nbsp;
+				<span class="glyphicon glyphicon-plus"></span>
+			</button>
+		</div>
+
+	</div>
+	<div class="col-md-2"></div>
+</div>
