@@ -64,11 +64,23 @@ export class ProductsComponent implements OnInit {
 				error => this.errorMessage = <any>error
 			);
 	}
-	search() : void {
+
+	private typingTimer = null;
+	search(event) : void {
+		if(event){
+			let self : ProductsComponent = this;
+			clearTimeout(this.typingTimer);
+			this.typingTimer = setTimeout( () => {
+				self.search(null);
+			}, 1000);
+			return;
+		}
+
 		if(!this.criteria || this.criteria == '' ){
 			this.updateProducts(this.actualPage);
 			return;
 		}
+		this.loading = true;
 		this.productsService
 			.search(this.criteria)
 			.subscribe(

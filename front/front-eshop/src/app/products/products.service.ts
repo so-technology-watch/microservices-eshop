@@ -6,10 +6,11 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { Products } from './products';
+import { gatewayUrl } from '../app.routes'
 
 @Injectable()
 export class ProductsService {
-	private productsUrl : string = 'http://localhost:9090/api/v1/products';
+	private productsUrl : string = gatewayUrl+'/products';
 	constructor(private http : Http){}
 
 	getProducts(page : number, productsPerPage : number) : Observable<Products[]> {
