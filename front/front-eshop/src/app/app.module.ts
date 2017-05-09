@@ -13,7 +13,8 @@ import { ProductsComponent } from './products/products.component';
 import { BillsComponent} from './bills/bills.component';
 import { BuyComponent} from './buy/buy.component';
 import { CartComponent} from './cart/cart.component';
-import { DesciptionComponent} from './description/description.component';
+import { DescriptionComponent} from './description/description.component';
+import {AuthGuard} from './auth.gard';
 
 
 @NgModule({
@@ -33,7 +34,7 @@ import { DesciptionComponent} from './description/description.component';
     HttpModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: true })
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {
