@@ -10,13 +10,21 @@ import { rootRouterConfig } from './app.routes';
 
 import { LoginComponent } from './login/login.component';
 import { ProductsComponent } from './products/products.component';
+import { BillsComponent} from './bills/bills.component';
+import { BuyComponent} from './buy/buy.component';
+import { CartComponent} from './cart/cart.component';
+import { DesciptionComponent} from './description/description.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ProductsComponent
+    ProductsComponent,
+    BillsComponent,
+    BuyComponent,
+    CartComponent,
+    DescriptionComponent
   ],
   imports: [
     BrowserModule,
