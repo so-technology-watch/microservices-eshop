@@ -1,14 +1,25 @@
 <div [ngClass]="{'hidden' : loading }">
 	<h1 class="text-center">Produits</h1>
 	<div class="container">
-		<ul class="list-group">
-			<li *ngFor="let product of getProducts()" class="list-group-item">
+		<div class="input-group">
+			<input id="search" type="text" name="search" class="form-control" (input)="search();" [(ngModel)]="criteria">
+			<span class="input-group-addon glyphicon glyphicon-search" (click)="search();"></span>
+		</div>
+		<div class="list-group">
+			<div *ngFor="let product of getProducts()" class="list-group-item col-md-4 col-xs-4">
+				<a href="product/{{ product.id }}">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</a>
 				<h5 class="text-center">{{ product.designation }}</h5>
-				<div>Référence : {{ product.reference }}</div>
-				<div>Prix : {{ product.price }} €</div>
-				<img src="{{ product.image }}" class="img img-responsive"/>
-			</li>
-		</ul>
+				<div class="col-md-8">
+					<div>Référence : {{ product.reference }}</div>
+					<div>Prix : {{ product.price }} €</div>
+				</div>
+				<div class="col-md-4">
+					<img src="{{ product.image }}" class="img img-responsive"/>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="container text-center">
 		<ul class="pagination">
@@ -22,5 +33,5 @@
 </div>
 
 <div [ngClass]="{'hidden' : !loading}" class="text-center container">
-	<img src="/static/loader.gif">
+	<img src="/assets/loader.gif">
 </div>

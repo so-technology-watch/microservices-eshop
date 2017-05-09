@@ -5,3 +5,18 @@
 	background-color: #fe3517;
 	border-color: #ff2e0f;
 }
+.input-group {
+	border: 1px solid #dddddd;
+	margin-bottom: 7px;
+	padding-left: 4px;
+}
+.input-group-addon {
+	border-left: 1px solid #dddddd;
+	cursor: pointer;
+}
+.glyphicon-chevron-right {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
