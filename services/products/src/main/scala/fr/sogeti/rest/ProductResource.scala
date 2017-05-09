@@ -3,9 +3,9 @@ package fr.sogeti.rest
 import io.vertx.scala.ext.web.{Router, RoutingContext}
 import fr.sogeti.rest.common.BaseHandler
 import fr.sogeti.entities.Product
-import fr.sogeti.services.IEntityService
+import fr.sogeti.services.ProductService
 
-class ProductResource(router : Router, productService : IEntityService[Product]) extends GenericService[Product](router, productService, classOf[Product]){
+class ProductResource(router : Router, productService : ProductService) extends GenericService[Product](router, productService, classOf[Product]){
   
   /**
    * manage a get request on products to find a specific product
@@ -19,7 +19,17 @@ class ProductResource(router : Router, productService : IEntityService[Product])
    * manage a get request on products to get all the products
    */
   router.get("/api/v1/products").produces(contentType).handler( new BaseHandler {
-    override def handle( context : RoutingContext ) = getAll(context)
+    override def handle( context : RoutingContext ) = {
+      val criterias = context.request.getParam("criterias")
+      
+      if( !criterias.isDefined ) {
+        getAll(context)
+      }else{
+        val entities = productService.findByCriterias(criterias.get)
+        context.response.end( jsonHelper.toJson( entities , true ) )
+      }
+      
+    }
   } )
   
   /**

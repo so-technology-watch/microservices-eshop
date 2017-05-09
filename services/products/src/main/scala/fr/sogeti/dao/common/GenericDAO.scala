@@ -10,7 +10,7 @@ import scala.collection.JavaConversions._
  * @param clazz Entity class
  * @param manager the entity manager
  */
-class GenericDAO[Type >: Null, IdType](clazz : Class[Type], manager : EntityManager) {
+class GenericDAO[Type >: Null, IdType](protected[this] val clazz : Class[Type],protected[this] val manager : EntityManager) {
   
   /**
    * List all the entities of the dao's type
