@@ -21,12 +21,19 @@ class ProductResource(router : Router, productService : ProductService) extends 
   router.get("/api/v1/products").produces(contentType).handler( new BaseHandler {
     override def handle( context : RoutingContext ) = {
       val criterias = context.request.getParam("criterias")
+      val count = context.request.getParam("count")
       
-      if( !criterias.isDefined ) {
-        getAll(context)
+      if( count.isDefined ){
+        getCount(context)
       }else{
-        val entities = productService.findByCriterias(criterias.get)
-        context.response.end( jsonHelper.toJson( entities , true ) )
+      
+        if( !criterias.isDefined ) {
+          getAll(context)
+        }else{
+          val entities = productService.findByCriterias(criterias.get)
+          context.response.end( jsonHelper.toJson( entities , true ) )
+        }
+        
       }
       
     }

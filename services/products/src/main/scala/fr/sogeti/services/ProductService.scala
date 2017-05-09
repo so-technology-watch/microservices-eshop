@@ -35,4 +35,5 @@ class ProductService extends IEntityService[Product] {
     dao.deleteById(id)
   }
   
+  override def getCount = dao.getCount
 }

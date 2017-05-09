@@ -3,6 +3,7 @@ package fr.sogeti.dao.common
 import scala.collection.immutable.List
 import javax.persistence.{Query, EntityManager}
 import scala.collection.JavaConversions._
+import java.lang.Long
 
 
 /**
@@ -102,4 +103,20 @@ class GenericDAO[Type >: Null, IdType](protected[this] val clazz : Class[Type],p
     new TransactionStrategy(manager, strategy).execute
   }
   
+  
+  /**
+   * retrive the number of entities available in the database
+   */
+  def getCount : Int = {
+    var found : Int = 0
+    val strategy : ITransactionStrategy = new ITransactionStrategy {
+      override def execute() : Unit = {
+        val className : String = clazz.getName
+        val query = manager.createQuery("SELECT COUNT(e) FROM %s e".format(className), classOf[Long])
+        found = query.getSingleResult.intValue
+      }
+    }
+    new TransactionStrategy(manager, strategy).execute
+    return found
+  }
 }

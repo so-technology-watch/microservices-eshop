@@ -57,6 +57,15 @@ abstract class GenericService[Type](router : Router, service : IEntityService[Ty
     
     response.end( jsonHelper.toJson( entities , true ) )
   }
+  /**
+   * get the count of available entities 
+   */
+  protected def getCount(context : RoutingContext) : Unit = {
+    val response = context.response
+    val count : Int = service.getCount
+    
+    response.end( jsonHelper.toJson( count, false ) )
+  }
   
   /**
    * create a new entity
