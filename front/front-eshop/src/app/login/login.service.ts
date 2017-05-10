@@ -5,6 +5,8 @@ import { AuthResponse } from './authResponse';
 import { AuthStatus } from './authStatus';
 import { Credentials } from './credentials';
 
+var jwtDecode = require('jwt-decode');
+
 
 @Injectable()
 export class LoginService {
@@ -23,7 +25,9 @@ export class LoginService {
 
     return this.http.post(this.url, body, options)
       .map(
-      response => response)
+      response => response
+
+    )
       .catch(error => Observable.throw("an error occured"));
 
 
@@ -40,5 +44,8 @@ export class LoginService {
       .map(response => response)
       .catch(error => Observable.throw("an error occured"));
   }
+
+
+
 
 }
