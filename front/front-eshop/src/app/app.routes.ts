@@ -6,8 +6,10 @@ import { BillsComponent } from './bills/bills.component';
 import { BuyComponent } from './buy/buy.component';
 import { CartComponent } from './cart/cart.component';
 import { DescriptionComponent } from './description/description.component';
+import { AuthGuard } from './guards/auth.gard';
 import { ProductComponent } from './product/product.component';
-import { AuthGuard } from './auth.gard';
+
+
 
 
 export const rootRouterConfig: Routes = [

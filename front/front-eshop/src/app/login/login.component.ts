@@ -3,6 +3,7 @@ import { Headers, RequestOptions, Http } from '@angular/http';
 import { Credentials } from './credentials';
 import { AuthResponse } from './authResponse';
 import { LoginService } from './login.service';
+import { AuthStatus } from './authStatus';
 
 
 @Component({
@@ -17,15 +18,26 @@ export class LoginComponent {
   submitted = false
   credentials = new Credentials("mail2@mail.fr", "passijjfeij");
   authResponse = new AuthResponse();
+  authStatus = new AuthStatus();
   loginService = new LoginService(this.http);
 
   auth() {
 
-    this.authResponse = this.loginService.authenticate(this.credentials);
+    this.loginService.authenticate(this.credentials).subscribe(
 
-    if (this.authResponse != null ){
-      
-    }
+      response => {
+        this.authResponse.code = response.json().code;
+        this.authResponse.content = response.json().token;
+
+
+        if (this.authResponse != null) {
+
+          localStorage.setItem("token", this.authResponse.content);
+
+        }
+      }
+    );
+
   }
   get json() { return JSON.stringify(this.credentials); }
   get authResponseJSON() { return JSON.stringify(this.authResponse); }

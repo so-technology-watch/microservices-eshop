@@ -1,6 +1,8 @@
 export class AuthResponse {
 
-  code: Number;
-  content: String;
+code: Number;
+content: string;
+
+
 
 }
