@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { rootRouterConfig } from './app.routes';
 
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 import { ProductsComponent } from './products/products.component';
 import { BillsComponent} from './bills/bills.component';
 import { BuyComponent} from './buy/buy.component';
@@ -24,6 +25,7 @@ import {AuthGuard} from './guards/auth.gard';
   declarations: [
     AppComponent,
     LoginComponent,
+    RegisterComponent,
     ProductsComponent,
     BillsComponent,
     BuyComponent,

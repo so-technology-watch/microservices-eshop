@@ -5,7 +5,6 @@ import { AuthResponse } from './authResponse';
 import { AuthStatus } from './authStatus';
 import { Credentials } from './credentials';
 
-// var jwtDecode = require('jwt-decode');
 
 
 @Injectable()
@@ -45,7 +44,7 @@ export class LoginService {
       .catch(error => Observable.throw("an error occured"));
   }
 
- 
+
 
 
 }

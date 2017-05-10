@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 import { ProductsComponent } from './products/products.component';
 import { BillsComponent } from './bills/bills.component';
 import { BuyComponent } from './buy/buy.component';
@@ -15,6 +16,7 @@ import { ProductComponent } from './product/product.component';
 export const rootRouterConfig: Routes = [
   { path: '', redirectTo: 'products', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'products', component: ProductsComponent },
   { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
   { path: 'buy', component: BuyComponent, canActivate: [AuthGuard] },
