@@ -32,7 +32,12 @@
 		</div>
 		<br/>
 		<div class="text-right">
-			<button [class.disabled]="!valid()" class="btn btn-primary" (click)="submit()">Valider l'inscription</button>
+			<div class="col-md-6 text-left">
+				Déjà inscrit ? <a [routerLink]="['/login']">se connecter</a>
+			</div>
+			<div class="col-md-6 text-right">
+				<button [class.disabled]="!valid()" class="btn btn-primary" (click)="submit()">Valider l'inscription</button>
+			</div>
 		</div>
 	</form>
 	<div class="col-md-3"></div>
