@@ -1,7 +1,7 @@
 export class Credentials {
 
   constructor(
-    public email: String,
-    public password: String
+    private email: String,
+    private password: String
   ) { }
 }
