@@ -24,4 +24,4 @@ export const rootRouterConfig: Routes = [
 ];
 
 
-export const gatewayUrl : string = 'http://localhost:9090/api/v1';
+export const gatewayUrl : string = 'http://10.226.160.85:9090/api/v1';
