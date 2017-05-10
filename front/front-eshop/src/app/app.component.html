@@ -14,8 +14,10 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a [routerLink]="['/login']"> Connexion </a></li>
+                <li *ngIf="!isLogged()"><a [routerLink]="['/login', {logged: '1'}]"> Connexion </a></li>
+                <li *ngIf="isLogged()"><a (click)="disconnect()"> Déconnexion </a></li>
             </ul>
+
         </div>
     </div>
 </nav>
