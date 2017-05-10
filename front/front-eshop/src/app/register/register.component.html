@@ -8,21 +8,21 @@
 		</div>
 		<div class="input-group" [class.has-success]="informations.isValid(informations.lastname)">
 			<label class="input-group-addon" for="lastname">Nom</label>
-			<input class="form-control" type="" name="lastname" [(ngModel)]="informations.lastname"/>
+			<input class="form-control" type="text" name="lastname" [(ngModel)]="informations.lastname"/>
 		</div>
 		<div class="input-group" 
 			[class.has-success]="informations.isValidMail(informations.email)"
 			[class.has-error]="!informations.isValidMail(informations.email) && informations.email != null">
 			<label class="input-group-addon" for="email">Email</label>
-			<input class="form-control" type="" name="email" required [(ngModel)]="informations.email"/>
+			<input class="form-control" type="text" name="email" required [(ngModel)]="informations.email"/>
 		</div>
 		<div class="input-group" [class.has-success]="informations.isValid(informations.credentials.password)">
 			<label class="input-group-addon" for="password">Mot de passe</label>
-			<input class="form-control" type="" name="password" required [(ngModel)]="informations.credentials.password"/>
+			<input class="form-control" type="password" name="password" required [(ngModel)]="informations.credentials.password"/>
 		</div>
 		<div class="input-group" [class.has-success]="informations.isValid(informations.address)">
 			<label class="input-group-addon" for="address">Adresse</label>
-			<input class="form-control" type="" name="address" required [(ngModel)]="informations.address"/>
+			<input class="form-control" type="text" name="address" required [(ngModel)]="informations.address"/>
 		</div>
 		<div class="input-group" 
 			[class.has-success]="informations.isValidPhone(informations.phoneNumber)" 
@@ -32,7 +32,7 @@
 		</div>
 		<br/>
 		<div class="text-right">
-			<button [class.disabled]="!valid()" class="btn btn-primary">Valider l'inscription</button>
+			<button [class.disabled]="!valid()" class="btn btn-primary" (click)="submit()">Valider l'inscription</button>
 		</div>
 	</form>
 	<div class="col-md-3"></div>
