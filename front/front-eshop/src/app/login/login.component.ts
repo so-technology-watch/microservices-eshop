@@ -8,6 +8,7 @@ import { AuthStatus } from './authStatus';
 
 @Component({
   selector: 'login',
+  styleUrls: ['./login.component.css'],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {

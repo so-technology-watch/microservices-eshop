@@ -1,0 +1,9 @@
+label:first-child {
+    min-width: 109px;
+}
+label, input {
+	border: solid #DDDDDD 1px;
+}
+div.input-group > input {
+	padding-left: 7px;
+}
