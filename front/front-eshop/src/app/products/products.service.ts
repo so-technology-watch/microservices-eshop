@@ -6,18 +6,32 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { Products } from './products';
+import { gatewayUrl } from '../app.routes'
 
 @Injectable()
 export class ProductsService {
-	private productsUrl : string = 'http://localhost:9090/api/v1/products';
-	private productsPerPage : number = 5;
+	private productsUrl : string = gatewayUrl+'/products';
 	constructor(private http : Http){}
 
-	getProducts(page : number) : Observable<Products[]> {
-		let begin = (page * this.productsPerPage) - 1;
-		let end = begin + this.productsPerPage;
+	getProducts(page : number, productsPerPage : number) : Observable<Products[]> {
+		let begin = (page * productsPerPage) - 1;
+		let end = begin + productsPerPage;
 		let query = this.productsUrl+'?range='+begin+'-'+end;
 
+		return this.http.get(query)
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
+	search(criteria : string) : Observable<Products[]> {
+		let query = this.productsUrl+'?criterias='+criteria
+		return this.http.get(query)
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
+	getCount() : Observable<number> {
+		let query = this.productsUrl+'?count=true';
 		return this.http.get(query)
 			.map(this.extractData)
 			.catch(this.handleError);

@@ -11,7 +11,7 @@ import fr.sogeti.entities.Product
 import fr.sogeti.services.ProductServiceMock
 
 class StubProductVerticle extends HttpServerVerticle {
-  val productService : IEntityService[Product] = new ProductServiceMock().get()
+  val productService : ProductService = new ProductServiceMock().get().asInstanceOf[ProductService]
   
   override def start() = {
       val router : Router = Router.router(vertx)

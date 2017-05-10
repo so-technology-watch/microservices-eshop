@@ -2,20 +2,25 @@ package fr.sogeti.services
 
 import fr.sogeti.dao.common.{GenericDAO, ManagerFactory}
 import fr.sogeti.entities.Product
+import fr.sogeti.dao.ProductDao
 
 /**
  * Service : products
  */
 class ProductService extends IEntityService[Product] {
   
-  private val dao : GenericDAO[Product, Integer] = new GenericDAO[Product, Integer]( classOf[Product], ManagerFactory.createEntityManager );
+  private val dao : ProductDao = new ProductDao;
   
   override def getAll(begin : Int, end : Int) : List[Product] = {
-    return dao.getAll(begin, end);
+    return dao.getAll(begin, end)
   }
   
   override def find(id : Int) : Product = {
     return dao.find(id)
+  }
+  
+  def findByCriterias(criterias : String) : Array[Product] = {
+    return dao.findByCriterias(criterias)
   }
   
   override def create(product : Product) : Unit = {
@@ -30,4 +35,5 @@ class ProductService extends IEntityService[Product] {
     dao.deleteById(id)
   }
   
+  override def getCount = dao.getCount
 }

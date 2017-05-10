@@ -30,4 +30,9 @@ trait IEntityService[Type] {
    */
   def deleteById(id : Integer) : Unit
   
+  /**
+   * @return the count the entities available in the database
+   */
+  def getCount() : Int
+  
 }

@@ -1,3 +1,5 @@
+import { Supplier } from './supplier';
+
 export class Products {
 	private id : number;
 	private reference : string;
@@ -6,4 +8,5 @@ export class Products {
 	private idSupplier : number;
 	private image : string;
 	private idCategory : number;
+	private supplier : Supplier;
 }

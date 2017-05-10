@@ -25,5 +25,6 @@ class SupplierService extends IEntityService[Supplier] {
   override def deleteById(id : Integer) : Unit = {
     dao.deleteById(id)
   }
-
+  
+  override def getCount = dao.getCount
 }

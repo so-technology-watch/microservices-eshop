@@ -28,4 +28,7 @@ class CategoryService extends IEntityService[Category] {
   override def deleteById(id : Integer) : Unit = {
     dao.deleteById(id)
   }
+  
+  
+  override def getCount = dao.getCount
 }
