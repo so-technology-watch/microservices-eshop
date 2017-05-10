@@ -18,7 +18,7 @@
 		</p>
 
 		<div class="text-center">
-			<img src="{{ product.image }}" class="img img-responsive center-block thumbnail"/>
+			<img src="{{ product.image }}" class="img img-responsive center-block thumbnail" (error)="errorImage($event)"/>
 		</div>
 
 		<div class="text-right">

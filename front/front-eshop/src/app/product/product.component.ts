@@ -53,4 +53,10 @@ export class ProductComponent implements OnInit, OnDestroy {
 	ajoutPanier(id : number) {
 		this.show = true;	
 	}
+
+	private errorImage(event){
+		let target = event.target;
+		let baseURI = target.baseURI;
+		target.src = baseURI+'assets/notfound.png';
+	}
 }

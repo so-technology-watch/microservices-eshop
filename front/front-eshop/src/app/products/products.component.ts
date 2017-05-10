@@ -99,5 +99,9 @@ export class ProductsComponent implements OnInit {
 	getActualPage() {
 		return this.actualPage;
 	}
-
+	private errorImage(event){
+		let target = event.target;
+		let baseURI = target.baseURI;
+		target.src = baseURI+'assets/notfound.png';
+	}
 }
