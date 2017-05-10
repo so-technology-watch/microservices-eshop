@@ -1,0 +1,39 @@
+<div class="container">
+	<div class="col-md-3"></div>
+	<form class="col-md-6">
+		<h2 class="text-center">S'inscrire</h2>
+		<div class="input-group" [class.has-success]="informations.isValid(informations.firstname)">
+			<label class="input-group-addon" for="firstname">Prénom</label>
+			<input class="form-control" type="text" name="firstname" [(ngModel)]="informations.firstname"/>
+		</div>
+		<div class="input-group" [class.has-success]="informations.isValid(informations.lastname)">
+			<label class="input-group-addon" for="lastname">Nom</label>
+			<input class="form-control" type="" name="lastname" [(ngModel)]="informations.lastname"/>
+		</div>
+		<div class="input-group" 
+			[class.has-success]="informations.isValidMail(informations.email)"
+			[class.has-error]="!informations.isValidMail(informations.email) && informations.email != null">
+			<label class="input-group-addon" for="email">Email</label>
+			<input class="form-control" type="" name="email" required [(ngModel)]="informations.email"/>
+		</div>
+		<div class="input-group" [class.has-success]="informations.isValid(informations.credentials.password)">
+			<label class="input-group-addon" for="password">Mot de passe</label>
+			<input class="form-control" type="" name="password" required [(ngModel)]="informations.credentials.password"/>
+		</div>
+		<div class="input-group" [class.has-success]="informations.isValid(informations.address)">
+			<label class="input-group-addon" for="address">Adresse</label>
+			<input class="form-control" type="" name="address" required [(ngModel)]="informations.address"/>
+		</div>
+		<div class="input-group" 
+			[class.has-success]="informations.isValidPhone(informations.phoneNumber)" 
+			[class.has-error]="!informations.isValidPhone(informations.phoneNumber) && informations.phoneNumber != null">
+			<label class="input-group-addon" for="phone">Mobile</label>
+			<input class="form-control" type="text" name="phone" required [(ngModel)]="informations.phoneNumber"/>
+		</div>
+		<br/>
+		<div class="text-right">
+			<button [class.disabled]="!valid()" class="btn btn-primary">Valider l'inscription</button>
+		</div>
+	</form>
+	<div class="col-md-3"></div>
+</div>
