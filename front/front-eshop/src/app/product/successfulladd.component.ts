@@ -20,12 +20,17 @@ import {style, state, animate, transition, trigger} from '@angular/core';
 
 export class SuccessfullAddComponent {
 	private show : boolean = false;
+	private product : any;
+
 	constructor(){
-		console.log('construct')
 	}
 
 	setVisible(visible : boolean){
 		this.show = visible;
+	}
+
+	setProduct(product : any){
+		this.product = product;
 	}
 
 	close(){
