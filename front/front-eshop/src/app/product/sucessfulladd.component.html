@@ -1,0 +1,20 @@
+<div *ngIf="show" [@fadeInOut]>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="close()">×</button>
+				<h4 class="modal-title">Produit ajouté</h4>
+			</div>
+
+			<div class="modal-body">
+				<p>bla</p>
+				<!--<p>Vous vennez d'ajouter le produit {{ product.designation }}, ref {{ product.reference }} à votre panier.</p>-->
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" (click)="close()">Close</button>
+				<a [routerLink]="['/cart']" class="btn btn-primary">Panier</a>
+			</div>
+		</div>
+	</div>
+</div>

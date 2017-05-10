@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
@@ -15,6 +16,7 @@ import { BuyComponent} from './buy/buy.component';
 import { CartComponent} from './cart/cart.component';
 import { DescriptionComponent} from './description/description.component';
 import { ProductComponent } from './product/product.component';
+import { SuccessfullAddComponent } from './product/successfulladd.component';
 import {AuthGuard} from './auth.gard';
 
 
@@ -27,6 +29,7 @@ import {AuthGuard} from './auth.gard';
     BuyComponent,
     CartComponent,
     DescriptionComponent,
+    SuccessfullAddComponent,
     ProductComponent
   ],
   imports: [
@@ -34,6 +37,7 @@ import {AuthGuard} from './auth.gard';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: true })
   ],
   providers: [AuthGuard],

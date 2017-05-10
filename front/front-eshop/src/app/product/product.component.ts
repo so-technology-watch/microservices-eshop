@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { ProductService } from './product.service';
 import { Products } from '../products/products';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
+import { SuccessfullAddComponent } from './successfulladd.component';
 
 @Component({
   selector: 'product',
@@ -15,9 +16,11 @@ import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 export class ProductComponent implements OnInit, OnDestroy {
 	private id : number;
 	private sub : any;
-	private product : Products = null
+	private product : Products = null;
+	private show : boolean;
 
 	constructor(private router : Router, private route : ActivatedRoute, private productService : ProductService){
+		this.show = false;
 	}
 
 	goPreviousPage() : void {
@@ -29,6 +32,10 @@ export class ProductComponent implements OnInit, OnDestroy {
        		this.id = +params['id'];
        		this.updateProductInformations();
        	});
+	}
+
+	ngOnDestroy() {
+		this.sub.unsubscribe();
 	}
 
 	updateProductInformations(){
@@ -43,7 +50,7 @@ export class ProductComponent implements OnInit, OnDestroy {
    				);
 	}
 
-	ngOnDestroy() {
-		this.sub.unsubscribe();
+	ajoutPanier(id : number) {
+		this.show = true;	
 	}
 }
