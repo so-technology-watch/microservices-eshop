@@ -18,7 +18,7 @@ import { CartComponent} from './cart/cart.component';
 import { DescriptionComponent} from './description/description.component';
 import { ProductComponent } from './product/product.component';
 import { SuccessfullAddComponent } from './product/successfulladd.component';
-import {AuthGuard} from './auth.gard';
+import {AuthGuard} from './guards/auth.gard';
 
 
 @NgModule({
