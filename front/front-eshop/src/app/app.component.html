@@ -52,3 +52,5 @@
 <footer class="footer">
     © 2016
 </footer>
+
+<notifications *ngIf="notificationVisible()" [message]="getMessage()"></notifications>

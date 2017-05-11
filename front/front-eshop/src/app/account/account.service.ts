@@ -22,7 +22,7 @@ export class AccountService {
 			.catch(this.handleError);
 	}
 
-	saveInformations(informations : Customer) {
+	saveInformations(informations : Customer, callbackOk : Function, callbackNOk : Function) {
 		let headers = new Headers({ 'Content-Type': 'application/json' });
     	let options = new RequestOptions({ headers: headers });
 		let observable : Observable<any> = this.http.post(this.accountUrl, informations, options)
@@ -31,9 +31,11 @@ export class AccountService {
 		observable.subscribe(
 			resp => {
 				console.log(resp);
+				callbackOk();
 			},
 			error => {
 				console.log('unexpected error');
+				callbackNOk();
 			}
 		);
 	}

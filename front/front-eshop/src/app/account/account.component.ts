@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 
 import { AccountService } from './account.service';
 import { Customer } from '../login/customer';
+import { SharedService } from '../notifications/shared.service';
 
 @Component({
   selector: 'account',
@@ -16,12 +17,16 @@ export class AccountComponent implements OnInit {
 	private progress : number;
 	private fields : number = 5;
 
-	constructor(private accountService : AccountService) {
+	constructor(private accountService : AccountService, private sharedService : SharedService) {
 		this.progress = 0;
 	}
 
 	save() : void {
-		this.accountService.saveInformations(this.informations);
+		this.accountService.saveInformations(this.informations, () => {
+			this.sharedService.displayNotification("Informations mises à jour.", true);
+		}, () => {
+			this.sharedService.displayNotification("Une erreur est survenue", false);
+		});
 	}
 
 	onChange() : void {

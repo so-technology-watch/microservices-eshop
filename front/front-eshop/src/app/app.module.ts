@@ -19,7 +19,9 @@ import { DescriptionComponent} from './description/description.component';
 import { ProductComponent } from './product/product.component';
 import { SuccessfullAddComponent } from './product/successfulladd.component';
 import { AccountComponent } from './account/account.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 import {AuthGuard} from './guards/auth.gard';
+import { SharedService } from './notifications/shared.service';
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import {AuthGuard} from './guards/auth.gard';
     DescriptionComponent,
     SuccessfullAddComponent,
     ProductComponent,
-    AccountComponent
+    AccountComponent,
+    NotificationsComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,7 @@ import {AuthGuard} from './guards/auth.gard';
     BrowserAnimationsModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: true })
   ],
-  providers: [AuthGuard],
+  providers: [ AuthGuard, SharedService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {
