@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewContainerRef } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { ProductService } from './product.service';
+import { CartService } from '../cart/cart.service';
 import { Products } from '../products/products';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { SuccessfullAddComponent } from './successfulladd.component';
@@ -19,8 +20,9 @@ export class ProductComponent implements OnInit, OnDestroy {
 	private product : Products = null;
 	private show : boolean;
 
-	constructor(private router : Router, private route : ActivatedRoute, private productService : ProductService){
+	constructor(private http : Http , private router : Router, private route : ActivatedRoute, private productService : ProductService, private cartService : CartService){
 		this.show = false;
+    this.cartService = new CartService(this.http);
 	}
 
 	goPreviousPage() : void {
@@ -52,7 +54,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
 	ajoutPanier(id : number, price : number) {
 		this.show = true;
-		this.productService.ajouterProduit(id, price);
+		this.cartService.ajouterProduit(id, price);
 	}
 
 	private errorImage(event){
