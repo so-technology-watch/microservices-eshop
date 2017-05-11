@@ -11,7 +11,7 @@ import { SuccessfullAddComponent } from './successfulladd.component';
   selector: 'product',
   styleUrls: ['./product.component.css'],
   templateUrl: './product.component.html',
-  providers: [ProductService]
+  providers: [ProductService, CartService]
 })
 
 export class ProductComponent implements OnInit, OnDestroy {
