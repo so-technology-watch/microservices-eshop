@@ -6,16 +6,19 @@ import { CartElement } from './cartElement';
 
 
 @Injectable()
-export class LoginService {
+export class CartService {
 
-  private url = 'http://10.226.160.85:9090/api/v1/auth';
-
+  private url = 'http://10.226.160.85:9090/api/v1/carts';
 
   constructor(private http: Http) { }
 
-public retrieveCart(customerID){
+  public retrieveCart(customerID: string): Observable<Response>{
 
+    let empty = false;
+    return this.http.get(this.url + "/" + customerID).map(
 
-}
+      response => response
+    ).catch(error => error);
+  }
 
 }

@@ -31,7 +31,7 @@ public class FonctionalTest {
 
         if (baseHost == null) {
 
-            baseHost = "http://10.226.160.79";
+            baseHost = "http://10.226.160.85";
         }
 
         RestAssured.baseURI = baseHost;

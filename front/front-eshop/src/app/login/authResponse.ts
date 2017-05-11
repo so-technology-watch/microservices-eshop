@@ -1,6 +1,6 @@
 export class AuthResponse {
 
-code: Number;
+code: number;
 content: string;
 
 

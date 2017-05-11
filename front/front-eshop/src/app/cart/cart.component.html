@@ -1,1 +1,57 @@
-<h1>Panier</h1>
+<h1>Contenu du panier</h1>
+
+<div class="container">
+  <table class="table table-striped">
+    <tr>
+      <th>
+        #
+      </th>
+      <th>
+        image
+      </th>
+      <th>
+        reference
+      </th>
+      <th>
+        name
+      </th>
+      <th>
+        prix unitaire
+      </th>
+      <th>
+        quantitée
+      </th>
+    </tr>
+    <tr *ngFor="let element of cart.cartElements">
+      <td>
+        {{element.elementID}}
+      </td>
+      <td *ngIf="products[element.productID]">
+        <img src="{{products[element.productID].image}}" class="img img-responsive" (error)="errorImage($event)"/>
+      </td>
+      <td *ngIf="products[element.productID]">
+        {{products[element.productID].reference}}
+      </td>
+      <td *ngIf="products[element.productID]">
+        {{products[element.productID].designation}}
+      </td>
+      <td *ngIf="products[element.productID]">
+        {{products[element.productID].price}} €
+      </td>
+      <td>
+        {{element.quantity}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        prix total
+      </td>
+      <td class="textCentered" colspan="5">
+        {{cart.totalPrice}}
+      </td>
+    </tr>
+  </table>
+</div>
+
+<ng-template #empty_content>
+  <h3>Cart is empty</h3></ng-template>

@@ -1,6 +1,6 @@
 export class AuthStatus {
 
-   code : Number;
+   code : number;
    message : string;
 
 
