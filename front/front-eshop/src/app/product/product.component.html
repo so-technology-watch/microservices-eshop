@@ -22,12 +22,12 @@
 		</div>
 
 		<div class="text-right">
-			<button class="btn btn-primary" (click)="ajoutPanier(product.id);comp.setProduct(product);comp.setVisible(true);">
+			<button class="btn btn-primary" (click)="ajoutPanier(product.id, product.price);comp.setProduct(product);comp.setVisible(true);">
 				Ajouter au panier &nbsp;
 				<span class="glyphicon glyphicon-plus"></span>
 			</button>
 		</div>
-		<sucessfulladd-component #comp></sucessfulladd-component>
 	</div>
 	<div class="col-md-2"></div>
 </div>
+<sucessfulladd-component #comp></sucessfulladd-component>

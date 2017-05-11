@@ -1,0 +1,44 @@
+<div *ngIf="informations != null" class="container">
+
+	<div class="progress progress-striped active">
+        <div class="progress-bar" [style.width.%]="progress"></div>
+	</div>
+
+	<h2 class="text-center">Mon compte</h2>
+
+	<div class="col-md-3"></div>
+	<form class="text-center col-md-6">
+		<div class="input-group">
+			<span class="input-group-addon">Nom</span>
+			<input class="form-control" type="text" name="lastname" (input)="onChange()" [(ngModel)]="informations.lastname"/>
+		</div>
+
+		<div class="input-group">
+			<span class="input-group-addon">Prénom</span>
+			<input class="form-control" type="text" name="firstname" (input)="onChange()" [(ngModel)]="informations.firstname"/>
+		</div>
+
+		<div class="input-group">
+			<span class="input-group-addon">Email</span>
+			<input class="form-control" type="text" name="email" (input)="onChange()" [(ngModel)]="informations.email"/>
+		</div>
+
+		<div class="input-group">
+			<span class="input-group-addon">Adresse</span>		
+			<input class="form-control" type="text" name="address" (input)="onChange()" [(ngModel)]="informations.address"/>
+		</div>
+
+		<div class="input-group">
+			<span class="input-group-addon">Phone</span>
+			<input class="form-control" type="text" name="phoneNumber" (input)="onChange()" [(ngModel)]="informations.phoneNumber"/>
+		</div>
+
+		<br/>
+		<div class="col-md-12">
+			<div class="text-right">
+				<button class="btn btn-primary" (click)="save()">Sauvegarder les modification</button>
+			</div>
+		</div>
+	</form>
+	<div class="col-md-3"></div>
+</div>

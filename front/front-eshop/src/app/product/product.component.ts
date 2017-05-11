@@ -50,8 +50,9 @@ export class ProductComponent implements OnInit, OnDestroy {
    				);
 	}
 
-	ajoutPanier(id : number) {
-		this.show = true;	
+	ajoutPanier(id : number, price : number) {
+		this.show = true;
+		this.productService.ajouterProduit(id, price);
 	}
 
 	private errorImage(event){

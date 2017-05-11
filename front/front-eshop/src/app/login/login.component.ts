@@ -6,6 +6,7 @@ import { Customer } from './customer';
 import { LoginService } from './login.service';
 import { CustomerService } from './customer.service';
 import { AuthStatus } from './authStatus';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,9 +15,7 @@ import { AuthStatus } from './authStatus';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-
-  constructor(private http: Http) { }
-
+  constructor(private http: Http,  private router : Router) { }
 
   submitted = false
   credentials = new Credentials("mail2@mail.fr", "passijjfeij");
@@ -53,7 +52,7 @@ export class LoginComponent {
               this.customer.address = response.json().address;
               this.customer.phoneNumber = response.json().phoneNumber;
               localStorage.setItem("customer", JSON.stringify(this.customer));
-
+              this.router.navigate(['']);
             }
           );
 

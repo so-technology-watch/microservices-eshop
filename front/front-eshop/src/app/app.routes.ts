@@ -9,7 +9,7 @@ import { CartComponent } from './cart/cart.component';
 import { DescriptionComponent } from './description/description.component';
 import { AuthGuard } from './guards/auth.gard';
 import { ProductComponent } from './product/product.component';
-
+import { AccountComponent } from './account/account.component';
 
 
 
@@ -22,7 +22,8 @@ export const rootRouterConfig: Routes = [
   { path: 'buy', component: BuyComponent, canActivate: [AuthGuard] },
   { path: 'description', component: DescriptionComponent },
   { path: 'bills', component: BillsComponent, canActivate: [AuthGuard] },
-  { path: 'product/:id', component: ProductComponent }
+  { path: 'product/:id', component: ProductComponent },
+  { path: 'account', component : AccountComponent }
 ];
 
 

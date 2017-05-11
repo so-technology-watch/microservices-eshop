@@ -18,6 +18,7 @@ import { CartComponent} from './cart/cart.component';
 import { DescriptionComponent} from './description/description.component';
 import { ProductComponent } from './product/product.component';
 import { SuccessfullAddComponent } from './product/successfulladd.component';
+import { AccountComponent } from './account/account.component';
 import {AuthGuard} from './guards/auth.gard';
 
 
@@ -32,7 +33,8 @@ import {AuthGuard} from './guards/auth.gard';
     CartComponent,
     DescriptionComponent,
     SuccessfullAddComponent,
-    ProductComponent
+    ProductComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
