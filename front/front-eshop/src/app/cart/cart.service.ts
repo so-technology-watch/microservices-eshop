@@ -34,7 +34,7 @@ public removeElement(id : number){
   let   customerID = localStorage.getItem("customer")['id'];
   this.http.delete(this.url+ "/" + customerID)
   .map(response => {response.json(); })
-  .catch(Observable.throw("an error occured"));
+  .catch( error =>  Observable.throw("an error occured"));
 }
 
   private retrieveCartAndAdd(id : number, price : number, idCustomer : string){

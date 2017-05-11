@@ -71,10 +71,7 @@ export class CartComponent implements OnInit {
 
   private removeElement(id : number){
 
-      // this.cartService.removeElement(id).subscribe(
-      //
-      //
-      // );
+    this.cartService.removeElement(id);
   }
 
   private keys() {
