@@ -25,7 +25,7 @@ export class AccountService {
 	saveInformations(informations : Customer, callbackOk : Function, callbackNOk : Function) {
 		let headers = new Headers({ 'Content-Type': 'application/json' });
     	let options = new RequestOptions({ headers: headers });
-		let observable : Observable<any> = this.http.post(this.accountUrl, informations, options)
+		let observable : Observable<any> = this.http.put(this.accountUrl, informations, options)
 			.map(this.extractData)
 			.catch(this.handleError)
 		observable.subscribe(
