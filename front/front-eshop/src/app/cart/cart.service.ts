@@ -29,6 +29,14 @@ export class CartService {
 
   }
 
+public removeElement(id : number){
+
+  let   customerID = localStorage.getItem("customer")['id'];
+  this.http.delete(this.url+ "/" + customerID)
+  .map(response => {response.json(); })
+  .catch(Observable.throw("an error occured"));
+}
+
   private retrieveCartAndAdd(id : number, price : number, idCustomer : string){
     let observable : Observable<any> = this.http.get(this.url+'/'+idCustomer)
       .map(this.extractData)

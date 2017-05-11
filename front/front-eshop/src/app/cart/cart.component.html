@@ -1,7 +1,7 @@
 <h1>Contenu du panier</h1>
 
 <div class="container">
-  <table class="table table-striped">
+  <table class="table table-striped align-vertically">
     <tr>
       <th>
         #
@@ -40,8 +40,8 @@
       </td>
       <td>
         <div class="form-group form-inline">
-          <input class="form-control"  type="number" step="1" min="1" max="100" value="{{element.quantity}}" />
-          <button  (click)="updateCart($event)"><span class="glyphicon glyphicon-plus"></span></button>
+          {{element.quantity}}
+          <button  class ="btn btn-primary" (click)="updateCart($event, element, element.unitPrice)"><span class="glyphicon glyphicon-plus"></span></button>
         </div>
 
       </td>
