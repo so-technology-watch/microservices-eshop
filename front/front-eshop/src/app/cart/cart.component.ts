@@ -5,6 +5,7 @@ import { CartService } from './cart.service';
 import { Http, Response } from '@angular/http';
 import { Products } from '../products/products';
 import { ProductService } from '../product/product.service';
+import { SharedService } from '../notifications/shared.service';
 
 
 @Component({
@@ -59,10 +60,21 @@ export class CartComponent implements OnInit {
     );
   }
 
-  private updateCart() {
+  private updateCart(event, element: CartElement, price: number) {
 
-  //  this.productService.
+    console.log(element);
+    this.cartService.ajouterProduit(element.productID.valueOf(), price);
+    element.quantity = element.quantity.valueOf() + 1;
+    alert("product successfully added");
 
+  }
+
+  private removeElement(id : number){
+
+      // this.cartService.removeElement(id).subscribe(
+      //
+      //
+      // );
   }
 
   private keys() {

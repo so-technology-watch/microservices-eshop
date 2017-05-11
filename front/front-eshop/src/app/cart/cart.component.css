@@ -1,4 +1,17 @@
 .textCentered{
 
-  text-align: center; 
+  text-align: center;
+}
+
+
+table tr td{
+text-align: center;
+vertical-align: midle;
+position: relative;
+
+}
+
+table img{
+
+  align: top;
 }
