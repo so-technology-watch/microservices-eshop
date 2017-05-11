@@ -16,16 +16,22 @@ export class AppComponent implements OnInit {
 	private logged : boolean;
 	private message : Message;
 	private notifVisible : boolean;
+	private onglet : number;
 
 	constructor(private authService: AuthGuard, private router: Router, private sharedService: SharedService) {
 		this.logged = false;
 		this.notifVisible = false;
+		this.onglet = 1;
 		this.checkIsConnected();
         this.router.events.subscribe( (event)=>{
         	if(event instanceof NavigationEnd){
         		this.checkIsConnected();
         	}
         });
+	}
+
+	public changeOnglet(num : number) {
+		this.onglet = num;
 	}
 
 	public ngOnInit() : void {
