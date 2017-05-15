@@ -15,7 +15,7 @@ export class LoginService {
 
   constructor(private http: Http) { }
 
-  public authenticate(credentials: Credentials): Observable<Response> {
+  public authenticate(credentials: Credentials, callbackError : any | Function): Observable<Response> {
 
     let body = JSON.stringify(credentials)
     let headers = new Headers({ 'content-type': 'application/json' });
@@ -23,11 +23,11 @@ export class LoginService {
     let authResponse = new AuthResponse();
 
     return this.http.post(this.url, body, options)
-      .map(
-      response => response
-
-    )
-      .catch(error => Observable.throw("an error occured"));
+      .map(response => response)
+      .catch(error => {
+        callbackError();
+        return Observable.throw('an error occured');
+      });
 
 
   }
