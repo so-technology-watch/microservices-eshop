@@ -34,7 +34,7 @@ export class NotificationsComponent {
 		setTimeout( () => {
 			this.message.setVisible(false);
 			this.state = 'closed';
-		}, 1000);
+		}, 2000);
 	}
 	
 	private close() : void {

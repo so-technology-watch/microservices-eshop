@@ -1,14 +1,19 @@
-.textCentered{
-
-  text-align: right;
-}
-
 .buttons{
   text-align: right;
 }
-
 img{
-
-width: 50%;
-height: auto;
+	width: 50%;
+	height: auto;
+}
+th {
+	border : solid #DDDDDD 1px!important;
+}
+td:first-child {
+	border-left : solid #DDDDDD 1px;
+}
+td:last-child {
+	border-right : solid #DDDDDD 1px;
+}
+td {
+	border-bottom: solid #DDDDDD 1px;	
 }

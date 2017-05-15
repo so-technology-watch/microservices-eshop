@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+.allforfooter {
+    min-height: calc(100vh - 40px);
+}
+a {
+	color: #fe3517;
+}
+li a:hover,li a:focus, a:hover, a:focus {
+	color: #ff2e0f!important;
+}

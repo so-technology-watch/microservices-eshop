@@ -1,4 +1,12 @@
 .input-group-addon {
     min-width: 110px;
     text-align: left;
+    background: #F5F5F5;
+}
+.input-group {
+	margin-top: 7px;
+	border: solid #F5F5F5 1px;
+}
+.input-group .form-control {
+	padding-left: 7px;
 }

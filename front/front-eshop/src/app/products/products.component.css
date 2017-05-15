@@ -5,6 +5,9 @@
 	background-color: #fe3517;
 	border-color: #ff2e0f;
 }
+.pagination>li:not(.active)>a, .pagination>li:not(.active)>span {
+	color: #fe3517;
+}
 .input-group {
 	border: 1px solid #dddddd;
 	margin-bottom: 7px;

@@ -1,37 +1,39 @@
 
 
 <div class="container">
-  <h1>Contenu du panier</h1>
+  <h1>Panier</h1>
   <div class="md-12">
 
 
-  <table class="table table-striped align-vertically">
+  <table class="table table-striped table-hover">
+  <thead>
     <tr>
       <th>
-      <h4> # </h4>
+      <h4>#</h4>
+      </th>
+      <th class="text-center">
+        <h4>Aperçu</h4>
       </th>
       <th>
-        <h4>image</h4>
+        <h4>Réferénce</h4>
       </th>
       <th>
-        <h4>réferénce</h4>
+        <h4>Nom</h4>
       </th>
       <th>
-        <h4>name</h4>
-      </th>
-      <th>
-        <h4>prix unitaire</h4>
+        <h4>Prix unitaire</h4>
       </th>
       <th colspan="2">
-        <h4>quantité</h4>
+        <h4 class="text-center">Quantité</h4>
       </th>
     </tr>
+  </thead>
     <tr *ngFor="let element of cart.cartElements; let rowIndex= index">
       <td>
         {{element.elementID}}
       </td>
       <td *ngIf="products[element.productID]">
-        <img src="{{products[element.productID].image}}" class="img img-responsive" (error)="errorImage($event)" />
+        <img src="{{products[element.productID].image}}" class="img img-responsive thumbnail center-block" (error)="errorImage($event)" />
       </td>
       <td *ngIf="products[element.productID]">
         {{products[element.productID].reference}}
@@ -43,23 +45,22 @@
         {{products[element.productID].price}} €
       </td>
       <td>
+        <div class="col-md-3">
           {{element.quantity}}
-      </td>
-      <td>
-        <div class="form-group form-inlines">
-
+        </div>
+        <div class="form-group form-inlines col-md-9">
           <div class="buttons">
             <button class="btn btn-primary" (click)="updateCart($event, element, element.unitPrice)"><span class="glyphicon glyphicon-plus"></span></button>
-            <button class="btn btn-danger" (click)="removeElement($event, element.elementID)"><span class="glyphicon glyphicon-remove-sign"></span></button>
+            <button class="btn btn-danger" (click)="removeElement($event, element.elementID)"><span class="glyphicon glyphicon-remove"></span></button>
           </div>
         </div>
       </td>
     </tr>
     <tr>
       <td>
-      <h4>prix total : </h4>
+      <h4>Total</h4>
       </td>
-      <td class="textCentered" colspan="6">
+      <td class="text-right" colspan="6">
         <h4>  {{cart.totalPrice}} €</h4>
       </td>
     </tr>

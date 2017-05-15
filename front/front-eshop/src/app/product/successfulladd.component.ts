@@ -5,6 +5,7 @@ import { SharedService } from '../notifications/shared.service';
 
 @Component({
   selector: 'sucessfulladd-component',
+  styleUrls: ['sucessfulladd.component.css'],
   templateUrl: './sucessfulladd.component.html',
   animations: [
   trigger('fadeInOut', [
