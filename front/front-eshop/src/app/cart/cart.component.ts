@@ -6,6 +6,8 @@ import { Http, Response } from '@angular/http';
 import { Products } from '../products/products';
 import { ProductService } from '../product/product.service';
 import { SharedService } from '../notifications/shared.service';
+import {ChangeDetectorRef} from '@angular/core';
+
 
 
 @Component({
@@ -22,7 +24,7 @@ export class CartComponent implements OnInit {
   private products: any = {};
   private productService: ProductService;
 
-  constructor(private http: Http) {
+  constructor(private changeDetectorRef: ChangeDetectorRef, private http: Http, private sharedService : SharedService) {
     this.cartService = new CartService(this.http);
     this.productService = new ProductService(this.http);
   }
@@ -65,13 +67,24 @@ export class CartComponent implements OnInit {
     console.log(element);
     this.cartService.ajouterProduit(element.productID.valueOf(), price);
     element.quantity = element.quantity.valueOf() + 1;
-    alert("product successfully added");
-
+    this.sharedService.displayNotification("Product successfully added!", true);
   }
 
-  private removeElement(id : number){
+  private removeElement(event, id : number){
+    let customerID = JSON.parse(localStorage.getItem("customer")).id;
+    this.cartService.removeElement(id).subscribe(
 
-    this.cartService.removeElement(id);
+      Response => {
+
+        this.sharedService.displayNotification("Element successfully removed!", true);
+        this.cartService.retrieveCart(customerID).subscribe(
+          response => {this.cart = response.json();}
+        );
+        this.changeDetectorRef.detectChanges();
+
+      }
+    );
+
   }
 
   private keys() {

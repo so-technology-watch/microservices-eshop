@@ -1,33 +1,37 @@
-<h1>Contenu du panier</h1>
+
 
 <div class="container">
+  <h1>Contenu du panier</h1>
+  <div class="md-12">
+
+
   <table class="table table-striped align-vertically">
     <tr>
       <th>
-        #
+      <h4> # </h4>
       </th>
       <th>
-        image
+        <h4>image</h4>
       </th>
       <th>
-        reference
+        <h4>réferénce</h4>
       </th>
       <th>
-        name
+        <h4>name</h4>
       </th>
       <th>
-        prix unitaire
+        <h4>prix unitaire</h4>
       </th>
-      <th>
-        quantitée
+      <th colspan="2">
+        <h4>quantité</h4>
       </th>
     </tr>
-    <tr *ngFor="let element of cart.cartElements">
+    <tr *ngFor="let element of cart.cartElements; let rowIndex= index">
       <td>
         {{element.elementID}}
       </td>
       <td *ngIf="products[element.productID]">
-        <img src="{{products[element.productID].image}}" class="img img-responsive" (error)="errorImage($event)"/>
+        <img src="{{products[element.productID].image}}" class="img img-responsive" (error)="errorImage($event)" />
       </td>
       <td *ngIf="products[element.productID]">
         {{products[element.productID].reference}}
@@ -39,23 +43,31 @@
         {{products[element.productID].price}} €
       </td>
       <td>
-        <div class="form-group form-inline">
           {{element.quantity}}
-          <button  class ="btn btn-primary" (click)="updateCart($event, element, element.unitPrice)"><span class="glyphicon glyphicon-plus"></span></button>
-        </div>
+      </td>
+      <td>
+        <div class="form-group form-inlines">
 
+          <div class="buttons">
+            <button class="btn btn-primary" (click)="updateCart($event, element, element.unitPrice)"><span class="glyphicon glyphicon-plus"></span></button>
+            <button class="btn btn-danger" (click)="removeElement($event, element.elementID)"><span class="glyphicon glyphicon-remove-sign"></span></button>
+          </div>
+        </div>
       </td>
     </tr>
     <tr>
       <td>
-        prix total
+      <h4>prix total : </h4>
       </td>
-      <td class="textCentered" colspan="5">
-        {{cart.totalPrice}}
+      <td class="textCentered" colspan="6">
+        <h4>  {{cart.totalPrice}} €</h4>
       </td>
     </tr>
   </table>
 </div>
+
+</div>
+
 
 <ng-template #empty_content>
   <h3>Cart is empty</h3></ng-template>

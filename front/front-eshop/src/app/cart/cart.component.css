@@ -1,17 +1,14 @@
 .textCentered{
 
-  text-align: center;
+  text-align: right;
 }
 
-
-table tr td{
-text-align: center;
-vertical-align: midle;
-position: relative;
-
+.buttons{
+  text-align: right;
 }
 
-table img{
+img{
 
-  align: top;
+width: 50%;
+height: auto;
 }
