@@ -28,5 +28,5 @@ export class ProductService {
 
 	private handleError(error : Response | any) {
 		return Observable.throw('an error occured');
-	}	
+	}
 }
