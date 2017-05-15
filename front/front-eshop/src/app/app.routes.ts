@@ -23,7 +23,7 @@ export const rootRouterConfig: Routes = [
   { path: 'description', component: DescriptionComponent },
   { path: 'bills', component: BillsComponent, canActivate: [AuthGuard] },
   { path: 'product/:id', component: ProductComponent },
-  { path: 'account', component : AccountComponent }
+  { path: 'account', component : AccountComponent,  canActivate: [AuthGuard]}
 ];
 
 
