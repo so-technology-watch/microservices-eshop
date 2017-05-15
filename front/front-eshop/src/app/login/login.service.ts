@@ -24,7 +24,10 @@ export class LoginService {
 
     return this.http.post(this.url, body, options)
       .map(response => response)
-      .catch(callbackError);
+      .catch(error => {
+        callbackError();
+        return Observable.throw('an error occured');
+      });
 
 
   }
