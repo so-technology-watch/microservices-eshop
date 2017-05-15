@@ -5,6 +5,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { Message } from './notifications/message';
 import { SharedService } from './notifications/shared.service';
+import { Tabs } from './app.tabs';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
 	private logged : boolean;
 	private message : Message;
 	private notifVisible : boolean;
-	private onglet : number;
+	private onglet : Tabs;
 
 	constructor(private authService: AuthGuard, private router: Router, private sharedService: SharedService) {
 		this.logged = false;
@@ -30,7 +31,7 @@ export class AppComponent implements OnInit {
         });
 	}
 
-	public changeOnglet(num : number) {
+	public changeOnglet(num : Tabs) {
 		this.onglet = num;
 	}
 

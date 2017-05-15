@@ -32,10 +32,7 @@ export class CartService {
   public removeElement(id: number) {
 
     let customer = localStorage.getItem("customer");
-    console.log(customer);
-    console.log(JSON.parse(customer));
     let customerID = JSON.parse(customer).id;
-
     return this.http.delete(this.url + "/" + customerID + "/elements/" + id )
       .map(response => { response.json(); })
       .catch(error => Observable.throw("an error occured"));

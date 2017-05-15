@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import {style, state, animate, transition, trigger} from '@angular/core';
+import { SharedService } from '../notifications/shared.service';
 
 @Component({
   selector: 'sucessfulladd-component',
@@ -22,7 +23,7 @@ export class SuccessfullAddComponent {
 	private show : boolean = false;
 	private product : any;
 
-	constructor(){
+	constructor(private sharedService : SharedService){
 	}
 
 	setVisible(visible : boolean){
@@ -33,7 +34,11 @@ export class SuccessfullAddComponent {
 		this.product = product;
 	}
 
-	close(){
+	private close() : void {
 		this.show = false;
+	}
+
+	private cart() : void {
+		this.sharedService.changerOnglet(2);
 	}
 }

@@ -6,7 +6,6 @@ import { AuthStatus } from './authStatus';
 import { Credentials } from './credentials';
 
 
-
 @Injectable()
 export class LoginService {
 
