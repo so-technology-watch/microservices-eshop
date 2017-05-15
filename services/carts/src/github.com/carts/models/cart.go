@@ -35,13 +35,13 @@ func (c *Cart) AddElement(element *CartElement) {
 func (c *Cart) RemoveElement(elementID int) {
 
 	_, _, position := c.GetElement(elementID)
-	if position < len(c.CartElements) && position > 0 {
+	if position != 0 {
 
 		c.CartElements = append(c.CartElements[:position], c.CartElements[position+1:]...)
 
-	} else if position > len(c.CartElements) && position > 0 {
+	} else if position == 0 {
 
-		c.CartElements = c.CartElements[:position]
+		c.CartElements = c.CartElements[:0]
 	}
 
 }
@@ -81,7 +81,7 @@ func (c *Cart) ComputeTotalPrice() {
 
 	for _, p := range c.CartElements {
 
-		res += p.UnitPrice
+		res += p.UnitPrice * float32(p.Quantity)
 
 		log.Println("ah")
 	}

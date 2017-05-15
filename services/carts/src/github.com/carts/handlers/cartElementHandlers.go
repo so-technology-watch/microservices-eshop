@@ -80,6 +80,7 @@ func HandleCartElementDelete(client *services.RedisClient) http.HandlerFunc {
 		e, err := strconv.Atoi(elementID)
 		failOnError(err)
 		client.RemoveCartElement(customerID, e)
+
 		message := "{\"message\" : \"OK\"}"
 		w.Header().Set("Content-Type", "apllication/json")
 		w.Write([]byte(message))

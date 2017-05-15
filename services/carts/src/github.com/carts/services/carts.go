@@ -27,7 +27,10 @@ func (c *RedisClient) AddCart(cart *models.Cart, gateWayClient *GateWayClient) {
 //RemoveCart removes a car from redis KV store
 func (c *RedisClient) RemoveCart(clientID string) {
 
-	c.Client.Del(clientID)
+	cart := &models.Cart{}
+	cart.CartElements = make([]*models.CartElement, 0)
+	json := cartToJSON(cart)
+	c.Client.Set(clientID, json, 0)
 }
 
 //GetCart retrieves the cart of a client in the redis KV store
@@ -35,11 +38,15 @@ func (c *RedisClient) GetCart(clientID string) (string, bool) {
 
 	found := false
 	value, err := c.Client.Get(clientID).Result()
+	cart := jsonToCart(value)
+	cart.ComputeTotalPrice()
+	value = string(cartToJSON(cart))
 	failOnError(err)
 
 	if value != "" {
 
 		found = true
+
 	}
 	return value, found
 }
