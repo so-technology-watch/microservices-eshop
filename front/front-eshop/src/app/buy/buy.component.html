@@ -1,0 +1,36 @@
+<div class="container">
+	<div class="col-md-3"></div>
+	<div class="col-md-6">
+		<form>
+			<div class="input-group" [class.has-success]="isValidCard()" [class.has-error]="!isValidCard() && cardNumber!=null">
+				<div class="input-group-addon">
+					Numéro de la carte
+					<span class="glyphicon glyphicon-credit-card"></span>
+				</div>
+				<input class="form-control" type="text" name="card" [(ngModel)]="cardNumber" (input)="onChangeCard()" maxlength="19" />
+			</div>
+
+			<div class="input-group" [class.has-success]="isValidDate()" [class.has-error]="!isValidDate() && expirationDate!=null">
+				<div class="input-group-addon">
+					Date d'éxpiration
+					<span class="glyphicon glyphicon-calendar"></span>
+				</div>
+				<input class="form-control" type="date" name="expDate" [(ngModel)]="expirationDate"/>
+			</div>
+
+			<div class="input-group" [class.has-success]="isValidCrypto()" [class.has-error]="!isValidCrypto() && cryptogramme">
+				<div class="input-group-addon">
+					Cryptogramme visuel
+					<span class="glyphicon glyphicon-eye-open"></span>
+				</div>
+				<input class="form-control" type="text" name="crypt" placeholder="000" [(ngModel)]="cryptogramme"/>
+			</div>
+			<div>
+				<div class="text-right">
+					<button class="btn btn-success" [class.disabled]="!isValid()" (click)="buy()">Payer</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="col-md-3"></div>
+</div>

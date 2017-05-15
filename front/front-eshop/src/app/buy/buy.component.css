@@ -1,0 +1,12 @@
+.input-group-addon {
+	min-width: 185px;
+	text-align: right;
+	background-color: #dddddd;
+}
+.form-control {
+	padding-left: 7px;
+	border: solid #dddddd 1px;
+}
+.input-group {
+	margin-bottom: 15px;
+}
