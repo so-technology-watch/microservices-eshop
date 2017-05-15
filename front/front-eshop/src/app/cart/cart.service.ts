@@ -44,7 +44,7 @@ export class CartService {
       .catch(this.handleError);
     observable.subscribe(
       cart => {
-        this.addCart(cart, id, price);
+        this.addCart(cart, id, price, idCustomer);
       },
       error => {
         this.addCartEmpty(id, price, idCustomer);
@@ -55,9 +55,10 @@ export class CartService {
   /**
   * ajoute le produit à un panier existant, ou increment son nombre
   */
-  private addCart(cart: any, id: number, price: number): void {
+  private addCart(cart: any, id: number, price: number, idCustomer : string): void {
     let elements = cart.cartElements;
     let contains = false;
+    if(elements.length == 0) this.addCartEmpty(id, price, idCustomer);
     let elementID = elements.length + 1;
     for (let element of elements) {
       if (element.productID == id) {

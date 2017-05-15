@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-
+import { BuyService } from './buy.service';
+import { SharedService } from '../notifications/shared.service';
 
 @Component({
   selector: 'buy',
   templateUrl: './buy.component.html',
-  styleUrls: ['buy.component.css']
+  styleUrls: ['buy.component.css'],
+  providers: [BuyService]
 })
 
 export class BuyComponent{
@@ -13,7 +15,7 @@ export class BuyComponent{
 	private expirationDate : string;
 	private cryptogramme : string;
 
-	constructor(){
+	constructor(private buyService : BuyService, private sharedService : SharedService){
 		this.valid = false;
 	};
 
@@ -23,13 +25,20 @@ export class BuyComponent{
 
 	private buy() : void {
 		if(!this.isValid()) return;
+		this.buyService.buy(() => {
+			this.sharedService.displayNotification('Une erreur est servenue', false);
+		}).subscribe(
+			result => {
+				console.log(result);
+			}
+		);
 	}
 
 	private isValidCard() : boolean {
 		if(this.cardNumber == null) return false;
 		let card : string = this.cardNumber.split('-').join('');
 		let validCard : boolean = new RegExp("^[0-9]{16}$").test(card);
-		return validCard
+		return validCard;
 	}
 
 	private isValidCrypto() : boolean {

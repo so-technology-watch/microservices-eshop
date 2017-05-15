@@ -22,7 +22,8 @@ export class AppComponent implements OnInit {
 	constructor(private authService: AuthGuard, private router: Router, private sharedService: SharedService) {
 		this.logged = false;
 		this.notifVisible = false;
-		this.onglet = 1;
+		let ong =  localStorage['onglet'];
+		this.onglet = ong == null ? 1 : ong;
 		this.checkIsConnected();
         this.router.events.subscribe( (event)=>{
         	if(event instanceof NavigationEnd){
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
 
 	public changeOnglet(num : Tabs) {
 		this.onglet = num;
+		localStorage['onglet'] = num;
 	}
 
 	public ngOnInit() : void {

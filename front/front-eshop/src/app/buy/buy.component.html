@@ -1,10 +1,16 @@
 <div class="container">
+	<div class="row">
+		<a [routerLink]="['/cart']">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+	</div>
+	<h2 class="text-center">Paiement</h2>
 	<div class="col-md-3"></div>
 	<div class="col-md-6">
 		<form>
 			<div class="input-group" [class.has-success]="isValidCard()" [class.has-error]="!isValidCard() && cardNumber!=null">
 				<div class="input-group-addon">
-					Numéro de la carte
+					Numéro de la carte &nbsp;
 					<span class="glyphicon glyphicon-credit-card"></span>
 				</div>
 				<input class="form-control" type="text" name="card" [(ngModel)]="cardNumber" (input)="onChangeCard()" maxlength="19" />
@@ -12,7 +18,7 @@
 
 			<div class="input-group" [class.has-success]="isValidDate()" [class.has-error]="!isValidDate() && expirationDate!=null">
 				<div class="input-group-addon">
-					Date d'éxpiration
+					Date d'éxpiration &nbsp;
 					<span class="glyphicon glyphicon-calendar"></span>
 				</div>
 				<input class="form-control" type="date" name="expDate" [(ngModel)]="expirationDate"/>
@@ -20,7 +26,7 @@
 
 			<div class="input-group" [class.has-success]="isValidCrypto()" [class.has-error]="!isValidCrypto() && cryptogramme">
 				<div class="input-group-addon">
-					Cryptogramme visuel
+					Cryptogramme visuel &nbsp;
 					<span class="glyphicon glyphicon-eye-open"></span>
 				</div>
 				<input class="form-control" type="text" name="crypt" placeholder="000" [(ngModel)]="cryptogramme"/>
