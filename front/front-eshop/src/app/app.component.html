@@ -11,13 +11,13 @@
                         <span class="glyphicon glyphicon-th-list"></span>
                     </a>
                 </li>
-                <li [ngClass]="{'active':onglet==2}" (click)="changeOnglet(2)">
+                <li *ngIf="logged" [ngClass]="{'active':onglet==2}" (click)="changeOnglet(2)">
                     <a [routerLink]="['/cart']"> 
                         Panier 
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                     </a>
                 </li>
-                <li [ngClass]="{'active':onglet==3}" (click)="changeOnglet(3)">
+                <li *ngIf="logged" [ngClass]="{'active':onglet==3}" (click)="changeOnglet(3)">
                     <a [routerLink]="['/account']">
                         Mon compte
                         <span class="glyphicon glyphicon-user"></span>
