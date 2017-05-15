@@ -7,7 +7,7 @@ import { LoginService } from './login.service';
 import { CustomerService } from './customer.service';
 import { AuthStatus } from './authStatus';
 import { Router } from '@angular/router';
-
+import { SharedService } from '../notifications/shared.service';
 
 @Component({
   selector: 'login',
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  constructor(private http: Http,  private router : Router) { }
+  constructor(private http: Http,  private router : Router, private sharedService: SharedService) { }
 
   submitted = false
   credentials = new Credentials("mail2@mail.fr", "passijjfeij");
@@ -28,7 +28,11 @@ export class LoginComponent {
 
   auth() {
 
-    this.loginService.authenticate(this.credentials).subscribe(
+    this.loginService.authenticate(this.credentials,
+        error => {
+          this.sharedService.displayNotification('Connexion impossible', false);
+        }
+    ).subscribe(
 
       response => {
         this.authResponse.code = response.json().code;
@@ -53,6 +57,7 @@ export class LoginComponent {
               this.customer.phoneNumber = response.json().phoneNumber;
               localStorage.setItem("customer", JSON.stringify(this.customer));
               this.router.navigate(['']);
+              this.sharedService.displayNotification('Vous êtes connecté', true);
             }
           );
 
