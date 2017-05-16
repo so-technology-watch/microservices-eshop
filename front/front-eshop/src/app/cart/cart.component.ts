@@ -89,7 +89,7 @@ export class CartComponent implements OnInit {
         this.sharedService.displayNotification("Produit supprimé avec succès!", true);
         this.cartService.retrieveCart(customerID).subscribe(
           response => {
-          this.cart = response.json();
+            this.cart = response.json();
 
           }
         );
