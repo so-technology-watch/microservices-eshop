@@ -25,7 +25,11 @@ export class AppComponent implements OnInit {
 		let ong =  localStorage['onglet'];
 		this.onglet = ong == null ? 1 : ong;
 		this.checkIsConnected();
-    
+        this.router.events.subscribe( (event)=>{
+        	if(event instanceof NavigationEnd && event.url != "/login" && event.url != "/register"){
+        		this.checkIsConnected();
+        	}
+        });
 	}
 
 	public changeOnglet(num : Tabs) {
