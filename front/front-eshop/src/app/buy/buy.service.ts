@@ -16,17 +16,19 @@ export class BuyService {
 		let customer = JSON.parse(localStorage['customer']);
     	let id: string = customer['id'];
 		let query = this.buyUrl+'/'+id;
-		let headers = new Headers({ 'Content-Type': 'application/json' });
+		let headers = new Headers();
     	let options = new RequestOptions({ headers: headers });
 		return this.http.post(query, headers)
 			.map(this.extractData)
 			.catch((error) => {
+				console.log(error)
 				callbackOnError();
-				return Observable.throw('an error occured');
+				return Observable.throw(error);
 			});
 	}
 
 	private extractData(res : Response) {
+		console.log('ok', res)
 		return res.json() || {}
 	}
 }
