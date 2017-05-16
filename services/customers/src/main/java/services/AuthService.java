@@ -3,6 +3,8 @@ package services;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.ws.rs.WebApplicationException;
+
 import dao.AuthDAO;
 import dao.CustomerDAO;
 import dao.DAO;
@@ -88,6 +90,9 @@ public class AuthService {
 
 	AuthToken authToken = new AuthToken();
 	authToken.decodeToken(token);
+	
+	if (authToken.getCustomerID() != null){
+	
 	String storedToken = authDAO.retrieveElement(authToken.getCustomerID());
 
 	if (storedToken != null && storedToken.equals(token) && !Objects.isNull(authToken.getCustomerID())) {
@@ -97,6 +102,11 @@ public class AuthService {
 	} else {
 
 	    return new AuthStatus(AuthStatus.CODE_NOT_AUTH, AuthStatus.MSG_NOT_AUTH);
+	}
+	
+	} else {
+	    
+	    return null;
 	}
 
     }

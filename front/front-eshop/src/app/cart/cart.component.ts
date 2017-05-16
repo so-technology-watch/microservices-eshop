@@ -6,7 +6,7 @@ import { Http, Response } from '@angular/http';
 import { Products } from '../products/products';
 import { ProductService } from '../product/product.service';
 import { SharedService } from '../notifications/shared.service';
-import {ChangeDetectorRef} from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 
 
 
@@ -24,7 +24,7 @@ export class CartComponent implements OnInit {
   private products: any = {};
   private productService: ProductService;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private http: Http, private sharedService : SharedService) {
+  constructor(private changeDetectorRef: ChangeDetectorRef, private http: Http, private sharedService: SharedService) {
     this.cartService = new CartService(this.http);
     this.productService = new ProductService(this.http);
   }
@@ -55,7 +55,10 @@ export class CartComponent implements OnInit {
 
       },
       error => {
-        if (error instanceof Response && error.status === 404) {
+        if (error.status == 404) {
+          console.log("ici");
+          this.cart.cartelements = [] as CartElement[];
+          console.log(this.cart.cartelements);
           this.empty = true;
         }
       }
@@ -77,7 +80,7 @@ export class CartComponent implements OnInit {
     this.sharedService.displayNotification("Produit ajouté avec succès!", true);
   }
 
-  private removeElement(event, id : number){
+  private removeElement(event, id: number) {
     let customerID = JSON.parse(localStorage.getItem("customer")).id;
     this.cartService.removeElement(id).subscribe(
 
@@ -85,7 +88,8 @@ export class CartComponent implements OnInit {
 
         this.sharedService.displayNotification("Produit supprimé avec succès!", true);
         this.cartService.retrieveCart(customerID).subscribe(
-          response => {this.cart = response.json();
+          response => {
+          this.cart = response.json();
 
           }
         );

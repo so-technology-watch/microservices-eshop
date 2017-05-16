@@ -38,13 +38,15 @@ func (c *RedisClient) GetCart(clientID string) (string, bool) {
 
 	found := false
 	value, err := c.Client.Get(clientID).Result()
-	cart := jsonToCart(value)
-	cart.ComputeTotalPrice()
-	value = string(cartToJSON(cart))
 	failOnError(err)
+	log.Println("cé la", value)
 
 	if value != "" {
 
+		cart := jsonToCart(value)
+		cart.ComputeTotalPrice()
+		value = string(cartToJSON(cart))
+		failOnError(err)
 		found = true
 
 	}

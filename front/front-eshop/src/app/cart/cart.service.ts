@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { Cart } from './cart';
 import { CartElement } from './cartElement';
 
@@ -18,7 +18,8 @@ export class CartService {
     return this.http.get(this.url + "/" + customerID).map(
 
       response => response
-    ).catch(error => Observable.throw("an error occured"));
+    ).catch(
+      error => Observable.throw(error));
   }
 
 

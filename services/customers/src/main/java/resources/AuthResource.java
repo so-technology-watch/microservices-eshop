@@ -69,6 +69,14 @@ public class AuthResource {
 	    new AuthStatus(AuthStatus.CODE_NOT_AUTH, "Authorization header is missing.");
 	    throw new WebApplicationException(400);
 	}
+	
+	AuthStatus authStatus = authService.retreiveAuthStatus(token);
+	
+	if (authStatus == null){
+	    
+	    throw new WebApplicationException(404);
+	}
+	
 	return authService.retreiveAuthStatus(token);
 
     }
