@@ -64,9 +64,16 @@ export class CartComponent implements OnInit {
 
   private updateCart(event, element: CartElement, price: number) {
 
-    console.log(element);
     this.cartService.ajouterProduit(element.productID.valueOf(), price);
-    element.quantity = element.quantity.valueOf() + 1;
+    let customerID = JSON.parse(localStorage.getItem("customer")).id;
+    this.cartService.retrieveCart(customerID).subscribe(
+      response => {
+        this.cart = response.json();
+        this.changeDetectorRef.detectChanges();
+
+      }
+    );
+
     this.sharedService.displayNotification("Produit ajouté avec succès!", true);
   }
 
@@ -78,7 +85,9 @@ export class CartComponent implements OnInit {
 
         this.sharedService.displayNotification("Produit supprimé avec succès!", true);
         this.cartService.retrieveCart(customerID).subscribe(
-          response => {this.cart = response.json();}
+          response => {this.cart = response.json();
+
+          }
         );
         this.changeDetectorRef.detectChanges();
 
