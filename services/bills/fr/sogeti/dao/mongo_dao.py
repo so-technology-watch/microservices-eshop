@@ -28,6 +28,18 @@ class MongoDAO:
         except InvalidId:
             return None
 
+    def get_by_user(self, id):
+        """
+        get the entities for the given user id
+        :param id:
+        :return: the entities wanted
+        """
+        try:
+            id = int(id)
+            return [bill for bill in self.posts.find({'customer': {'id': id}})]
+        except:
+            return None
+
     def create(self, entity):
         """
         create an entity

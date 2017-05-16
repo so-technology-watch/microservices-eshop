@@ -11,6 +11,9 @@ class BillsService:
     def get_by_id(self, id):
         return self.dao.get_by_id(id)
 
+    def get_by_user(self, id):
+        return self.dao.get_by_user(id)
+
     def create(self, bill):
         return self.dao.create(bill)
 
