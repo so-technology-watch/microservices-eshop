@@ -57,8 +57,8 @@ export class CartComponent implements OnInit {
       error => {
         if (error.status == 404) {
           console.log("ici");
-          this.cart.cartelements = [] as CartElement[];
-          console.log(this.cart.cartelements);
+          this.cart.cartElements = [] as CartElement[];
+          console.log(this.cart.cartElements);
           this.empty = true;
         }
       }
