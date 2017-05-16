@@ -14,13 +14,24 @@ export class BuyComponent{
 	private cardNumber : string;
 	private expirationDate : string;
 	private cryptogramme : string;
+	private progress : number;
 
 	constructor(private buyService : BuyService, private sharedService : SharedService){
 		this.valid = false;
+		this.progress = 0;
 	};
 
 	private isValid() : boolean {
 		return this.isValidDate() && this.isValidCard() && this.isValidCrypto();
+	}
+
+	onChange() : void {
+		let nbValid = 0;
+		for(let isValid of [this.isValidCard, this.isValidCrypto, this.isValidDate]){
+			if(isValid.bind(this)()) nbValid ++;
+		}
+		this.progress = (nbValid * 10 * 10/3);
+		console.log(this.progress)
 	}
 
 	private buy() : void {
