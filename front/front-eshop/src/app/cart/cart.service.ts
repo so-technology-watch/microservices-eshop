@@ -23,10 +23,10 @@ export class CartService {
   }
 
 
-  public ajouterProduit(id: number, price: number) {
+  public ajouterProduit(id: number, price: number, callback : () => void) {
     let customer = JSON.parse(localStorage['customer']);
     let idCustomer: string = customer['id'];
-    this.retrieveCartAndAdd(id, price, idCustomer);
+    this.retrieveCartAndAdd(id, price, idCustomer, callback);
 
   }
 
@@ -39,13 +39,13 @@ export class CartService {
       .catch(error => Observable.throw("an error occured"));
   }
 
-  private retrieveCartAndAdd(id: number, price: number, idCustomer: string) {
+  private retrieveCartAndAdd(id: number, price: number, idCustomer: string, callback) {
     let observable: Observable<any> = this.http.get(this.url + '/' + idCustomer)
       .map(this.extractData)
       .catch(this.handleError);
     observable.subscribe(
       cart => {
-        this.addCart(cart, id, price, idCustomer);
+        this.addCart(cart, id, price, idCustomer, callback);
       },
       error => {
         this.addCartEmpty(id, price, idCustomer);
@@ -56,14 +56,17 @@ export class CartService {
   /**
   * ajoute le produit à un panier existant, ou increment son nombre
   */
-  private addCart(cart: any, id: number, price: number, idCustomer : string): void {
+  private addCart(cart: any, id: number, price: number, idCustomer : string, callback): void {
     let elements = cart.cartElements;
     let contains = false;
     if(elements.length == 0) this.addCartEmpty(id, price, idCustomer);
     let elementID = elements.length + 1;
     for (let element of elements) {
       if (element.productID == id) {
+        console.log("called");
+        console.log(element.quantity);
         element.quantity++;
+        console.log(element.quantity);
         contains = true;
         break;
       }
@@ -77,7 +80,7 @@ export class CartService {
       }
       elements.push(product)
     }
-    this.createCart(cart);
+    this.createCart(cart, callback);
   }
 
   /**
@@ -96,10 +99,10 @@ export class CartService {
       customerID: idCustomer,
       totalPrice: 0.000000
     };
-    this.createCart(data);
+    this.createCart(data, () => {});
   }
 
-  private createCart(data: any): void {
+  private createCart(data: any, callback): void {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     let observable: Observable<any> = this.http.post(this.url, data, options)
@@ -108,6 +111,7 @@ export class CartService {
     observable.subscribe(
       resp => {
         console.log(resp);
+        callback();
       },
       error => {
         console.log("unexecpected error");

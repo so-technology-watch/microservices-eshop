@@ -67,17 +67,9 @@ export class CartComponent implements OnInit {
 
   private updateCart(event, element: CartElement, price: number) {
 
-    this.cartService.ajouterProduit(element.productID.valueOf(), price);
-    let customerID = JSON.parse(localStorage.getItem("customer")).id;
-    this.cartService.retrieveCart(customerID).subscribe(
-      response => {
-        this.cart = response.json();
-        this.changeDetectorRef.detectChanges();
+    this.cartService.ajouterProduit(element.productID.valueOf(), price, this.update.bind(this));
 
-      }
-    );
 
-    this.sharedService.displayNotification("Produit ajouté avec succès!", true);
   }
 
   private removeElement(event, id: number) {
@@ -89,7 +81,7 @@ export class CartComponent implements OnInit {
         this.sharedService.displayNotification("Produit supprimé avec succès!", true);
         this.cartService.retrieveCart(customerID).subscribe(
           response => {
-          this.cart = response.json();
+            this.cart = response.json();
 
           }
         );
@@ -111,4 +103,19 @@ export class CartComponent implements OnInit {
     target.src = baseURI + 'assets/notfound.png';
   }
 
+private update(){
+
+  let customerID = JSON.parse(localStorage.getItem("customer")).id;
+  this.cartService.retrieveCart(customerID).subscribe(
+    response => {
+      console.log("done");
+      this.cart = response.json();
+      console.log(response.json());
+      this.changeDetectorRef.detectChanges();
+
+    }
+  );
+
+  this.sharedService.displayNotification("Produit ajouté avec succès!", true);
+}
 }
