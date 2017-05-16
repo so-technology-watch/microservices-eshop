@@ -1,0 +1,9 @@
+.metadata/
+target/
+build/
+*.pyc
+.idea/
+.cache-main
+.cache-tests
+licenseheader.txt
+nb-configuration.xml
