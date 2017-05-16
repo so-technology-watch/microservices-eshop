@@ -9,8 +9,7 @@ import { CartComponent } from './cart/cart.component';
 import { DescriptionComponent } from './description/description.component';
 import { AuthGuard } from './guards/auth.gard';
 import { ProductComponent } from './product/product.component';
-import { AccountComponent } from './account/account.component';
-
+import { AccountComponent } from "app/account/account.component";
 
 
 export const rootRouterConfig: Routes = [
