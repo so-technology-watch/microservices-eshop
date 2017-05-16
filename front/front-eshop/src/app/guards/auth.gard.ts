@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
               return true;
           } else {
 
-            console.log("not connected, must login");
+            console.log("not connected, must login token");
             this.router.navigate(['login']);
             return false;
           }

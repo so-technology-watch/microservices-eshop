@@ -15,14 +15,14 @@ import { AccountComponent } from './account/account.component';
 
 export const rootRouterConfig: Routes = [
   { path: '', redirectTo: 'products', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'products', component: ProductsComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
   { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
   { path: 'buy', component: BuyComponent, canActivate: [AuthGuard] },
-  { path: 'description', component: DescriptionComponent },
+  { path: 'description', component: DescriptionComponent, canActivate: [AuthGuard]},
   { path: 'bills', component: BillsComponent, canActivate: [AuthGuard] },
-  { path: 'product/:id', component: ProductComponent },
+  { path: 'product/:id', component: ProductComponent , canActivate: [AuthGuard]},
   { path: 'account', component : AccountComponent,  canActivate: [AuthGuard]}
 ];
 
