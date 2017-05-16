@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
 		this.onglet = ong == null ? 1 : ong;
 		this.checkIsConnected();
         this.router.events.subscribe( (event)=>{
-        	if(event instanceof NavigationEnd && event.url != "/login" && event.url != "/register"){
+        	if(event instanceof NavigationEnd && event.url != "/register"){
         		this.checkIsConnected();
         	}
         });
@@ -64,6 +64,7 @@ export class AppComponent implements OnInit {
 	public disconnect(){
 		localStorage.clear();
 		this.logged = false;
+    this.router.navigate(["/login"])
 	}
 
 	public getMessage() : Message {

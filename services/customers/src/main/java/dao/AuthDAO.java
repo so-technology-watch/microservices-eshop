@@ -56,7 +56,14 @@ public class AuthDAO {
      */
     public String retrieveElement(String customerID) {
 
-	return map.get(customerID);
+	if (customerID != null) {
+
+	    return map.get(customerID);
+
+	} else {
+	    
+	    return null;
+	}
 
     }
 

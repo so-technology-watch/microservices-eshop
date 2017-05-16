@@ -18,6 +18,7 @@ export class CustomerService {
 
   public retrieveCustomer(token : string) : Observable<Response>{
 
+
     let id = this.JwtHelper.decodeToken(token).customerID;
 
     return this.http.get(this.url + "/" + id)
