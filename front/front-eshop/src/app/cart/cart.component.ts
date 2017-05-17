@@ -65,18 +65,19 @@ export class CartComponent implements OnInit {
           this.cart.cartElements = [] as CartElement[];
           console.log(this.cart.cartElements);
           this.empty = true;
-          setTimeout(()=>{this.loading= false;}, 700);
-
         }
+        setTimeout(()=>{this.loading= false;}, 700);
+
       }
     );
+    setTimeout(()=>{this.loading= false;}, 700);
+
   }
 
 
   private updateCart(event, element: CartElement, price: number) {
 
     this.cartService.ajouterProduit(element.productID.valueOf(), price, this.update.bind(this));
-
 
   }
 
@@ -101,6 +102,7 @@ export class CartComponent implements OnInit {
   }
 
   private errorImage(event) {
+
     let target = event.target;
     let baseURI = target.baseURI;
     target.src = baseURI + 'assets/notfound.png';
