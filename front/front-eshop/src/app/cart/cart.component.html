@@ -3,7 +3,7 @@
   <div class="col-md-12">
     <div *ngIf="cart.cartElements != null && cart.cartElements.length > 0">
 
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover" *ngIf="!loading">
         <thead>
           <tr>
             <th>
@@ -26,7 +26,8 @@
             </th>
           </tr>
         </thead>
-        <tr *ngFor="let element of cart.cartElements; let rowIndex= index">
+        <tr *ngFor="let element of cart.cartElements; let rowIndex= index" >
+
           <td>
             {{element.elementID}}
           </td>
@@ -105,4 +106,8 @@
     </table>
   </div>
 
+</div>
+
+<div [ngClass]="{'hidden' : !loading}" class="text-center container loader">
+  <img src="/assets/loader.gif">
 </div>

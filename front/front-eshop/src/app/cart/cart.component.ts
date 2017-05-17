@@ -23,10 +23,13 @@ export class CartComponent implements OnInit {
   private empty: boolean = false;
   private products: any = {};
   private productService: ProductService;
+  private loading: boolean;
 
   constructor(private changeDetectorRef: ChangeDetectorRef, private http: Http, private sharedService: SharedService) {
     this.cartService = new CartService(this.http);
     this.productService = new ProductService(this.http);
+    this.loading = true;
+
   }
 
   ngOnInit() {
@@ -34,8 +37,9 @@ export class CartComponent implements OnInit {
     this.init();
   }
 
-  public init() {
 
+  public init() {
+    this.loading = true;
     let id = JSON.parse(localStorage.getItem("customer")).id;
     this.cartService.retrieveCart(id).subscribe(
 
@@ -46,7 +50,8 @@ export class CartComponent implements OnInit {
           this.productService.getProduct(element.productID.valueOf()).subscribe(
 
             response => {
-              tempMap[element.productID] = response
+              tempMap[element.productID] = response;
+              setTimeout(()=>{this.loading= false;}, 700);
             }
           );
 
@@ -60,10 +65,12 @@ export class CartComponent implements OnInit {
           this.cart.cartElements = [] as CartElement[];
           console.log(this.cart.cartElements);
           this.empty = true;
+          this.loading = false;
         }
       }
     );
   }
+
 
   private updateCart(event, element: CartElement, price: number) {
 
@@ -92,11 +99,6 @@ export class CartComponent implements OnInit {
 
   }
 
-  private keys() {
-    console.log(Object.keys(this.products))
-    return Object.keys(this.products);
-  }
-
   private errorImage(event) {
     let target = event.target;
     let baseURI = target.baseURI;
@@ -118,4 +120,6 @@ export class CartComponent implements OnInit {
 
     this.sharedService.displayNotification("Produit ajouté avec succès!", true);
   }
+
+
 }

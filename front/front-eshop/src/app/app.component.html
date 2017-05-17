@@ -22,8 +22,8 @@
                         </a>
                     </li>
                     <li *ngIf="logged" [ngClass]="{'active':onglet==2}" (click)="changeOnglet(2)">
-                        <a [routerLink]="['/cart']"> 
-                            Panier 
+                        <a [routerLink]="['/cart']">
+                            Panier
                             <span class="glyphicon glyphicon-shopping-cart"></span>
                         </a>
                     </li>
@@ -37,14 +37,14 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     <li *ngIf="!isLogged()" (click)="changeOnglet(0)">
-                        <a [routerLink]="['/login', {logged: '1'}]"> 
-                            Connexion 
+                        <a [routerLink]="['/login', {logged: '1'}]">
+                            Connexion
                             <span class="glyphicon glyphicon-log-in"></span>
                         </a>
                     </li>
                     <li *ngIf="isLogged()">
-                        <a (click)="disconnect();changeOnglet(0)"> 
-                            Déconnexion 
+                        <a (click)="disconnect();changeOnglet(0)">
+                            Déconnexion
                             <span class="glyphicon glyphicon-log-out"></span>
                         </a>
                     </li>
@@ -55,6 +55,7 @@
     </nav>
 
     <main>
+  
         <router-outlet></router-outlet>
     </main>
 
