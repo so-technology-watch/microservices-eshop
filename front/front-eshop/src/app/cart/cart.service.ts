@@ -3,7 +3,7 @@ import { Headers, RequestOptions, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { Cart } from './cart';
 import { CartElement } from './cartElement';
-import { gatewayUrl} from '../app.routes';
+import { gatewayUrl } from '../app.routes';
 
 
 @Injectable()

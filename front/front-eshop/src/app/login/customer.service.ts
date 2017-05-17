@@ -13,7 +13,7 @@ export class CustomerService {
 
   constructor(private http : Http){}
 
-  private url = 'http://10.226.160.85:9090/api/v1/customers';
+  private url = 'http://10.226.159.191:9090/api/v1/customers';
   JwtHelper = new JwtHelper();
 
   public retrieveCustomer(token : string) : Observable<Response>{
