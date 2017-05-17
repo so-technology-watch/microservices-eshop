@@ -1,12 +1,13 @@
 import { Supplier } from './supplier';
 
 export class Products {
-	private id : number;
-	private reference : string;
-	private designation : string;
-	private price : number;
-	private idSupplier : number;
-	private image : string;
-	private idCategory : number;
-	private supplier : Supplier;
+	public id : number;
+	public reference : string;
+	public designation : string;
+	public price : number;
+	public idSupplier : number;
+	public image : string;
+	public idCategory : number;
+	public supplier : Supplier;
+
 }
