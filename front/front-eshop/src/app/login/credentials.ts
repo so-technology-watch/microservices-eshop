@@ -6,14 +6,14 @@ export class Credentials {
   ) { }
 
   getEmail() {
-  	return this.email;
+    return this.email;
   }
 
   getPassword() {
-  	return this.password;
+    return this.password;
   }
 
-  setEmail(email : string) {
-  	this.email = email;
+  setEmail(email: string) {
+    this.email = email;
   }
 }

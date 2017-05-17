@@ -28,8 +28,13 @@
 					<div class="bill">
 						<h6 class="text-center">{{ bill.supplier.companyName }}</h6>
 						<p class="text-center">Contact</p>
-						<p><span>@</span>&nbsp; {{ bill.supplier.email }}</p>
-						<p><span class="glyphicon glyphicon-earphone"></span>&nbsp; {{  bill.supplier.phoneNumber }}</p>
+						<div class="col-md-6">
+							<span>@</span>&nbsp; {{ bill.supplier.email }}
+						</div>
+						<div class="col-md-6">
+							<span class="glyphicon glyphicon-earphone"></span>&nbsp; {{  bill.supplier.phoneNumber }}
+						</div>
+						<br/>
 					</div>
 				</div>
 			</div>

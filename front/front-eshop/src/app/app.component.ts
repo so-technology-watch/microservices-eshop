@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthGuard } from './guards/auth.gard';
 import { Observable } from 'rxjs/Observable';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, Event as RouterEvent, NavigationEnd, NavigationStart } from '@angular/router';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { Message } from './notifications/message';
 import { SharedService } from './notifications/shared.service';
@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
 	private message : Message;
 	private notifVisible : boolean;
 	private onglet : Tabs;
+  private loading : boolean;
 
 	constructor(private authService: AuthGuard, private router: Router, private sharedService: SharedService) {
 		this.logged = false;
@@ -79,4 +80,5 @@ export class AppComponent implements OnInit {
 	public notificationVisible() : boolean {
 		return this.notifVisible;
 	}
+
 }

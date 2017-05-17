@@ -13,54 +13,54 @@ import { SharedService } from '../notifications/shared.service';
 })
 
 export class AccountComponent implements OnInit {
-	private informations : Customer;
-	private progress : number;
-	private fields : number = 5;
+  private informations: Customer;
+  private progress: number;
+  private fields: number = 5;
 
-	constructor(private accountService : AccountService, private sharedService : SharedService) {
-		this.progress = 0;
-	}
+  constructor(private accountService: AccountService, private sharedService: SharedService) {
+    this.progress = 0;
+  }
 
-	save() : void {
-		this.accountService.saveInformations(this.informations, () => {
-			this.sharedService.displayNotification("Informations mises à jour.", true);
-		}, () => {
-			this.sharedService.displayNotification("Une erreur est survenue", false);
-		});
-	}
+  save(): void {
+    this.accountService.saveInformations(this.informations, () => {
+      this.sharedService.displayNotification("Informations mises à jour.", true);
+    }, () => {
+      this.sharedService.displayNotification("Une erreur est survenue", false);
+    });
+  }
 
-	onChange() : void {
-		let valid = this.validQuantity() * 10 * 2;
-		this.progress = valid;
-	}
+  onChange(): void {
+    let valid = this.validQuantity() * 10 * 2;
+    this.progress = valid;
+  }
 
-	ngOnInit() {
-		this.accountService.getInformations()
-			.subscribe(
-				informations => {
-					this.informations = informations;
-					this.onChange();
-				},
-				error => {
-					console.log(error)
-				}
-			);
-	}
+  ngOnInit() {
+    this.accountService.getInformations()
+      .subscribe(
+      informations => {
+        this.informations = informations;
+        this.onChange();
+      },
+      error => {
+        console.log(error)
+      }
+      );
+  }
 
-	private validQuantity() : number {
-		let quantity : number = 0;
-		let info = this.informations;
-		if(info == null) return 0;
-		let fields = [info.lastname, info.firstname, info.email, info.address, info.phoneNumber];
-		for(let field of fields){
-			if(this.isValid(field)){
-				quantity++;
-			}
-		}
-		return quantity;
-	}
+  private validQuantity(): number {
+    let quantity: number = 0;
+    let info = this.informations;
+    if (info == null) return 0;
+    let fields = [info.lastname, info.firstname, info.email, info.address, info.phoneNumber];
+    for (let field of fields) {
+      if (this.isValid(field)) {
+        quantity++;
+      }
+    }
+    return quantity;
+  }
 
-	private isValid(field : string) {
-		return field != null && field.trim().length > 0
-	}
+  private isValid(field: string) {
+    return field != null && field.trim().length > 0
+  }
 }

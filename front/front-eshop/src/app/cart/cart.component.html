@@ -1,15 +1,86 @@
-
-
 <div class="container">
   <h1>Panier</h1>
   <div class="col-md-12">
     <div *ngIf="cart.cartElements != null && cart.cartElements.length > 0">
 
+      <table class="table table-striped table-hover" *ngIf="!loading">
+        <thead>
+          <tr>
+            <th>
+              <h4>#</h4>
+            </th>
+            <th class="text-center">
+              <h4>Aperçu</h4>
+            </th>
+            <th>
+              <h4>Référence</h4>
+            </th>
+            <th>
+              <h4>Nom</h4>
+            </th>
+            <th>
+              <h4>Prix unitaire</h4>
+            </th>
+            <th colspan="2">
+              <h4 class="text-center">Quantité</h4>
+            </th>
+          </tr>
+        </thead>
+        <tr *ngFor="let element of cart.cartElements; let rowIndex= index" >
+
+          <td>
+            {{element.elementID}}
+          </td>
+          <td *ngIf="products[element.productID]">
+            <img src="{{products[element.productID].image}}" class="img img-responsive thumbnail center-block" (error)="errorImage($event)" />
+          </td>
+          <td *ngIf="products[element.productID]">
+            {{products[element.productID].reference}}
+          </td>
+          <td *ngIf="products[element.productID]">
+            {{products[element.productID].designation}}
+          </td>
+          <td *ngIf="products[element.productID]">
+            {{products[element.productID].price}} €
+          </td>
+          <td>
+            <div class="col-md-3">
+              {{element.quantity}}
+            </div>
+            <div class="form-group form-inlines col-md-9">
+              <div class="buttons">
+                <button class="btn btn-primary" (click)="updateCart($event, element, element.unitPrice)"><span class="glyphicon glyphicon-plus"></span></button>
+                <button class="btn btn-danger" (click)="removeElement($event, element.elementID)"><span class="glyphicon glyphicon-remove"></span></button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h4>Total</h4>
+          </td>
+          <td class="text-right" colspan="6">
+            <h4>  {{cart.totalPrice}} €</h4>
+          </td>
+        </tr>
+      </table>
+      <div class="text-right">
+        <a [class.disabled]="empty" class="btn btn-primary" [routerLink]="['/buy']">
+        Acheter &nbsp;
+        <span class="glyphicon glyphicon-credit-card"></span>
+      </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="cart.cartElements != null && cart.cartElements.length == 0">
+
     <table class="table table-striped table-hover">
-    <thead>
+
       <tr>
         <th>
-        <h4>#</h4>
+          <h4>#</h4>
         </th>
         <th class="text-center">
           <h4>Aperçu</h4>
@@ -27,84 +98,16 @@
           <h4 class="text-center">Quantité</h4>
         </th>
       </tr>
-    </thead>
-      <tr *ngFor="let element of cart.cartElements; let rowIndex= index">
-        <td>
-          {{element.elementID}}
-        </td>
-        <td *ngIf="products[element.productID]">
-          <img src="{{products[element.productID].image}}" class="img img-responsive thumbnail center-block" (error)="errorImage($event)" />
-        </td>
-        <td *ngIf="products[element.productID]">
-          {{products[element.productID].reference}}
-        </td>
-        <td *ngIf="products[element.productID]">
-          {{products[element.productID].designation}}
-        </td>
-        <td *ngIf="products[element.productID]">
-          {{products[element.productID].price}} €
-        </td>
-        <td>
-          <div class="col-md-3">
-            {{element.quantity}}
-          </div>
-          <div class="form-group form-inlines col-md-9">
-            <div class="buttons">
-              <button class="btn btn-primary" (click)="updateCart($event, element, element.unitPrice)"><span class="glyphicon glyphicon-plus"></span></button>
-              <button class="btn btn-danger" (click)="removeElement($event, element.elementID)"><span class="glyphicon glyphicon-remove"></span></button>
-            </div>
-          </div>
-        </td>
-      </tr>
       <tr>
-        <td>
-        <h4>Total</h4>
-        </td>
-        <td class="text-right" colspan="6">
-          <h4>  {{cart.totalPrice}} €</h4>
+        <td colspan="6">
+          <h3 class="text-center">Votre panier est vide</h3>
         </td>
       </tr>
     </table>
-    <div class="text-right">
-      <a [class.disabled]="empty" class="btn btn-primary" [routerLink]="['/buy']">
-        Acheter &nbsp;
-        <span class="glyphicon glyphicon-credit-card"></span>
-      </a>
-    </div>
   </div>
 
 </div>
 
-<div *ngIf="cart.cartElements != null && cart.cartElements.length == 0">
-
-  <table class="table table-striped table-hover">
-
-    <tr>
-      <th>
-      <h4>#</h4>
-      </th>
-      <th class="text-center">
-        <h4>Aperçu</h4>
-      </th>
-      <th>
-        <h4>Référence</h4>
-      </th>
-      <th>
-        <h4>Nom</h4>
-      </th>
-      <th>
-        <h4>Prix unitaire</h4>
-      </th>
-      <th colspan="2">
-        <h4 class="text-center">Quantité</h4>
-      </th>
-    </tr>
-    <tr>
-      <td colspan="6">
-        <h3 class="text-center">Votre panier est vide</h3>
-      </td>
-    </tr>
-  </table>
-</div>
-
+<div [ngClass]="{'hidden' : !loading}" class="text-center container loader">
+  <img src="/assets/loader.gif">
 </div>

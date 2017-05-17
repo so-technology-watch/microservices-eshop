@@ -5,11 +5,11 @@
 		<form class="form-control">
 			<div class="input-group">
 				<label class="input-group-addon" for="email">email</label>
-				<input class="form-control" type="text" name="email" placeholder="email" required [(ngModel)]="credentials.email"/>
+				<input class="form-control" type="text" name="email" placeholder="email" required [(ngModel)]="credentials.email" />
 			</div>
 			<div class="input-group">
 				<label class="input-group-addon" for="password">mot de passe</label>
-				<input class="form-control" type="password" name="password" placeholder="password" required [(ngModel)]="credentials.password"/>
+				<input class="form-control" type="password" name="password" placeholder="password" required [(ngModel)]="credentials.password" />
 			</div>
 			<br/>
 			<div class="text-right">
@@ -17,7 +17,7 @@
 					Pas inscrit ? <a [routerLink]="['/register']">s'incrire</a>
 				</div>
 				<div class="col-md-6">
-					<input type="submit" class="btn btn-primary" (click)="auth()" value="Connexion"/>
+					<input type="submit" class="btn btn-primary" (click)="auth()" value="Connexion" />
 				</div>
 			</div>
 		</form>

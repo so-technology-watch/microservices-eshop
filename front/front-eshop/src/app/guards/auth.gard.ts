@@ -15,12 +15,12 @@ export class AuthGuard implements CanActivate {
 
   loginService = new LoginService(this.http);
 
-  public canActivate() : Observable<boolean> | boolean{
+  public canActivate(): Observable<boolean> | boolean {
     let authStatus = new AuthStatus();
 
     if (localStorage.getItem("token") && localStorage.getItem("token") !== "" && localStorage.getItem("token") !== null) {
 
-    return  this.loginService.retrieveAuthStatus(localStorage.getItem("token")).map(
+      return this.loginService.retrieveAuthStatus(localStorage.getItem("token")).map(
 
         response => {
           authStatus.code = response.json().code;
@@ -29,7 +29,7 @@ export class AuthGuard implements CanActivate {
           console.log(authStatus);
 
           if (authStatus != null && authStatus.code == 0) {
-              return true;
+            return true;
           } else {
 
             console.log("not connected, must login token");

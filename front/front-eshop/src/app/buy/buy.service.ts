@@ -10,8 +10,8 @@ import { Bill } from './bill';
 
 @Injectable()
 export class BuyService {
-	private buyUrl : string = gatewayUrl+'/pay';
-	constructor(private http : Http) {}
+  private buyUrl: string = gatewayUrl + '/pay';
+  constructor(private http: Http) { }
 
 	buy(callbackOnError : any) : Observable<Bill> {
 		let customer = JSON.parse(localStorage['customer']);

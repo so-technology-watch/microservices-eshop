@@ -25,9 +25,9 @@ export class BuyComponent{
 		this.paid = false;
 	};
 
-	private isValid() : boolean {
-		return this.isValidDate() && this.isValidCard() && this.isValidCrypto();
-	}
+  private isValid(): boolean {
+    return this.isValidDate() && this.isValidCard() && this.isValidCrypto();
+  }
 
 	onChange() : void {
 		let nbValid = 0;
@@ -48,24 +48,24 @@ export class BuyComponent{
 			}
 		);
 	}
+  
+  private isValidCard(): boolean {
+    if (this.cardNumber == null) return false;
+    let card: string = this.cardNumber.split('-').join('');
+    let validCard: boolean = new RegExp("^[0-9]{16}$").test(card);
+    return validCard;
+  }
 
-	private isValidCard() : boolean {
-		if(this.cardNumber == null) return false;
-		let card : string = this.cardNumber.split('-').join('');
-		let validCard : boolean = new RegExp("^[0-9]{16}$").test(card);
-		return validCard;
-	}
+  private isValidCrypto(): boolean {
+    let validCrypt: boolean = new RegExp("^[0-9]{3}$").test(this.cryptogramme);
+    return validCrypt;
+  }
 
-	private isValidCrypto() : boolean {
-		let validCrypt : boolean = new RegExp("^[0-9]{3}$").test(this.cryptogramme);
-		return validCrypt;
-	}
-
-	private isValidDate() : boolean {
-		let date = new Date(this.expirationDate);
-		let validDate : boolean = date.toString() != 'Invalid Date';
-		return validDate;
-	}
+  private isValidDate(): boolean {
+    let date = new Date(this.expirationDate);
+    let validDate: boolean = date.toString() != 'Invalid Date';
+    return validDate;
+  }
 
 	private onChangeCard() : void {
 		let card : string = this.cardNumber;
