@@ -35,7 +35,6 @@ class MongoDAO:
         :return: the entities wanted
         """
         try:
-            id = int(id)
             return [bill for bill in self.posts.find({'customer': {'id': id}})]
         except:
             return None
@@ -46,6 +45,7 @@ class MongoDAO:
         :param entity: the entity to create
         :return: the id of the created entity 
         """
+        print(entity.to_dict())
         return self.posts.insert_one(entity.to_dict()).inserted_id
 
     def update(self, entity):

@@ -3,7 +3,7 @@ from fr.sogeti.entities.customer import from_dict as customer_from_dict
 from fr.sogeti.entities.product import from_dict as product_from_dict
 from bson import ObjectId
 from bson.json_util import loads
-
+import datetime
 
 class Bill:
 
@@ -13,13 +13,15 @@ class Bill:
         self.supplier = supplier_from_dict(supplier)
         self.customer = customer_from_dict(customer)
         self.total = total
+        self.date = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
 
     def to_dict(self):
         res = {
             'products': [p.to_dict() for p in self.products],
             'supplier': self.supplier.to_dict(),
             'customer': self.customer.to_dict(),
-            'total': self.total
+            'total': self.total,
+            'date': self.date
         }
         if not isinstance(id, ObjectId) and self.id is not None and len(self.id) == 24:
             res['_id'] = ObjectId(self.id)

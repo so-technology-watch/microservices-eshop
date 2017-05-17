@@ -41,7 +41,6 @@ def get_by_id(id_bill):
 @get('/api/v1/bills/user/<id_user>')
 def get_by_id(id_user):
     bills = bills_service.get_by_user(id_user)
-    print("ok")
     if bills is None:
         response.status = 404
         return None
