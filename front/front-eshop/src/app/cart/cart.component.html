@@ -64,7 +64,7 @@
           </td>
         </tr>
       </table>
-      <div class="text-right">
+      <div class="text-right" *ngIf="!loading">
         <a [class.disabled]="empty" class="btn btn-primary" [routerLink]="['/buy']">
         Acheter &nbsp;
         <span class="glyphicon glyphicon-credit-card"></span>
