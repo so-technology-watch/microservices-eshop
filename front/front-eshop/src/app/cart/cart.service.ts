@@ -3,12 +3,13 @@ import { Headers, RequestOptions, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { Cart } from './cart';
 import { CartElement } from './cartElement';
+import { gatewayUrl} from '../app.routes';
 
 
 @Injectable()
 export class CartService {
 
-  private url = 'http://10.226.160.85:9090/api/v1/carts';
+  private url = gatewayUrl + "/carts";
 
   constructor(private http: Http) { }
 

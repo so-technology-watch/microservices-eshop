@@ -60,11 +60,13 @@ func GetIP() *string {
 		panic(err)
 	}
 	addrs, err := ifaces[1].Addrs()
+	log.Println(ifaces)
 	if err != nil {
 		panic(err)
 	}
 	ip := addrs[0].String()
 	temp := strings.Split(ip, "/")
 	ip = temp[0]
+	//ip = "10.226.160.79"
 	return &ip
 }
