@@ -33,6 +33,13 @@
                             <span class="glyphicon glyphicon-user"></span>
                         </a>
                     </li>
+
+                    <li *ngIf="logged" [ngClass]="{'active':onglet==4}" (click)="changeOnglet(4)">
+                        <a [routerLink]="['/bills']">
+                            Commandes
+                            <span class="glyphicon glyphicon-tags"></span>
+                        </a>
+                    </li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
