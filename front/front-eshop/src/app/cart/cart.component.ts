@@ -65,7 +65,8 @@ export class CartComponent implements OnInit {
           this.cart.cartElements = [] as CartElement[];
           console.log(this.cart.cartElements);
           this.empty = true;
-          this.loading = false;
+          setTimeout(()=>{this.loading= false;}, 700);
+
         }
       }
     );
