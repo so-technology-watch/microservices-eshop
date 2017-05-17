@@ -4,12 +4,10 @@ import { Observable } from 'rxjs/Observable';
 import { AuthResponse } from './authResponse';
 import { AuthStatus } from './authStatus';
 import { Credentials } from './credentials';
-import { gatewayUrl } from '../app.routes';
 
 @Injectable()
 export class LoginService {
-
-  private authUrl = 'http://10.226.159.191:9090/api/v1'+'/auth';
+  private authUrl : string = 'http://10.226.159.191:9090/api/v1/auth';
 
   constructor(private http: Http) {}
 
@@ -19,7 +17,7 @@ export class LoginService {
     let headers = new Headers({ 'content-type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     let authResponse = new AuthResponse();
-
+    console.log(this.authUrl)
     return this.http.post(this.authUrl, body, options)
       .map(response => response)
       .catch(error => {
@@ -31,7 +29,6 @@ export class LoginService {
   }
 
   public retrieveAuthStatus(token: string): Observable<Response> {
-
     let headers = new Headers({ 'content-type': 'application/json' });
     headers.append('Authorization', 'Bearer ' + token);
     let options = new RequestOptions({ headers: headers });

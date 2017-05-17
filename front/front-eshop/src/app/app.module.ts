@@ -22,7 +22,7 @@ import { AccountComponent } from './account/account.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { AuthGuard } from './guards/auth.gard';
 import { SharedService } from './notifications/shared.service';
-
+import { LoginService } from './login/login.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,7 @@ import { SharedService } from './notifications/shared.service';
     BrowserAnimationsModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: true })
   ],
-  providers: [ AuthGuard, SharedService ],
+  providers: [ AuthGuard, SharedService, LoginService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {
