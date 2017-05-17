@@ -1,0 +1,39 @@
+<div class="container">
+	<div *ngFor="let bill of bills">
+		<div class="well well-lg">
+			<div class="row text-center">
+				<h4>Commande du {{ bill.date }}</h4>
+				<h6>Facture n° {{ bill._id.$oid }}</h6>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-xs-6">
+					<h6 class="text-center">Produits</h6>
+					<div class="row bill">
+						<ul>
+							<li *ngFor="let product of bill.products">
+								<div class="col-md-6">
+									<p>Désignation : {{ product.designation }}</p>
+									<p>Référence : {{ product.reference }}</p>
+									<p>Prix : {{ product.price }} €</p>
+								</div>
+								<div class="col-md-6">
+									<img src="{{ product.image || 'assets//notfound.png' }}" class="img img-responsive thumbnail" (error)="errorImage($event)"/>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-6 col-xs-6">
+					<h6 class="text-center">Fournisseur</h6>
+					<div class="bill">
+						<h6 class="text-center">{{ bill.supplier.companyName }}</h6>
+						<p class="text-center">Contact</p>
+						<p><span>@</span>&nbsp; {{ bill.supplier.email }}</p>
+						<p><span class="glyphicon glyphicon-earphone"></span>&nbsp; {{  bill.supplier.phoneNumber }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr/>
+	</div>
+</div>

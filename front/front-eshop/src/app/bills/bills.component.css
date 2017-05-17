@@ -1,0 +1,11 @@
+.bill {
+	background-color: #ffffff;
+	border: solid #DDDDDD 1px;
+	padding:15px;
+}
+ul li{
+	list-style-type: none;
+}
+ul {
+	padding-left: 0;
+}
