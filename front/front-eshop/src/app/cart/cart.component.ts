@@ -110,10 +110,10 @@ export class CartComponent implements OnInit {
     let customerID = JSON.parse(localStorage.getItem("customer")).id;
     this.cartService.retrieveCart(customerID).subscribe(
       response => {
-        console.log("done");
         this.cart = response.json();
         console.log(response.json());
         this.changeDetectorRef.detectChanges();
+        setTimeout(()=>{this.loading= false;}, 700);
 
       }
     );
