@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BuyService } from './buy.service';
 import { SharedService } from '../notifications/shared.service';
+import { Bill } from './bill';
 
 @Component({
   selector: 'buy',
@@ -15,10 +16,13 @@ export class BuyComponent{
 	private expirationDate : string;
 	private cryptogramme : string;
 	private progress : number;
+	private bills : Bill;
+	private paid : boolean;
 
 	constructor(private buyService : BuyService, private sharedService : SharedService){
 		this.valid = false;
 		this.progress = 0;
+		this.paid = false;
 	};
 
 	private isValid() : boolean {
@@ -31,7 +35,6 @@ export class BuyComponent{
 			if(isValid.bind(this)()) nbValid ++;
 		}
 		this.progress = (nbValid * 10 * 10/3);
-		console.log(this.progress)
 	}
 
 	private buy() : void {
@@ -40,7 +43,8 @@ export class BuyComponent{
 			this.sharedService.displayNotification('Une erreur est servenue', false);
 		}).subscribe(
 			result => {
-				console.log(result);
+				this.bills = result;
+				this.paid = true;
 			}
 		);
 	}
@@ -75,6 +79,9 @@ export class BuyComponent{
 			}
 		}
 		this.cardNumber = newCard;
+	}
+	private changeActive() : void {
+		this.sharedService.changerOnglet(4);
 	}
 
 }

@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="!paid" class="container">
 	<div class="row">
 		<a [routerLink]="['/cart']">
 			<span class="glyphicon glyphicon-chevron-left"></span>
@@ -47,4 +47,13 @@
 		</form>
 	</div>
 	<div class="col-md-3"></div>
+</div>
+
+<div *ngIf="paid" class="container">
+	<h3>Paiement éffectué avec succès</h3>
+	<div>
+		<a [routerLink]="['/bills']" (click)="changeActive()">
+			Consulter mes commandes
+		</a>
+	</div>
 </div>
