@@ -14,7 +14,7 @@ export class LoginService {
 
   constructor(private http: Http) { }
 
-  public authenticate(credentials: Credentials, callbackError : any | Function): Observable<Response> {
+  public authenticate(credentials: Credentials, callbackError: any | Function): Observable<Response> {
 
     let body = JSON.stringify(credentials)
     let headers = new Headers({ 'content-type': 'application/json' });
@@ -33,7 +33,7 @@ export class LoginService {
 
   public retrieveAuthStatus(token: string): Observable<Response> {
 
-    let headers = new Headers({ 'content-type': 'application/json'});
+    let headers = new Headers({ 'content-type': 'application/json' });
     headers.append('Authorization', 'Bearer ' + token);
     let options = new RequestOptions({ headers: headers });
     let authStatus = new AuthStatus();

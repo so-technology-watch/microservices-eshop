@@ -21,7 +21,7 @@
 					Date d'éxpiration &nbsp;
 					<span class="glyphicon glyphicon-calendar"></span>
 				</div>
-				<input class="form-control" type="date" name="expDate" [(ngModel)]="expirationDate"/>
+				<input class="form-control" type="date" name="expDate" [(ngModel)]="expirationDate" />
 			</div>
 
 			<div class="input-group" (input)="onChange()" [class.has-success]="isValidCrypto()" [class.has-error]="!isValidCrypto() && cryptogramme">
@@ -29,11 +29,11 @@
 					Cryptogramme visuel &nbsp;
 					<span class="glyphicon glyphicon-eye-open"></span>
 				</div>
-				<input class="form-control" type="text" name="crypt" placeholder="000" [(ngModel)]="cryptogramme"/>
+				<input class="form-control" type="text" name="crypt" placeholder="000" [(ngModel)]="cryptogramme" />
 			</div>
-			
+
 			<br/>
-			
+
 			<div class="prog">
 				<div class="progress" style="height: 2px">
 					<div class="progress-bar" [style.width.%]="progress"></div>

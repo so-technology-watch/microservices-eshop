@@ -1,15 +1,18 @@
 .input-group-addon {
-	min-width: 185px;
-	text-align: right;
-	background-color: #F5F5F5;
+  min-width: 185px;
+  text-align: right;
+  background-color: #F5F5F5;
 }
+
 .form-control {
-	padding-left: 7px;
-	border: solid #F5F5F5 1px;
+  padding-left: 7px;
+  border: solid #F5F5F5 1px;
 }
+
 .input-group {
-	margin-bottom: 15px;
+  margin-bottom: 15px;
 }
+
 .glyphicon-chevron-left {
-	cursor: pointer;
+  cursor: pointer;
 }

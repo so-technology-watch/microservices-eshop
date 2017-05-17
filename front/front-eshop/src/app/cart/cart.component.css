@@ -1,19 +1,29 @@
-.buttons{
+.buttons {
   text-align: right;
 }
-img{
-	width: 50%;
-	height: auto;
+
+img {
+  width: 50%;
+  height: auto;
 }
+
 th {
-	border : solid #DDDDDD 1px!important;
+  border: solid #DDDDDD 1px!important;
 }
+
 td:first-child {
-	border-left : solid #DDDDDD 1px;
+  border-left: solid #DDDDDD 1px;
 }
+
 td:last-child {
-	border-right : solid #DDDDDD 1px;
+  border-right: solid #DDDDDD 1px;
 }
+
 td {
-	border-bottom: solid #DDDDDD 1px;	
+  border-bottom: solid #DDDDDD 1px;
+}
+
+th h4{
+
+  color :  #fe352d;
 }

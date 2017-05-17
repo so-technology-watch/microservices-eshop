@@ -9,72 +9,72 @@ import { SharedService } from '../notifications/shared.service';
   providers: [BuyService]
 })
 
-export class BuyComponent{
-	private valid : boolean;
-	private cardNumber : string;
-	private expirationDate : string;
-	private cryptogramme : string;
-	private progress : number;
+export class BuyComponent {
+  private valid: boolean;
+  private cardNumber: string;
+  private expirationDate: string;
+  private cryptogramme: string;
+  private progress: number;
 
-	constructor(private buyService : BuyService, private sharedService : SharedService){
-		this.valid = false;
-		this.progress = 0;
-	};
+  constructor(private buyService: BuyService, private sharedService: SharedService) {
+    this.valid = false;
+    this.progress = 0;
+  };
 
-	private isValid() : boolean {
-		return this.isValidDate() && this.isValidCard() && this.isValidCrypto();
-	}
+  private isValid(): boolean {
+    return this.isValidDate() && this.isValidCard() && this.isValidCrypto();
+  }
 
-	onChange() : void {
-		let nbValid = 0;
-		for(let isValid of [this.isValidCard, this.isValidCrypto, this.isValidDate]){
-			if(isValid.bind(this)()) nbValid ++;
-		}
-		this.progress = (nbValid * 10 * 10/3);
-		console.log(this.progress)
-	}
+  onChange(): void {
+    let nbValid = 0;
+    for (let isValid of [this.isValidCard, this.isValidCrypto, this.isValidDate]) {
+      if (isValid.bind(this)()) nbValid++;
+    }
+    this.progress = (nbValid * 10 * 10 / 3);
+    console.log(this.progress)
+  }
 
-	private buy() : void {
-		if(!this.isValid()) return;
-		this.buyService.buy(() => {
-			this.sharedService.displayNotification('Une erreur est servenue', false);
-		}).subscribe(
-			result => {
-				console.log(result);
-			}
-		);
-	}
+  private buy(): void {
+    if (!this.isValid()) return;
+    this.buyService.buy(() => {
+      this.sharedService.displayNotification('Une erreur est servenue', false);
+    }).subscribe(
+      result => {
+        console.log(result);
+      }
+      );
+  }
 
-	private isValidCard() : boolean {
-		if(this.cardNumber == null) return false;
-		let card : string = this.cardNumber.split('-').join('');
-		let validCard : boolean = new RegExp("^[0-9]{16}$").test(card);
-		return validCard;
-	}
+  private isValidCard(): boolean {
+    if (this.cardNumber == null) return false;
+    let card: string = this.cardNumber.split('-').join('');
+    let validCard: boolean = new RegExp("^[0-9]{16}$").test(card);
+    return validCard;
+  }
 
-	private isValidCrypto() : boolean {
-		let validCrypt : boolean = new RegExp("^[0-9]{3}$").test(this.cryptogramme);
-		return validCrypt;
-	}
+  private isValidCrypto(): boolean {
+    let validCrypt: boolean = new RegExp("^[0-9]{3}$").test(this.cryptogramme);
+    return validCrypt;
+  }
 
-	private isValidDate() : boolean {
-		let date = new Date(this.expirationDate);
-		let validDate : boolean = date.toString() != 'Invalid Date';
-		return validDate;
-	}
+  private isValidDate(): boolean {
+    let date = new Date(this.expirationDate);
+    let validDate: boolean = date.toString() != 'Invalid Date';
+    return validDate;
+  }
 
-	private onChangeCard() : void {
-		let card : string = this.cardNumber;
-		card = card.split('-').join('');
-		let newCard = '';
-		for(let i = 0; i < Math.ceil( (card.length/4) ); i++){
-			let sl : string = card.slice(i*4, (i*4)+4);
-			newCard += sl;
-			if(sl.length == 4 && newCard.length <= 16){
-				newCard += '-';
-			}
-		}
-		this.cardNumber = newCard;
-	}
+  private onChangeCard(): void {
+    let card: string = this.cardNumber;
+    card = card.split('-').join('');
+    let newCard = '';
+    for (let i = 0; i < Math.ceil((card.length / 4)); i++) {
+      let sl: string = card.slice(i * 4, (i * 4) + 4);
+      newCard += sl;
+      if (sl.length == 4 && newCard.length <= 16) {
+        newCard += '-';
+      }
+    }
+    this.cardNumber = newCard;
+  }
 
 }

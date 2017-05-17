@@ -15,7 +15,7 @@ import { SharedService } from '../notifications/shared.service';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  constructor(private http: Http,  private router : Router, private sharedService: SharedService) { }
+  constructor(private http: Http, private router: Router, private sharedService: SharedService) { }
 
   submitted = false
   credentials = new Credentials("mail2@mail.fr", "passijjfeij");
@@ -29,9 +29,9 @@ export class LoginComponent {
   auth() {
 
     this.loginService.authenticate(this.credentials,
-        error => {
-          this.sharedService.displayNotification('Connexion impossible', false);
-        }
+      error => {
+        this.sharedService.displayNotification('Connexion impossible', false);
+      }
     ).subscribe(
 
       response => {
@@ -63,7 +63,7 @@ export class LoginComponent {
 
         }
       }
-    );
+      );
 
 
   }

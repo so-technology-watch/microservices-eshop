@@ -23,7 +23,7 @@ export class CartService {
   }
 
 
-  public ajouterProduit(id: number, price: number, callback : () => void) {
+  public ajouterProduit(id: number, price: number, callback: () => void) {
     let customer = JSON.parse(localStorage['customer']);
     let idCustomer: string = customer['id'];
     this.retrieveCartAndAdd(id, price, idCustomer, callback);
@@ -34,7 +34,7 @@ export class CartService {
 
     let customer = localStorage.getItem("customer");
     let customerID = JSON.parse(customer).id;
-    return this.http.delete(this.url + "/" + customerID + "/elements/" + id )
+    return this.http.delete(this.url + "/" + customerID + "/elements/" + id)
       .map(response => { response.json(); })
       .catch(error => Observable.throw("an error occured"));
   }
@@ -56,10 +56,10 @@ export class CartService {
   /**
   * ajoute le produit à un panier existant, ou increment son nombre
   */
-  private addCart(cart: any, id: number, price: number, idCustomer : string, callback): void {
+  private addCart(cart: any, id: number, price: number, idCustomer: string, callback): void {
     let elements = cart.cartElements;
     let contains = false;
-    if(elements.length == 0) this.addCartEmpty(id, price, idCustomer);
+    if (elements.length == 0) this.addCartEmpty(id, price, idCustomer);
     let elementID = elements.length + 1;
     for (let element of elements) {
       if (element.productID == id) {
@@ -99,7 +99,7 @@ export class CartService {
       customerID: idCustomer,
       totalPrice: 0.000000
     };
-    this.createCart(data, () => {});
+    this.createCart(data, () => { });
   }
 
   private createCart(data: any, callback): void {

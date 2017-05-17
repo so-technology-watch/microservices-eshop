@@ -103,19 +103,19 @@ export class CartComponent implements OnInit {
     target.src = baseURI + 'assets/notfound.png';
   }
 
-private update(){
+  private update() {
 
-  let customerID = JSON.parse(localStorage.getItem("customer")).id;
-  this.cartService.retrieveCart(customerID).subscribe(
-    response => {
-      console.log("done");
-      this.cart = response.json();
-      console.log(response.json());
-      this.changeDetectorRef.detectChanges();
+    let customerID = JSON.parse(localStorage.getItem("customer")).id;
+    this.cartService.retrieveCart(customerID).subscribe(
+      response => {
+        console.log("done");
+        this.cart = response.json();
+        console.log(response.json());
+        this.changeDetectorRef.detectChanges();
 
-    }
-  );
+      }
+    );
 
-  this.sharedService.displayNotification("Produit ajouté avec succès!", true);
-}
+    this.sharedService.displayNotification("Produit ajouté avec succès!", true);
+  }
 }
