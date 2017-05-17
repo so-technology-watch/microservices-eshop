@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 	private message : Message;
 	private notifVisible : boolean;
 	private onglet : Tabs;
-  private loading : boolean;
+	private loading : boolean;
 
 	constructor(private authService: AuthGuard, private router: Router, private sharedService: SharedService) {
 		this.logged = false;

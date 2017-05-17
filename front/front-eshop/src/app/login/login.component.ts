@@ -14,18 +14,23 @@ import { gatewayUrl } from '../app.routes';
   selector: 'login',
   styleUrls: ['./login.component.css'],
   templateUrl: './login.component.html',
-  providers: [LoginService]
+  providers: [LoginService, CustomerService]
 })
 export class LoginComponent {
-  constructor(private http: Http, private router: Router, private sharedService: SharedService) { }
-  submitted = false
-  credentials = new Credentials("mail2@mail.fr", "passijjfeij");
-  authResponse = new AuthResponse();
-  authStatus = new AuthStatus();
-  customer = new Customer();
-  loginService = new LoginService(this.http);
-  customerService = new CustomerService(this.http);
+  private submitted : boolean;
+  private credentials : Credentials;
+  private authResponse : AuthResponse;
+  private authStatus : AuthStatus;
+  private customer : Customer;
 
+  constructor(private http: Http, private router: Router, private sharedService: SharedService, private loginService : LoginService, private customerService : CustomerService) {
+
+    this.submitted = false;
+    this.credentials = new Credentials("mail2@mail.fr", "passijjfeij");
+    this.authResponse = new AuthResponse();
+    this.authStatus = new AuthStatus();
+    this.customer = new Customer();
+  }
 
   auth() {
 
@@ -48,7 +53,6 @@ export class LoginComponent {
           this.customerService.retrieveCustomer(token).subscribe(
 
             response => {
-
               this.customer.id = response.json().id;
               this.customer.firstname = response.json().firstname;
               this.customer.lastname = response.json().lastname;

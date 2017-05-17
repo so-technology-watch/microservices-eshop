@@ -4,13 +4,14 @@ import { Observable } from 'rxjs/Observable';
 import { AuthResponse } from './authResponse';
 import { AuthStatus } from './authStatus';
 import { Credentials } from './credentials';
+import { gatewayUrl } from '../app.routes';
 
 @Injectable()
 export class LoginService {
 
-  private authUrl = 'http://10.226.159.191:9090/api/v1/auth';
+  private authUrl = 'http://10.226.159.191:9090/api/v1'+'/auth';
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {}
 
   public authenticate(credentials: Credentials, callbackError: any | Function): Observable<Response> {
 

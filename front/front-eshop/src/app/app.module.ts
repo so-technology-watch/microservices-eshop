@@ -20,7 +20,7 @@ import { ProductComponent } from './product/product.component';
 import { SuccessfullAddComponent } from './product/successfulladd.component';
 import { AccountComponent } from './account/account.component';
 import { NotificationsComponent } from './notifications/notifications.component';
-import {AuthGuard} from './guards/auth.gard';
+import { AuthGuard } from './guards/auth.gard';
 import { SharedService } from './notifications/shared.service';
 
 
