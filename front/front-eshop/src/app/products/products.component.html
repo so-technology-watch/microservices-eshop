@@ -8,7 +8,7 @@
 	</div>
 	<div class="container" [ngClass]="{'hidden' : loading }">
 		<div class="list-group">
-			<div *ngFor="let product of getProducts()" class="list-group-item col-md-4 col-xs-4">
+			<div *ngFor="let product of getProducts()" class="list-group-item col-md-4 col-sm-4 col-xs-6">
 				<a [routerLink]="['/product', product.id]">
 					<span class="glyphicon glyphicon-chevron-right"></span>
 				</a>

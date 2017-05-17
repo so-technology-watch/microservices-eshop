@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { AppComponent } from '../app.component';
 import { Tabs } from '../app.tabs';
+import { gatewayUrl } from '../app.routes';
 
 @Injectable()
 export class SharedService {

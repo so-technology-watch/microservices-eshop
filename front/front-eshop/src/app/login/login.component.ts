@@ -8,15 +8,16 @@ import { CustomerService } from './customer.service';
 import { AuthStatus } from './authStatus';
 import { Router } from '@angular/router';
 import { SharedService } from '../notifications/shared.service';
+import { gatewayUrl } from '../app.routes';
 
 @Component({
   selector: 'login',
   styleUrls: ['./login.component.css'],
   templateUrl: './login.component.html',
+  providers: [LoginService]
 })
 export class LoginComponent {
   constructor(private http: Http, private router: Router, private sharedService: SharedService) { }
-
   submitted = false
   credentials = new Credentials("mail2@mail.fr", "passijjfeij");
   authResponse = new AuthResponse();

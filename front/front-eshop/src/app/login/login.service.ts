@@ -5,12 +5,10 @@ import { AuthResponse } from './authResponse';
 import { AuthStatus } from './authStatus';
 import { Credentials } from './credentials';
 
-
 @Injectable()
 export class LoginService {
 
-  private url = 'http://10.226.160.85:9090/api/v1/auth';
-
+  private authUrl = 'http://10.226.159.191:9090/api/v1/auth';
 
   constructor(private http: Http) { }
 
@@ -21,7 +19,7 @@ export class LoginService {
     let options = new RequestOptions({ headers: headers });
     let authResponse = new AuthResponse();
 
-    return this.http.post(this.url, body, options)
+    return this.http.post(this.authUrl, body, options)
       .map(response => response)
       .catch(error => {
         callbackError();
@@ -38,7 +36,7 @@ export class LoginService {
     let options = new RequestOptions({ headers: headers });
     let authStatus = new AuthStatus();
 
-    return this.http.get(this.url, options)
+    return this.http.get(this.authUrl, options)
       .map(response => response)
       .catch(error => Observable.throw("an error occured"));
   }
