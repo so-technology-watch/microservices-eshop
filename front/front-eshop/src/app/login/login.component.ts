@@ -23,7 +23,6 @@ export class LoginComponent {
   private customer : Customer;
 
   constructor(private http: Http, private router: Router, private sharedService: SharedService, private loginService : LoginService, private customerService : CustomerService) {
-    console.log(gatewayUrl)
     this.submitted = false;
     this.credentials = new Credentials("mail2@mail.fr", "passijjfeij");
     this.authResponse = new AuthResponse();
