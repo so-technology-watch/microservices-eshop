@@ -17,8 +17,10 @@ class PaymentService:
 
     def create(self, id_user, gateway_url):
         print("requested user's bills : %s" % id_user)
-        products_id = self._resolve_cart_products(gateway_url, id_user)
-        products = [self._resolve_get(gateway_url, self.route_products, id) for id in products_id]
+        cart = self._resolve_cart_products(gateway_url, id_user)
+        products = [self._resolve_get(gateway_url, self.route_products, id) for id, quantity in cart]
+        for i in range(len(products)):
+            products[i]['quantity'] = cart[i][1]
         suppliers = self._product_to_dict_suppliers(products)
         bills = []
         customer = self._resolve_get(gateway_url, self.route_customers, id_user)
@@ -55,7 +57,7 @@ class PaymentService:
         if not isinstance(data, dict) or 'cartElements' not in data.keys():
             print("unable to find a cart")
             return []
-        return [p['productID'] for p in data['cartElements']]
+        return [(p['productID'], p['quantity']) for p in data['cartElements']]
 
     def _resolve_get(self, gateway_url, route, id_obj):
         co = HTTPConnection(gateway_url)

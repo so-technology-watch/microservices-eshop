@@ -5,15 +5,11 @@ import { AuthStatus } from '../login/authStatus';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-
-
-
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router, private http: Http) { }
+  constructor(private router: Router, private http: Http, private loginService : LoginService) { }
 
-  loginService = new LoginService(this.http);
 
   public canActivate(): Observable<boolean> | boolean {
     let authStatus = new AuthStatus();
