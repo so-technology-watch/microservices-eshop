@@ -8,7 +8,6 @@ import { CustomerService } from './customer.service';
 import { AuthStatus } from './authStatus';
 import { Router } from '@angular/router';
 import { SharedService } from '../notifications/shared.service';
-import { gatewayUrl } from '../app.routes';
 
 @Component({
   selector: 'login',
