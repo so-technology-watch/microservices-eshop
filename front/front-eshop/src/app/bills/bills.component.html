@@ -15,6 +15,8 @@
 									<p>Désignation : {{ product.designation }}</p>
 									<p>Référence : {{ product.reference }}</p>
 									<p>Prix : {{ product.price }} €</p>
+									<p>Quantité : {{ product.quantity }}</p>
+									<p>Total : {{ product.quantity * product.price }} €</p>
 								</div>
 								<div class="col-md-6">
 									<img src="{{ product.image || 'assets//notfound.png' }}" class="img img-responsive thumbnail" (error)="errorImage($event)"/>

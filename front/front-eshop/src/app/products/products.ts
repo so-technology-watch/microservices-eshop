@@ -9,5 +9,5 @@ export class Products {
 	public image : string;
 	public idCategory : number;
 	public supplier : Supplier;
-
+	public quantiy : number;
 }
