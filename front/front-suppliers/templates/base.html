@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/bootstrap.min.css') }}">
+</head>
+
+<body>
+  <header>
+    {% include 'parts/header.html' %}
+  </header>
+  <div class="container-fluid">
+  {% block main %}
+  {% endblock %}
+    </div>
+  <footer>
+    {% include 'parts/footer.html' %}
+  </footer>
+</body>
+
+</html>
