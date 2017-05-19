@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { AuthResponse } from './authResponse';
 import { AuthStatus } from './authStatus';
 import { Credentials } from './credentials';
 
 @Injectable()
 export class LoginService {
+
   private authUrl : string = 'http://10.226.159.191:9090/api/v1/auth';
 
   constructor(private http: Http) {}

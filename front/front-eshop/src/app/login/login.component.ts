@@ -8,7 +8,6 @@ import { CustomerService } from './customer.service';
 import { AuthStatus } from './authStatus';
 import { Router } from '@angular/router';
 import { SharedService } from '../notifications/shared.service';
-import { gatewayUrl } from '../app.routes';
 
 @Component({
   selector: 'login',
@@ -24,7 +23,6 @@ export class LoginComponent {
   private customer : Customer;
 
   constructor(private http: Http, private router: Router, private sharedService: SharedService, private loginService : LoginService, private customerService : CustomerService) {
-    console.log(gatewayUrl)
     this.submitted = false;
     this.credentials = new Credentials("mail2@mail.fr", "passijjfeij");
     this.authResponse = new AuthResponse();
