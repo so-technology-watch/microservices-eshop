@@ -1,0 +1,54 @@
+version: '2'
+services:
+  bills:
+    image: "faseldi/billsx64"
+    ports:
+      - "9091:9091"
+    expose:
+      - "9091"
+    environment:
+      - CONSUL_CLIENT=10.226.160.85
+    depends_on:
+      - bills-db
+  bills-db:
+    image: "sameersbn/mongodb:latest"
+    ports:
+      - "27017:27017"
+  products:
+    image: "faseldi/productsx64"
+    ports:
+      - "9092:9092"
+    expose:
+      - "9092"
+    environment:
+      - CONSUL_CLIENT=10.226.160.85
+    depends_on:
+      - products-db
+  products-db:
+    image: "faseldi/products-dbx64"
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+  customers:
+    image: "lechelong/customersx64"
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    environment:
+      - consul=10.226.160.85:8500
+  carts:
+    image: "lechelong/cartsx64"
+    ports:
+      - "8082:8082"
+    expose:
+      - "8082"
+    environment:
+      - consul=10.226.160.85:8500
+  carts-db:
+    image: "lechelong/carts-dbx64"
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
