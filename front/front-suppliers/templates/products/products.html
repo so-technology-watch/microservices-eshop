@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block main %}
+
+<div class="container">
+	<ul class="list-group">
+	{% for product in products %}
+		<li class="list-group-item">
+			<div>
+				<form method="POST" action="/updateProduct/{{ product.id }}">
+					<div class="row">
+						<div class="col-md-4"></div>
+						<div class="col-md-4">
+							<h3 class="text-center">
+								Désignation
+								<input type="text" value="{{ product.designation }}" name="designation" class="form-control"/>
+							</h3>
+						</div>
+						<div class="col-md-4"></div>
+					</div>
+					<label>Référence</label>
+					<input type="text" value="{{ product.reference }}" name="reference" class="form-control"/>
+
+					<label>Prix</label>
+					<input type="text" name="price" value="{{ product.price }}" class="form-control"/>
+
+					<img src="{{ product.image }}" class="img img-response center-block"/>
+
+					<input type="submit" name="valider" value="Valider" class="btn btn-primary"/>
+				</form>
+			</div>
+		</li>
+	{% endfor %}
+	</ul>
+</div>
+
+{% endblock %}
