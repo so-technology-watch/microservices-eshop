@@ -8,22 +8,35 @@
       <div class="panel-body text-center">
         <form method="POST" action="/auth">
           <div class="from-group">
-            <label for="ID" class="col-md-3  control-label">
+            <label for="ID" class="col-md-3  control-label ">
               <i class="fa fa-id-badge" aria-hidden="true"></i>
               ID
               </label>
             <div class="col-md-5">
-              <input class="form-control" id="ID" type="text" placeholder="id..." name="ID" />
+              <input class="form-control input-sm" id="ID" type="text" placeholder="id..." name="ID" />
             </div>
           </div>
-          <input class="btn btn-success col-md-4" type="submit" value="S'authentifier" />
+          <button type="submit" class="btn btn-success btn-sm col-md-4">
+            <i class="fa fa-rocket" aria-hidden="true"></i>
+          &nbsp;
+          s'authentifier
+</button>
         </form>
       </div>
       {% with error = get_flashed_messages(category_filter=["error"]) %} {% if error %}
-      <div class="alert alert-dismissible alert-danger">
-        <strong>Oops!</strong> {{error[0]}}
+      <div class ="row">
+      <div class="col-md-1">
+
       </div>
-      {% endif %} {% endwith %}
+      <div class="alert alert-dismissible alert-danger col-md-10">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <strong>Oops!</strong>
+         {{error[0]}}
+      </div>
+      {% endif %}
+       {% endwith %}
     </div>
+
+  </div>
   </div>
 </div>
