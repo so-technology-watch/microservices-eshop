@@ -9,13 +9,12 @@
 </head>
 
 <body>
-  <header>
-    {% include 'parts/header.html' %}
-  </header>
-  <div class="container-fluid">
-    <section>
-  {% block main %}
-  {% endblock %}
+  <div>
+    <header>
+      {% include 'parts/header.html' %}
+    </header>
+    {% block main %}
+    {% endblock %}
   </div>
   <footer>
     {% include 'parts/footer.html' %}

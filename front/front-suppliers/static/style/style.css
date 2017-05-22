@@ -1,8 +1,9 @@
+body > div {
+    min-height: calc(97vh - 40px);
+}
 #updateform span.input-group-addon {
     min-width: 100px;
 }
-
-
 html {
 background-color: #f1f1f1;
 }
@@ -10,7 +11,6 @@ section {
   margin: 0;
   min-height: 800px;
 }
-
 #createform span.input-group-addon {
     min-width: 120px;
 }
