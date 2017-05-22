@@ -1,3 +1,6 @@
 #updateform span.input-group-addon {
     min-width: 100px;
 }
+#createform span.input-group-addon {
+    min-width: 120px;
+}
