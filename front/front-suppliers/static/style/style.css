@@ -4,3 +4,7 @@
 #createform span.input-group-addon {
     min-width: 120px;
 }
+.input-group, .col-md-4.col-sm-6.col-xs-8.text-right {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}

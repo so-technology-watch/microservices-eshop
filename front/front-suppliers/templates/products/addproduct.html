@@ -31,7 +31,7 @@
 					<span class="input-group-addon">Catégorie</span>
 					<select name="id_category" form="createform" class="form-control">
 						{% for category in categories %}
-							<option selected="selected">
+							<option value="{{ category.id }}" selected="selected">
 								{{ category.name }}
 							</option>
 						{% endfor %}
