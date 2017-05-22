@@ -8,6 +8,8 @@
         <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
         <li><a href="#">Link</a></li>
         {% if "logged" in session and session["logged"] == "TRUE" %}
+      </ul>
+      <ul class="nav navbar-nav navbar-right"> 
         <li>
           <a class="btn btn-danger" href="{{url_for("logout")}}">logout</a>
         </li>
