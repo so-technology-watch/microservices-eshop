@@ -6,6 +6,7 @@ class ProductService:
     get_route = "/api/v1/products?idSupplier=%s"
     get_categories_route = "/api/v1/categories"
     post_route = "/api/v1/products"
+    delete_route = "/api/v1/products/%s"
 
     def __init__(self, gateway_url):
         self.gateway_url = gateway_url
@@ -35,6 +36,12 @@ class ProductService:
     		'Content-Type': 'application/json'	
 		})
     	return req.text
+
+    def delete_product(self, id_product):
+    	route = self.delete_route % id_product
+    	url ="http://%s%s" % (self.gateway_url, route)
+    	return requests.delete(url).text
+
 
 class Product:
 

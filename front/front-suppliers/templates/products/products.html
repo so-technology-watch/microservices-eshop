@@ -8,7 +8,7 @@
 			<div class="panel-heading"></div>
 			<div class="panel-body">
 				<div>
-					<form method="POST" action="/updateProduct/{{ product.id }}" id="updateform">
+					<form method="POST" action="/updateProduct/{{ product.id }}" id="updateform{{product.id}}">
 						<div class="row">
 							<div class="col-md-4 col-sm-3"></div>
 							<div class="col-md-4 col-sm-6">
@@ -39,7 +39,7 @@
 
 								<div class="input-group">
 									<span class="input-group-addon">Catégorie</span>
-									<select name="id_category" form="updateform" class="form-control">
+									<select name="id_category" class="form-control">
 										{% for category in categories %}
 											<option value="{{ category.id }}" 
 												{% if category.id == product.idCategory %} 
@@ -58,8 +58,15 @@
 							<div class="col-md-4 col-sm-6 col-xs-8 text-right">
 								<img src="{{ product.image }}" class="img img-response thumbnail" onerror="this.src='/static/notfound.png'"/>
 							</div>
-							<div class="col-md-12 text-right">
-								<input type="submit" name="valider" value="Valider" class="btn btn-primary"/>
+							<div class="row">
+								<div class="col-md-12 col-xs-12 col-sm-12">
+									<div class="col-md-6 col-xs-6 col-sm-6 text-left">
+										<div onclick="deleteProduct( {{product.id}} )" name="delete" class="btn btn-danger">Supprimer</div>
+									</div>
+									<div class="col-md-6 col-xs-6 col-sm-6 text-right">
+										<input type="submit" name="valider" value="Valider" class="btn btn-primary"/>
+									</div>
+								</div>
 							</div>
 						</div>
 					</form>
@@ -69,5 +76,4 @@
 	{% endfor %}
 	</div>
 </div>
-
 {% endblock %}

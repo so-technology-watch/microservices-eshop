@@ -76,6 +76,11 @@ def update_product(id):
     products_service.update_product(product)
     return render_template("products/success.html", previous_page="/products", message="Produit mis à jour avec succès")
 
+@app.route("/deleteProduct/<id>", methods=['DELETE'])
+def delete_product(id):
+	products_service.delete_product(id)
+	return "OK"
+
 def get_id_supplier():
 	return session["supplier"]['id']
 
