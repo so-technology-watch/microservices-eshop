@@ -2,35 +2,72 @@
 {% block main %}
 
 <div class="container">
-	<ul class="list-group">
+	<div>
 	{% for product in products %}
-		<li class="list-group-item">
-			<div>
-				<form method="POST" action="/updateProduct/{{ product.id }}">
-					<div class="row">
-						<div class="col-md-4"></div>
-						<div class="col-md-4">
-							<h3 class="text-center">
-								Désignation
+		<div class="panel panel-info">
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+				<div>
+					<form method="POST" action="/updateProduct/{{ product.id }}" id="updateform">
+						<div class="row">
+							<div class="col-md-4"></div>
+							<div class="col-md-4">
+								<h3 class="text-center">
+									Désignation
+								</h3>
 								<input type="text" value="{{ product.designation }}" name="designation" class="form-control"/>
-							</h3>
+							</div>
+							<div class="col-md-4">
+							</div>
 						</div>
-						<div class="col-md-4"></div>
-					</div>
-					<label>Référence</label>
-					<input type="text" value="{{ product.reference }}" name="reference" class="form-control"/>
+						<div class="row">
+							<div class="col-md-8 col-sm-6 col-xs-4">
+								<div class="input-group">
+									<span class="input-group-addon">Référence</span>
+									<input type="text" value="{{ product.reference }}" name="reference" class="form-control"/>
+								</div>
 
-					<label>Prix</label>
-					<input type="text" name="price" value="{{ product.price }}" class="form-control"/>
+								<div class="input-group">
+									<span class="input-group-addon">Prix</span>
+									<input type="number" step="0.01" name="price" value="{{ product.price }}" class="form-control"/>
+								</div>
 
-					<img src="{{ product.image }}" class="img img-response center-block"/>
+								<div class="input-group">
+									<span class="input-group-addon">Déscription</span>
+									<input type="text" name="description" value="{{ product.description }}" class="form-control"/>
+								</div>
 
-					<input type="submit" name="valider" value="Valider" class="btn btn-primary"/>
-				</form>
+								<div class="input-group">
+									<span class="input-group-addon">Catégorie</span>
+									<select name="id_category" form="updateform" class="form-control">
+										{% for category in categories %}
+											<option value="{{ category.id }}" 
+												{% if category.id == product.idCategory %} 
+													selected="selected" 
+												{% endif %}>
+												{{ category.name }}
+											</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon">Image</span>
+									<input type="file" name="image" value="{{ product.image }}" class="form-control" />
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-6 col-xs-8 text-right">
+								<img src="{{ product.image }}" class="img img-response thumbnail" onerror="this.src='/static/notfound.png'"/>
+							</div>
+							<div class="col-md-12 text-right">
+								<input type="submit" name="valider" value="Valider" class="btn btn-primary"/>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
-		</li>
+		</div>
 	{% endfor %}
-	</ul>
+	</div>
 </div>
 
 {% endblock %}
