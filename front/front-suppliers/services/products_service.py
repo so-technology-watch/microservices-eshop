@@ -6,6 +6,7 @@ class ProductService:
     get_route = "/api/v1/products?idSupplier=%s"
     get_categories_route = "/api/v1/categories"
     post_route = "/api/v1/products"
+    delete_route = "/api/v1/products/%s"
 
     def __init__(self, gateway_url):
         self.gateway_url = gateway_url
@@ -27,10 +28,25 @@ class ProductService:
 		})
     	return req.text
 
+    def create_product(self, product):
+    	url = "http://%s%s" % (self.gateway_url, self.post_route)
+    	dic = product.to_dict()
+    	del dic['id']
+    	req = requests.post(url, data=str(dumps(dic)), headers={
+    		'Content-Type': 'application/json'	
+		})
+    	return req.text
+
+    def delete_product(self, id_product):
+    	route = self.delete_route % id_product
+    	url ="http://%s%s" % (self.gateway_url, route)
+    	return requests.delete(url).text
+
+
 class Product:
 
 	def __init__(self, id, designation, reference, price, description, image, id_supplier, id_category, *args, **kwargs):
-		self.id = int(id)
+		self.id = id
 		self.designation = designation[0]
 		self.reference = reference[0]
 		self.price = price[0]
@@ -39,8 +55,8 @@ class Product:
 		self.id_category = int(id_category[0])
 		self.id_supplier = int(id_supplier)
 
-	def __repr__(self):
-		return str(dumps({
+	def to_dict(self):
+		return {
 			'id': self.id,
 			'designation': self.designation,
 			'reference': self.reference,
@@ -49,4 +65,7 @@ class Product:
 			'idSupplier': self.id_supplier,
 			'image': self.image,
 			'idCategory': self.id_category
-		}))
+		}
+
+	def __repr__(self):
+		return str(dumps(self.to_dict()))

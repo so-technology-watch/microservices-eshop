@@ -1,6 +1,7 @@
 from services.products_service import ProductService, Product
 from services.auth_service import Auth_service
 from flask import Flask, render_template, request, session, url_for, redirect, flash
+from json import loads
 
 auth_service = Auth_service()
 app = Flask(__name__)
@@ -24,7 +25,7 @@ def auth():
 
     if logged:
         session["logged"] = "TRUE"
-        session["supplier"] = supplier
+        session["supplier"] = loads(supplier)
         flash("Authentification avec succès.", "message")
     else:
         session["logged"] = "FALSE"
@@ -41,11 +42,9 @@ def logout():
 
     return redirect(url_for("root"))
 
-
 @app.route("/products")
 def products_list():
-    id = 141
-    products = products_service.retrieve_products(id)
+    products = products_service.retrieve_products(get_id_supplier())
     categories = products_service.retrieve_categories()
     session['active'] = 'products'
     return render_template("products/products.html", products=products, categories=categories)
@@ -53,19 +52,37 @@ def products_list():
 @app.route("/addproduct")
 def add_product():
 	session['active'] = 'add'
-	return render_template("products/addproduct.html")
+	categories = products_service.retrieve_categories()
+	return render_template("products/addproduct.html", categories=categories)
 
 @app.route("/updateinfo")
 def update_info():
 	session['active'] = 'updateinfo'
 	return render_template("suppliers/updateinfo.html")
 
-@app.route("/updateProduct/<id>", methods=['GET','POST'])
+@app.route("/createProduct", methods=['POST'])
+def create_product():
+	product = Product(id='', id_supplier=get_id_supplier(), **request.form)
+	res = products_service.create_product(product)
+	if res == 'OK':
+		message = "Impossible de créer votre produit"
+	else:
+		message = "Produit créé avec succès"
+	return render_template("products/success.html", previous_page="/addproduct", message=message)
+
+@app.route("/updateProduct/<id>", methods=['POST'])
 def update_product(id):
-    if request.method == 'POST':
-        product = Product(id, id_supplier=141, **request.form)
-        products_service.update_product(product)
-    return render_template("products/success.html", previous_page="/products")
+    product = Product(id, id_supplier=get_id_supplier(), **request.form)
+    products_service.update_product(product)
+    return render_template("products/success.html", previous_page="/products", message="Produit mis à jour avec succès")
+
+@app.route("/deleteProduct/<id>", methods=['DELETE'])
+def delete_product(id):
+	products_service.delete_product(id)
+	return "OK"
+
+def get_id_supplier():
+	return session["supplier"]['id']
 
 if __name__ == "__main__":
     app.run(debug = True)

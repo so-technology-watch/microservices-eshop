@@ -2,6 +2,50 @@
 {% block main %}
 
 <div class="container">
-	Add product
+	<form method="POST" action="/createProduct" id="createform">
+		<div class="row">
+			<h2 class="text-center">Ajout de produit</h2>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="input-group">
+					<span class="input-group-addon">Désignation</span>
+					<input type="text" name="designation" class="form-control">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">Référence</span>
+					<input type="text" name="reference" class="form-control"/>
+				</div>
+
+				<div class="input-group">
+					<span class="input-group-addon">Prix</span>
+					<input type="number" step="0.01" name="price" class="form-control"/>
+				</div>
+
+				<div class="input-group">
+					<span class="input-group-addon">Déscription</span>
+					<input type="text" name="description" class="form-control"/>
+				</div>
+
+				<div class="input-group">
+					<span class="input-group-addon">Catégorie</span>
+					<select name="id_category" form="createform" class="form-control">
+						{% for category in categories %}
+							<option value="{{ category.id }}" selected="selected">
+								{{ category.name }}
+							</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">Image</span>
+					<input type="file" name="image" class="form-control" />
+				</div>
+			</div>
+			<div class="col-md-12 text-right">
+				<input type="submit" name="valider" value="Valider" class="btn btn-primary"/>
+			</div>
+		</div>
+	</form>
 </div>
 {% endblock %}
