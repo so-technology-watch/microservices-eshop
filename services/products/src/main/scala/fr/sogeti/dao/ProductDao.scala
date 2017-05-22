@@ -29,10 +29,26 @@ class ProductDao extends GenericDAO[Product, Integer]( classOf[Product], Manager
         val query : Query = manager.createNativeQuery(queryStr, classOf[Product])
         val result = query.getResultList
         found = result.toArray( new Array[Product](result.size) )
-        found.foreach( p => println(p) )
       }
     }
     new TransactionStrategy(manager, strategy).execute
     return found
+  }
+  
+  def findBySupplier(idSupplier : Int) : Array[Product] = {
+    var found : Array[Product] = null
+    val strategy : ITransactionStrategy = new ITransactionStrategy {
+      override def execute() : Unit = {
+        val className : String = classOf[Product].getName
+        var queryStr : String = "SELECT id, reference, designation, description, price, id_category, id_supplier, image from Product WHERE id_supplier=:idSupplier"
+        
+        val query : Query = manager.createNativeQuery(queryStr, classOf[Product])
+        query.setParameter("idSupplier", idSupplier)
+        val result = query.getResultList
+        found = result.toArray( new Array[Product](result.size) )
+      }
+    }
+    new TransactionStrategy(manager, strategy).execute
+    return found    
   }
 }

@@ -23,6 +23,10 @@ class ProductService extends IEntityService[Product] {
     return dao.findByCriterias(criterias)
   }
   
+  def findBySupplier(idSupplier : Int) : Array[Product] = {
+    return dao.findBySupplier(idSupplier)
+  }
+  
   override def create(product : Product) : Unit = {
     dao.create(product)
   }

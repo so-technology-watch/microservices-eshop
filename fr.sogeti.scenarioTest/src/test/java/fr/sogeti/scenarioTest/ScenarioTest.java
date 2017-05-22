@@ -11,11 +11,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import static com.jayway.restassured.RestAssured.*;
 
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import static java.lang.String.format;
 
-import java.awt.geom.CubicCurve2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import junitparams.JUnitParamsRunner;
@@ -128,7 +126,7 @@ public class ScenarioTest extends FonctionalTest {
     }
 
     /**
-     * Vérifie un fournisseur, vérifie si il y a bien son id et le nom de son
+     * Vï¿½rifie un fournisseur, vï¿½rifie si il y a bien son id et le nom de son
      * entreprise
      * 
      * @param fournisseur
@@ -145,7 +143,7 @@ public class ScenarioTest extends FonctionalTest {
     }
 
     /**
-     * Créer une categorie
+     * Crï¿½er une categorie
      * 
      * @param categorie
      */

@@ -19,12 +19,13 @@ if "__main__" == __name__:
     deregister(discovery, ['bills-http'])
 
     consul = ConfigResolver(consul_client)
-    consul.get_address("eth0")
     config = consul.get_config("config/services/bills")
-
-    address = consul.get_address(config.interface)
+    if config.accept_all:
+        address = '0.0.0.0'
+    else:
+        address = consul.get_address(config.interface)
     discovery.register('bills-http', 'bills-service', address, config.port, 'http', ('service', 'bills'), route='/api/v1/check')
 
     thread = threading.Thread(target=rest.run, args=[address, config.port])
     thread.start()
-    print("running on %s" % address)
+    print("running on http://%s:%s" % (address, config.port))
