@@ -27,20 +27,12 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-<<<<<<< HEAD
           {% if "logged" in session and session["logged"] == "TRUE" %}
             <a class="btn btn-danger" href="{{url_for("logout")}}">Déconnexion</a>
           {% else %}
             <a class="btn btn-primary" href="/">Connexion</a>
           {% endif %}
         </li>
-=======
-          <a class="btn btn-danger" href="{{url_for("logout")}}">
-            <i class="fa fa-unlock fa-lg" aria-hidden="true"></i> logout
-          </a>
-           </li>
-        {% endif %}
->>>>>>> ef6f2c9cfb73bdff247eb0a76f7057f37af83aff
       </ul>
     </div>
   </div>
