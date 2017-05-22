@@ -41,12 +41,24 @@ def logout():
 
     return redirect(url_for("root"))
 
+
 @app.route("/products")
 def products_list():
     id = 141
     products = products_service.retrieve_products(id)
     categories = products_service.retrieve_categories()
+    session['active'] = 'products'
     return render_template("products/products.html", products=products, categories=categories)
+
+@app.route("/addproduct")
+def add_product():
+	session['active'] = 'add'
+	return render_template("products/addproduct.html")
+
+@app.route("/updateinfo")
+def update_info():
+	session['active'] = 'updateinfo'
+	return render_template("suppliers/updateinfo.html")
 
 @app.route("/updateProduct/<id>", methods=['GET','POST'])
 def update_product(id):

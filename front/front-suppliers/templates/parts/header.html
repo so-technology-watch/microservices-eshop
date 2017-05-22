@@ -5,15 +5,32 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
         {% if "logged" in session and session["logged"] == "TRUE" %}
+          <li {% if "active" in session and session["active"] == "products" %} class="active" {% endif %}>
+            <a href="/products">
+              Mes produits
+            </a>
+          </li>
+          <li {% if "active" in session and session["active"] == "add" %} class="active" {% endif %}>
+            <a href="/addproduct">
+              Ajouter un produit
+            </a>
+          </li>
+          <li {% if "active" in session and session["active"] == "updateinfo" %} class="active" {% endif %}>
+            <a href="/updateinfo">
+              Mettre à jour mes informations
+            </a>
+          </li>
+        {% endif %}
       </ul>
       <ul class="nav navbar-nav navbar-right"> 
         <li>
-          <a class="btn btn-danger" href="{{url_for("logout")}}">logout</a>
+          {% if "logged" in session and session["logged"] == "TRUE" %}
+            <a class="btn btn-danger" href="{{url_for("logout")}}">Déconnexion</a>
+          {% else %}
+            <a class="btn btn-primary" href="/">Connexion</a>
+          {% endif %}
         </li>
-        {% endif %}
       </ul>
     </div>
   </div>
