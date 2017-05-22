@@ -1,7 +1,9 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Suppliers</a>
+      <a class="navbar-brand" href="#">
+        <i class="fa fa-home fa-2x" aria-hidden="true"></i> Suppliers
+      </a>
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
@@ -9,10 +11,12 @@
         <li><a href="#">Link</a></li>
         {% if "logged" in session and session["logged"] == "TRUE" %}
       </ul>
-      <ul class="nav navbar-nav navbar-right"> 
+      <ul class="nav navbar-nav navbar-right">
         <li>
-          <a class="btn btn-danger" href="{{url_for("logout")}}">logout</a>
-        </li>
+          <a class="btn btn-danger" href="{{url_for("logout")}}">
+            <i class="fa fa-unlock fa-lg" aria-hidden="true"></i> logout
+          </a>
+           </li>
         {% endif %}
       </ul>
     </div>
