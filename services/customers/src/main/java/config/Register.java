@@ -30,7 +30,7 @@ public class Register {
     private Configuration configuration;
 
     public Register(Configuration configuration) {
-	this.consulClient = new ConsulClient(System.getenv("consul"));
+	this.consulClient = new ConsulClient(System.getenv("CONSUL_CLIENT"));
 	this.newService = new NewService();
 	this.configuration = configuration;
     }
@@ -39,7 +39,7 @@ public class Register {
      * 
      */
     public Register() {
-	this.consulClient = new ConsulClient(System.getenv("consul"));
+	this.consulClient = new ConsulClient(System.getenv("CONSUL_CLIENT"));
 	this.newService = new NewService();
 
     }
