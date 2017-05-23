@@ -1,3 +1,4 @@
+# coding=utf-8
 from services.products_service import ProductService, Product
 from services.auth_service import Auth_service
 from services.supplier_service import Supplier_service
@@ -22,7 +23,6 @@ def everything_is_broken(e):
 
 @app.route("/")
 def root():
-
     if "logged" in session and session["logged"] == "TRUE" :
         return render_template("home.html")
     else :
@@ -127,4 +127,4 @@ def get_id_supplier():
 	return session["supplier"]['id']
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run()
