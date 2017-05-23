@@ -22,6 +22,7 @@ func (c *Client) RetrieveConfig() *config.Config {
 		panic(err)
 	}
 
+
 	config := &config.Config{}
 	json.Unmarshal(configJSON, config)
 	log.Println(config)
