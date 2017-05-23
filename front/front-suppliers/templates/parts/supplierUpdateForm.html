@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <div class="col-md-1"> </div>
+  <div class="col-md-10">
+    <div class="panel panel-default text-center">
+      <div class="panel-heading">
+        <h3 class="panel-title">Modification des information</h3>
+      </div>
+      <div class="panel-body text-center">
+        <form method="POST" action="/supplierUdapte">
+          <div class="form-group text-left">
+            <div class="input-group">
+              <span class="input-group-addon">Nom de la companie</span>
+              <input type="text" id="company" name="company" class="form-control" value="{{supplier.company}}"/ />
+            </div>
+            <br />
+            <div class="input-group">
+              <span class="input-group-addon">email</span>
+              <input type="text" id="mail" name="mail" class="form-control" value={{supplier.mail}} / />
+            </div>
+            <br />
+            <div class="input-group">
+              <span class="input-group-addon">Téléphone</span>
+              <input type="text" id="phone" name="phone" class="form-control" value="{{supplier.phone}}" />
+            </div>
+            <button type="submit" class="btn btn-success text-right col-lg-1 col-lg-offset-11"> <i class="fa fa-pencil" aria-hidden="true"></i> </button>
+          </div>
+        </form>
+      </div>
+      {% with error = get_flashed_messages(category_filter=["error"]) %} {% if error %}
+      <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="alert alert-dismissible alert-danger col-md-10">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          <strong>Oops!</strong> {{error[0]}}
+        </div>
+        {% endif %} {% endwith %}
+      </div>
+
+    </div>
+  </div>
+</div>
