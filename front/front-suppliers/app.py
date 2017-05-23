@@ -31,18 +31,22 @@ def root():
 ##Authentification by id
 @app.route("/auth", methods=["POST"])
 def auth():
-    id = request.form["ID"]
-    supplier, logged = auth_service.auth(id)
+	id = request.form["ID"]
 
-    if logged:
-        session["logged"] = "TRUE"
-        session["supplier"] = loads(supplier)
-        flash("Authentification avec succès.", "message")
-    else:
-        session["logged"] = "FALSE"
-        flash("Impossible de vous identifier, veuillez vérifier que votre ID est correct.", "error")
+	if id == "":
+		logged = False
+	else:
+		supplier, logged = auth_service.auth(id)
 
-    return redirect(url_for("root"))
+	if logged:
+		session["logged"] = "TRUE"
+		session["supplier"] = loads(supplier)
+		flash("Authentification avec succès.", "message")
+	else:
+		session["logged"] = "FALSE"
+		flash("Impossible de vous identifier, veuillez vérifier que votre ID est correct.", "error")
+
+	return redirect(url_for("root"))
 
 @app.route("/logout")
 def logout():
@@ -56,12 +60,12 @@ def logout():
 @app.route("/products")
 def products_list():
 
-	 if "logged" not in session or session["logged"] == "FALSE" :
-		 return redirect(url_for("root"))
-		 products = products_service.retrieve_products(get_id_supplier())
-		 categories = products_service.retrieve_categories()
-		 session['active'] = 'products'
-		 return render_template("products/products.html", products=products, categories=categories)
+	if "logged" not in session or session["logged"] == "FALSE" :
+		return redirect(url_for("root"))
+	products = products_service.retrieve_products(get_id_supplier())
+	categories = products_service.retrieve_categories()
+	session['active'] = 'products'
+	return render_template("products/products.html", products=products, categories=categories)
 
 @app.route("/addproduct")
 def add_product():
