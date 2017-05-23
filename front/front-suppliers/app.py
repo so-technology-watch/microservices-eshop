@@ -1,9 +1,12 @@
 from services.products_service import ProductService, Product
 from services.auth_service import Auth_service
+from services.supplier_service import Supplier_service
+from domain.supplier import Supplier
 from flask import Flask, render_template, request, session, url_for, redirect, flash
 from json import loads
 
 auth_service = Auth_service()
+supplier_service = Supplier_service()
 app = Flask(__name__)
 gateway_url = '10.226.159.191:9090'
 products_service = ProductService(gateway_url)
@@ -58,7 +61,19 @@ def add_product():
 @app.route("/updateinfo")
 def update_info():
 	session['active'] = 'updateinfo'
-	return render_template("suppliers/updateinfo.html")
+	ID = session["supplier"]['id']
+	supplier = supplier_service.get_supplier(ID)
+	return render_template("updateSupplier.html", supplier=supplier)
+
+@app.route("/supplierUdapte", methods=["POST"])
+def supplier_update():
+	ID = session["supplier"]["id"]
+	dic = {}
+	for key in request.form.keys():
+		dic[key]=request.form[key]
+	supplier_service.update_supplier(ID, Supplier(ID, **dic))
+	flash("Informations modifiées avec succès", "message")
+	return redirect(url_for("update_info"))
 
 @app.route("/createProduct", methods=['POST'])
 def create_product():
