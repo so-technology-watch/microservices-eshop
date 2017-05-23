@@ -1,14 +1,12 @@
 
 package fr.sogeti;
 
-import fr.sogeti.security.SecurityPropertiesResolver;
 import static java.lang.String.format;
 import static java.lang.System.err;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import static java.util.Objects.isNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.boot.SpringApplication.run;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -22,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableDiscoveryClient // ajout du discovery des services 
 @RestController // cette classe est un controlleur REST
 public class GatewayApplication {
-    @Autowired
-    private SecurityPropertiesResolver config;
 
 	public static void main(String[] args) {
         String consulAddress = System.getenv("CONSUL_CLIENT");
