@@ -11,7 +11,7 @@ public class KVStore {
 
     public KVStore() {
 
-	this.consulClient = new ConsulClient(System.getenv("consul"));
+	this.consulClient = new ConsulClient(System.getenv("CONSUL_CLIENT"));
     }
 
     public Configuration retrieveConfig() {

@@ -20,7 +20,7 @@ type Client struct {
 func (c *Client) CreateClient() {
 	var err error
 	consulConfig := api.DefaultConfig()
-	consulConfig.Address = os.Getenv("consul")
+	consulConfig.Address = os.Getenv("CONSUL_CLIENT")
 
 	c.client, err = api.NewClient(consulConfig)
 	if err != nil {
