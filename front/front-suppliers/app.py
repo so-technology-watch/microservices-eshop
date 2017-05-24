@@ -79,7 +79,7 @@ def update_info():
 	session['active'] = 'updateinfo'
 	id = get_id()
 	supplier = supplier_service.get_supplier(id)
-	return render_template("updateSupplier.html", supplier=supplier)
+	return render_template("suppliers/updateSupplier.html", supplier=supplier)
 
 @app.route("/supplierUdapte", methods=["POST"])
 def supplier_update():
@@ -103,7 +103,8 @@ def create_product():
 		message = "Impossible de créer votre produit"
 	else:
 		message = "Produit créé avec succès"
-	return render_template("products/success.html", previous_page="/addproduct", message=message)
+	flash("Produit ajouté avec succès", "message")
+	return redirect(url_for("add_product"))
 
 @app.route("/updateProduct/<id>", methods=['POST'])
 def update_product(id):
@@ -111,7 +112,8 @@ def update_product(id):
 		return redirect(url_for("root"))
 	product = Product(id, id_supplier=get_id_supplier(), **request.form)
 	products_service.update_product(product)
-	return render_template("products/success.html", previous_page="/products", message="Produit mis à jour avec succès")
+	flash("Produit modifié avec succès", "message")
+	return redirect(url_for("update_product"))
 
 @app.route("/deleteProduct/<id>", methods=['DELETE'])
 def delete_product(id):
