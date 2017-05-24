@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 services:
   bills:
     image: "faseldi/billsx64"
@@ -7,9 +7,10 @@ services:
     expose:
       - "9091"
     environment:
-      - CONSUL_CLIENT=10.226.160.85
+      - CONSUL_CLIENT=10.226.160.80
     depends_on:
-      - bills-db
+      consul:
+        condition: service_healthy
   bills-db:
     image: "sameersbn/mongodb:latest"
     ports:
@@ -21,9 +22,10 @@ services:
     expose:
       - "9092"
     environment:
-      - CONSUL_CLIENT=10.226.160.85
+      - CONSUL_CLIENT=10.226.160.80
     depends_on:
-      - products-db
+      consul:
+        condition: service_healthy
   products-db:
     image: "faseldi/products-dbx64"
     ports:
@@ -37,7 +39,10 @@ services:
     expose:
       - "8080"
     environment:
-      - CONSUL_CLIENT=10.226.160.85:8500
+      - CONSUL_CLIENT=10.226.160.80:8500
+    depends_on:
+      consul:
+        condition: service_healthy
   carts:
     image: "lechelong/cartsx64"
     ports:
@@ -45,10 +50,33 @@ services:
     expose:
       - "8082"
     environment:
-      - CONSUL_CLIENT=10.226.160.85:8500
+      - CONSUL_CLIENT=10.226.160.80:8500
+    depends_on:
+      consul:
+        condition: service_healthy
   carts-db:
     image: "lechelong/carts-dbx64"
     ports:
       - "6379:6379"
     expose:
       - "6379"
+  gateway:
+    image: "lechelong/gatewayx64"
+    ports:
+      - "9090:9090"
+    expose:
+      - "9090"
+    depends_on:
+      consul:
+        condition: service_healthy
+  consul:
+    image: "lechelong/consulx64"
+    ports:
+      - "8500:8500"
+    expose:
+      - "8500"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8500"]
+      interval: 5s
+      timeout: 1s
+      retries: 100
