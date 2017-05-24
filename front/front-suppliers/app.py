@@ -113,7 +113,7 @@ def update_product(id):
 	product = Product(id, id_supplier=get_id_supplier(), **request.form)
 	products_service.update_product(product)
 	flash("Produit modifié avec succès", "message")
-	return redirect(url_for("update_product"))
+	return redirect(url_for("products_list"))
 
 @app.route("/deleteProduct/<id>", methods=['DELETE'])
 def delete_product(id):

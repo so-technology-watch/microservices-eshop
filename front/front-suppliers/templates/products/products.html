@@ -76,4 +76,9 @@
 	{% endfor %}
 	</div>
 </div>
+{% with message = get_flashed_messages(category_filter=["message"]) %}
+	{% with message=message %}
+		{% include "parts/message.html" %}
+	{% endwith %}
+{% endwith %}
 {% endblock %}
