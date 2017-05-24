@@ -67,6 +67,6 @@ func GetIP() *string {
 	ip := addrs[0].String()
 	temp := strings.Split(ip, "/")
 	ip = temp[0]
-	//ip = "10.226.160.79"
+	ip = "10.226.160.85"
 	return &ip
 }
