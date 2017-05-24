@@ -13,7 +13,7 @@
 		<p>
 			Prix : {{ product.price }} €
 		</p>
-		<p>
+		<p *ngIf="product.supplier">
 			Vendu par <strong> {{ product.supplier.company }} </strong>
 		</p>
 

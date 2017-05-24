@@ -18,9 +18,10 @@ export class BillsService {
 
 	getBills() : Observable<Bill[]> {
 		let customer = JSON.parse(localStorage['customer']);
+		let token = localStorage['token'];
     	let id: string = customer['id'];
 		let query = this.billsUrl+'/'+id;
-		return this.http.get(query)
+		return this.http.get(query, this.sharedService.getAuthorizationHeader(token))
 			.map(this.extractData)
 			.catch((error) => {
 				return Observable.throw(error);
@@ -57,4 +58,5 @@ export class BillsService {
 	private extractData(res : Response) {
 		return res.json() || {}
 	}
+
 }
