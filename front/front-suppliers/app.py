@@ -50,17 +50,14 @@ def auth():
 
 @app.route("/logout")
 def logout():
-
     if "logged" in session and session["logged"] == "TRUE" :
         session.clear()
         flash("Déconnecté avec succès.", "message")
-
     return redirect(url_for("root"))
 
 @app.route("/products")
 def products_list():
-
-	if "logged" not in session or session["logged"] == "FALSE" :
+	if not is_logged():
 		return redirect(url_for("root"))
 	products = products_service.retrieve_products(get_id_supplier())
 	categories = products_service.retrieve_categories()
@@ -69,7 +66,7 @@ def products_list():
 
 @app.route("/addproduct")
 def add_product():
-	if "logged" not in session or session["logged"] == "FALSE" :
+	if not is_logged():
 		return redirect(url_for("root"))
 	session['active'] = 'add'
 	categories = products_service.retrieve_categories()
@@ -77,28 +74,28 @@ def add_product():
 
 @app.route("/updateinfo")
 def update_info():
-	if "logged" not in session or session["logged"] == "FALSE" :
+	if not is_logged():
 		return redirect(url_for("root"))
 	session['active'] = 'updateinfo'
-	ID = session["supplier"]['id']
-	supplier = supplier_service.get_supplier(ID)
-	return render_template("updateSupplier.html", supplier=supplier)
+	id = get_id()
+	supplier = supplier_service.get_supplier(id)
+	return render_template("suppliers/updateSupplier.html", supplier=supplier)
 
 @app.route("/supplierUdapte", methods=["POST"])
 def supplier_update():
-	if "logged" not in session or session["logged"] == "FALSE" :
-		 	return redirect(url_for("root"))
-	ID = session["supplier"]["id"]
+	if not is_logged():
+	 	return redirect(url_for("root"))
+	id = get_id()
 	dic = {}
 	for key in request.form.keys():
 		dic[key]=request.form[key]
-	supplier_service.update_supplier(ID, Supplier(ID, **dic))
+	supplier_service.update_supplier(id, Supplier(id, **dic))
 	flash("Informations modifiées avec succès", "message")
 	return redirect(url_for("update_info"))
 
 @app.route("/createProduct", methods=['POST'])
 def create_product():
-	if "logged" not in session or session["logged"] == "FALSE" :
+	if not is_logged():
 		return redirect(url_for("root"))
 	product = Product(id='', id_supplier=get_id_supplier(), **request.form)
 	res = products_service.create_product(product)
@@ -106,24 +103,32 @@ def create_product():
 		message = "Impossible de créer votre produit"
 	else:
 		message = "Produit créé avec succès"
-	return render_template("products/success.html", previous_page="/addproduct", message=message)
+	flash("Produit ajouté avec succès", "message")
+	return redirect(url_for("add_product"))
 
 @app.route("/updateProduct/<id>", methods=['POST'])
 def update_product(id):
-	if "logged" not in session or session["logged"] == "FALSE" :
+	if not is_logged():
 		return redirect(url_for("root"))
-		product = Product(id, id_supplier=get_id_supplier(), **request.form)
-		products_service.update_product(product)
-		return render_template("products/success.html", previous_page="/products", message="Produit mis à jour avec succès")
+	product = Product(id, id_supplier=get_id_supplier(), **request.form)
+	products_service.update_product(product)
+	flash("Produit modifié avec succès", "message")
+	return redirect(url_for("update_product"))
 
 @app.route("/deleteProduct/<id>", methods=['DELETE'])
 def delete_product(id):
-	if "logged" not in session or session["logged"] == "FALSE" :
+	if not is_logged():
 			return redirect(url_for("root"))
 	products_service.delete_product(id)
 	return "OK"
 
 def get_id_supplier():
+	return session["supplier"]['id']
+
+def is_logged():
+	return "logged" in session and session["logged"] == "TRUE"
+
+def get_id():
 	return session["supplier"]['id']
 
 if __name__ == "__main__":

@@ -4,14 +4,14 @@ import { Observable } from 'rxjs/Rx';
 import { Cart } from './cart';
 import { CartElement } from './cartElement';
 import { gatewayUrl } from '../app.routes';
-
+import { SharedService } from '../notifications/shared.service';
 
 @Injectable()
 export class CartService {
 
   private url = gatewayUrl + "/carts";
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private sharedService : SharedService) { }
 
   public retrieveCart(customerID: string): Observable<Response> {
 
@@ -41,7 +41,10 @@ export class CartService {
   }
 
   private retrieveCartAndAdd(id: number, price: number, idCustomer: string, callback) {
-    let observable: Observable<any> = this.http.get(this.url + '/' + idCustomer)
+
+    let token = localStorage['token'];
+    let headers = this.sharedService.getAuthorizationHeader(token)
+    let observable: Observable<any> = this.http.get(this.url + '/' + idCustomer, headers)
       .map(this.extractData)
       .catch(this.handleError);
     observable.subscribe(
@@ -104,9 +107,9 @@ export class CartService {
   }
 
   private createCart(data: any, callback): void {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-    let observable: Observable<any> = this.http.post(this.url, data, options)
+    let token = localStorage['token'];
+    let headers = this.sharedService.getAuthorizationHeader(token);
+    let observable: Observable<any> = this.http.post(this.url, data, headers)
       .map(this.extractData)
       .catch(this.handleError);
     observable.subscribe(

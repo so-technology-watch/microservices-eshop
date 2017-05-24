@@ -39,7 +39,6 @@ func (c *RedisClient) GetCart(clientID string) (string, bool) {
 	found := false
 	value, err := c.Client.Get(clientID).Result()
 	failOnError(err)
-	log.Println("cé la", value)
 
 	if value != "" {
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { Cart } from './cart';
 import { CartElement } from './cartElement';
 import { CartService } from './cart.service';
@@ -13,23 +13,19 @@ import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.css'],
+  providers: [CartService, ProductService]
 })
-
+@Injectable()
 export class CartComponent implements OnInit {
 
   private cart: Cart = new Cart();
-  private cartService: CartService;
   private empty: boolean = false;
   private products: any = {};
-  private productService: ProductService;
   private loading: boolean;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef, private http: Http, private sharedService: SharedService) {
-    this.cartService = new CartService(this.http);
-    this.productService = new ProductService(this.http);
+  constructor(private changeDetectorRef: ChangeDetectorRef, private http: Http, private sharedService: SharedService, private cartService: CartService, private productService: ProductService) {
     this.loading = true;
-
   }
 
   ngOnInit() {

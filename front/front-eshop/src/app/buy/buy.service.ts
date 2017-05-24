@@ -7,19 +7,21 @@ import 'rxjs/add/operator/map';
 
 import { gatewayUrl } from '../app.routes';
 import { Bill } from './bill';
+import { SharedService } from '../notifications/shared.service';
+
 
 @Injectable()
 export class BuyService {
   private buyUrl: string = gatewayUrl + '/pay';
-  constructor(private http: Http) { }
+  constructor(private http: Http, private sharedService : SharedService) { }
 
 	buy(callbackOnError : any) : Observable<Bill> {
 		let customer = JSON.parse(localStorage['customer']);
     	let id: string = customer['id'];
 		let query = this.buyUrl+'/'+id;
-		let headers = new Headers();
-    	let options = new RequestOptions({ headers: headers });
-		return this.http.post(query, headers)
+		let token = localStorage['token'];
+		let headers = this.sharedService.getAuthorizationHeader(token);
+		return this.http.post(query, '', headers)
 			.map(this.extractData)
 			.catch((error) => {
 				callbackOnError();

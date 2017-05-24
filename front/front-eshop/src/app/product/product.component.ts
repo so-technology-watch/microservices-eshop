@@ -22,7 +22,6 @@ export class ProductComponent implements OnInit, OnDestroy {
 
 	constructor(private http : Http , private router : Router, private route : ActivatedRoute, private productService : ProductService, private cartService : CartService){
 		this.show = false;
-    this.cartService = new CartService(this.http);
 	}
 
 	goPreviousPage() : void {
