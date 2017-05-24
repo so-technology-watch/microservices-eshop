@@ -22,11 +22,11 @@ class ProductService:
     	return loads(requests.get(route).text)
 
     def update_product(self, product):
-    	url = "http://%s%s" % (self.gateway_url, self.post_route)
-    	req = requests.put(url, data=str(product), headers={
-    		'Content-Type': 'application/json'	
-		})
-    	return req.text
+        url = "http://%s%s" % (self.gateway_url, self.post_route)
+        req = requests.put(url, data=str(product), headers={
+            'Content-Type': 'application/json'	
+        })
+        return req.text
 
     def create_product(self, product):
     	url = "http://%s%s" % (self.gateway_url, self.post_route)

@@ -112,9 +112,9 @@ def create_product():
 def update_product(id):
 	if "logged" not in session or session["logged"] == "FALSE" :
 		return redirect(url_for("root"))
-		product = Product(id, id_supplier=get_id_supplier(), **request.form)
-		products_service.update_product(product)
-		return render_template("products/success.html", previous_page="/products", message="Produit mis à jour avec succès")
+	product = Product(id, id_supplier=get_id_supplier(), **request.form)
+	products_service.update_product(product)
+	return render_template("products/success.html", previous_page="/products", message="Produit mis à jour avec succès")
 
 @app.route("/deleteProduct/<id>", methods=['DELETE'])
 def delete_product(id):
