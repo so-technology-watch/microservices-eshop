@@ -50,17 +50,14 @@ def auth():
 
 @app.route("/logout")
 def logout():
-
     if "logged" in session and session["logged"] == "TRUE" :
         session.clear()
         flash("Déconnecté avec succès.", "message")
-
     return redirect(url_for("root"))
 
 @app.route("/products")
 def products_list():
-
-	if "logged" not in session or session["logged"] == "FALSE" :
+	if not is_logged():
 		return redirect(url_for("root"))
 	products = products_service.retrieve_products(get_id_supplier())
 	categories = products_service.retrieve_categories()
@@ -69,7 +66,7 @@ def products_list():
 
 @app.route("/addproduct")
 def add_product():
-	if "logged" not in session or session["logged"] == "FALSE" :
+	if not is_logged():
 		return redirect(url_for("root"))
 	session['active'] = 'add'
 	categories = products_service.retrieve_categories()
@@ -77,7 +74,7 @@ def add_product():
 
 @app.route("/updateinfo")
 def update_info():
-	if "logged" not in session or session["logged"] == "FALSE" :
+	if not is_logged():
 		return redirect(url_for("root"))
 	session['active'] = 'updateinfo'
 	ID = session["supplier"]['id']
@@ -86,8 +83,8 @@ def update_info():
 
 @app.route("/supplierUdapte", methods=["POST"])
 def supplier_update():
-	if "logged" not in session or session["logged"] == "FALSE" :
-		 	return redirect(url_for("root"))
+	if not is_logged():
+	 	return redirect(url_for("root"))
 	ID = session["supplier"]["id"]
 	dic = {}
 	for key in request.form.keys():
@@ -98,7 +95,7 @@ def supplier_update():
 
 @app.route("/createProduct", methods=['POST'])
 def create_product():
-	if "logged" not in session or session["logged"] == "FALSE" :
+	if not is_logged():
 		return redirect(url_for("root"))
 	product = Product(id='', id_supplier=get_id_supplier(), **request.form)
 	res = products_service.create_product(product)
@@ -110,7 +107,7 @@ def create_product():
 
 @app.route("/updateProduct/<id>", methods=['POST'])
 def update_product(id):
-	if "logged" not in session or session["logged"] == "FALSE" :
+	if not is_logged():
 		return redirect(url_for("root"))
 	product = Product(id, id_supplier=get_id_supplier(), **request.form)
 	products_service.update_product(product)
@@ -118,13 +115,16 @@ def update_product(id):
 
 @app.route("/deleteProduct/<id>", methods=['DELETE'])
 def delete_product(id):
-	if "logged" not in session or session["logged"] == "FALSE" :
+	if not is_logged():
 			return redirect(url_for("root"))
 	products_service.delete_product(id)
 	return "OK"
 
 def get_id_supplier():
 	return session["supplier"]['id']
+
+def is_logged():
+	return "logged" in session and session["logged"] == "TRUE"
 
 if __name__ == "__main__":
     app.run()
