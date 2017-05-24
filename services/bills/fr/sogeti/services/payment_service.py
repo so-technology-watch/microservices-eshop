@@ -30,7 +30,8 @@ class PaymentService:
             supplier = self._resolve_get(gateway_url, self.route_suppliers, id_supplier)
             for needed, given in [('company_name', 'company'), ('email', 'mail'), ('phone_number', 'phone')]:
                 supplier[needed] = supplier[given]
-            bill = Bill(None, products, supplier, customer, total)
+            suppliers_products = [product for product in products if product['idSupplier'] == id_supplier]
+            bill = Bill(None, suppliers_products, supplier, customer, total)
             bills.append(bill)
 
         created_ids = [str(self.bills_service.create(bill)) for bill in bills]
