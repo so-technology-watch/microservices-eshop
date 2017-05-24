@@ -8,18 +8,20 @@
 			<div class="row">
 				<div class="col-md-6 col-xs-6">
 					<h6 class="text-center">Produits</h6>
-					<div class="row bill">
+					<div>
 						<ul>
 							<li *ngFor="let product of bill.products">
-								<div class="col-md-6">
-									<p>Désignation : {{ product.designation }}</p>
-									<p>Référence : {{ product.reference }}</p>
-									<p>Prix : {{ product.price }} €</p>
-									<p>Quantité : {{ product.quantity }}</p>
-									<p>Total : {{ product.quantity * product.price }} €</p>
-								</div>
-								<div class="col-md-6">
-									<img src="{{ product.image || 'assets//notfound.png' }}" class="img img-responsive thumbnail" (error)="errorImage($event)"/>
+								<div class="row bill">
+									<div class="col-md-6">
+										<p>Désignation : {{ product.designation }}</p>
+										<p>Référence : {{ product.reference }}</p>
+										<p>Prix : {{ product.price }} €</p>
+										<p>Quantité : {{ product.quantity }}</p>
+										<p>Total : {{ product.quantity * product.price }} €</p>
+									</div>
+									<div class="col-md-6">
+										<img src="{{ product.image || 'assets//notfound.png' }}" class="img img-responsive thumbnail" (error)="errorImage($event)"/>
+									</div>
 								</div>
 							</li>
 						</ul>
