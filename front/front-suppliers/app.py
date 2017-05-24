@@ -77,19 +77,19 @@ def update_info():
 	if not is_logged():
 		return redirect(url_for("root"))
 	session['active'] = 'updateinfo'
-	ID = session["supplier"]['id']
-	supplier = supplier_service.get_supplier(ID)
+	id = get_id()
+	supplier = supplier_service.get_supplier(id)
 	return render_template("updateSupplier.html", supplier=supplier)
 
 @app.route("/supplierUdapte", methods=["POST"])
 def supplier_update():
 	if not is_logged():
 	 	return redirect(url_for("root"))
-	ID = session["supplier"]["id"]
+	id = get_id()
 	dic = {}
 	for key in request.form.keys():
 		dic[key]=request.form[key]
-	supplier_service.update_supplier(ID, Supplier(ID, **dic))
+	supplier_service.update_supplier(id, Supplier(id, **dic))
 	flash("Informations modifiées avec succès", "message")
 	return redirect(url_for("update_info"))
 
@@ -125,6 +125,9 @@ def get_id_supplier():
 
 def is_logged():
 	return "logged" in session and session["logged"] == "TRUE"
+
+def get_id():
+	return session["supplier"]['id']
 
 if __name__ == "__main__":
     app.run()
