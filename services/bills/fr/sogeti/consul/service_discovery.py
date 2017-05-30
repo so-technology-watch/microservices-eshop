@@ -28,15 +28,16 @@ class ServiceDiscovery:
             'service_id': id,
             'address': address,
             'port': port,
-            'tags': tags,
-            'check': {
+            'tags': tags
+        }
+        if address != '0.0.0.0':
+            params['check'] = {
                 'id': id,
                 'name': '%s on port %d' % (name, port),
                 protocol: url,
                 'interval': '%ds' % interval,
                 'timeout': '%ds' % timeout
             }
-        }
         self.consul.agent.service.register(**params)
         print('registered on consul with parameters %s' % str(params) )
 

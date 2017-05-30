@@ -20,10 +20,7 @@ if "__main__" == __name__:
 
     consul = ConfigResolver(consul_client)
     config = consul.get_config("config/services/bills")
-    if config.accept_all:
-        address = '0.0.0.0'
-    else:
-        address = consul.get_address(config.interface)
+    address = consul.get_address(config.interface)
     discovery.register('bills-http', 'bills-service', address, config.port, 'http', ('service', 'bills'), route='/api/v1/check')
 
     thread = threading.Thread(target=rest.run, args=[address, config.port])

@@ -45,7 +45,6 @@ class MongoDAO:
         :param entity: the entity to create
         :return: the id of the created entity 
         """
-        print(entity.to_dict())
         return self.posts.insert_one(entity.to_dict()).inserted_id
 
     def update(self, entity):

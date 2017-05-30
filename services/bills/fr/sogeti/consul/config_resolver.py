@@ -57,6 +57,8 @@ class ConfigResolver:
         :param interface: the interface, for example eth0
         :return: the ipv4 address for the given interface
         """
+        if len(interface) == 0 or interface is None:
+            return "0.0.0.0"
         for interface_name, snics in psutil.net_if_addrs().items():
             if interface_name != interface:
                 continue
@@ -67,13 +69,12 @@ class ConfigResolver:
 
 
 class _Config:
-    def __init__(self, interface, port, db_host, db_port, gateway, accept_all=False, *args, **kwargs):
+    def __init__(self, interface, port, db_host, db_port, gateway, *args, **kwargs):
         self.interface = interface
         self.port = int(port)
         self.db_host = db_host
         self.db_port = int(db_port)
         self.gateway = gateway
-        self.accept_all = accept_all
 
     def to_json(self):
         return json.dumps(self.to_dict())
@@ -81,7 +82,6 @@ class _Config:
     def to_dict(self):
         return {
             'interface': self.interface,
-            'accept_all': self.accept_all,
             'port': self.port,
             'db_host': self.db_host,
             'db_port': self.db_port,
