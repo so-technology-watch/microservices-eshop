@@ -55,6 +55,7 @@ object ServiceDiscovery {
    * @return the ipv4 ip for this interface, or localhost if not found
    */
   def getLocalAddress(interface : String) : String = {
+    if(interface.isEmpty()) return "0.0.0.0"
     val nets : Enumeration[NetworkInterface] = NetworkInterface.getNetworkInterfaces
     while( nets.hasMoreElements ) {
       val interf : NetworkInterface = nets.nextElement
