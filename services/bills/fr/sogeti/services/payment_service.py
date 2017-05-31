@@ -52,8 +52,7 @@ class PaymentService:
         co = HTTPConnection(gateway_url)
         co.request("GET", self.route_carts % id_user)
         response = co.getresponse()
-
-        data = response.read()
+        data = self.decode_data(response.read())
         data = loads(data)
         if not isinstance(data, dict) or 'cartElements' not in data.keys():
             print("unable to find a cart")
@@ -64,7 +63,7 @@ class PaymentService:
         co = HTTPConnection(gateway_url)
         co.request("GET", route % id_obj)
         response = co.getresponse()
-        response = response.read()
+        response = self.decode_data(response.read())
         print("request on %s \n data received : %s" % (route, response))
         return loads(response)
 
@@ -72,3 +71,8 @@ class PaymentService:
         co = HTTPConnection(gateway_url)
         co.request("DELETE", route % id_user)
         return co.getresponse()
+
+    def decode_data(self, data):
+        if type(data) == type(b''):
+            data = data.decode('utf-8')
+        return data
