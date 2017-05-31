@@ -14,7 +14,7 @@ export class ProductsService {
 	constructor(private http : Http){}
 
 	getProducts(page : number, productsPerPage : number) : Observable<Products[]> {
-		let begin = (page * productsPerPage) - 1;
+		let begin = ( (page - 1) * productsPerPage );
 		let end = begin + productsPerPage;
 		let query = this.productsUrl+'?range='+begin+'-'+end;
 
