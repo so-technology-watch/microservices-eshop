@@ -5,4 +5,5 @@ VOLUME /data
 WORKDIR /data
 EXPOSE 6379
 USER redis
-CMD /usr/bin/redis-server --protected-mode no
+ADD redis.conf /usr/local/etc/redis/redis.conf
+CMD /usr/bin/redis-server

@@ -1,0 +1,15 @@
+{
+    "port": "8082", 
+    "interface": "hvint0",
+    "rabbitmq": {
+        "host":"amqp://pi:pi@127.0.0.1:5672//pi", 
+        "key": "productUpdate"
+    }, "redis": {
+        "address": "10.0.75.2:6379", 
+        "pwd": "",
+        "db": 0
+    }, "gateway": {
+       "host": "http://10.0.75.2",
+       "port":"9090"
+    }
+}

@@ -2,6 +2,7 @@ version: '2.1'
 services:
   bills:
     image: "faseldi/billsx64"
+    network_mode: "host"
     ports:
       - "9091:9091"
     expose:
@@ -9,14 +10,16 @@ services:
     environment:
       - CONSUL_CLIENT=10.226.160.80
     depends_on:
-      consul:
+      consul-kv:
         condition: service_healthy
   bills-db:
     image: "sameersbn/mongodb:latest"
+    network_mode: "host"
     ports:
       - "27017:27017"
   products:
     image: "faseldi/productsx64"
+    network_mode: "host"
     ports:
       - "9092:9092"
     expose:
@@ -24,16 +27,18 @@ services:
     environment:
       - CONSUL_CLIENT=10.226.160.80
     depends_on:
-      consul:
+      consul-kv:
         condition: service_healthy
   products-db:
     image: "faseldi/products-dbx64"
+    network_mode: "host"
     ports:
       - "5432:5432"
     expose:
       - "5432"
   customers:
     image: "lechelong/customersx64"
+    network_mode: "host"
     ports:
       - "8080:8080"
     expose:
@@ -41,10 +46,11 @@ services:
     environment:
       - CONSUL_CLIENT=10.226.160.80:8500
     depends_on:
-      consul:
+      consul-kv:
         condition: service_healthy
   carts:
     image: "lechelong/cartsx64"
+    network_mode: "host"
     ports:
       - "8082:8082"
     expose:
@@ -52,22 +58,24 @@ services:
     environment:
       - CONSUL_CLIENT=10.226.160.80:8500
     depends_on:
-      consul:
+      consul-kv:
         condition: service_healthy
   carts-db:
     image: "lechelong/carts-dbx64"
+    network_mode: "host"
     ports:
       - "6379:6379"
     expose:
       - "6379"
   gateway:
     image: "lechelong/gatewayx64"
+    network_mode: "host"
     ports:
       - "9090:9090"
     expose:
       - "9090"
     depends_on:
-      consul:
+      consul-kv:
         condition: service_healthy
   consul:
     image: "lechelong/consulx64"
@@ -76,7 +84,14 @@ services:
     expose:
       - "8500"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8500"]
+      test: ["CMD", "curl", "-f", "http://localhost:8500/ui"]
       interval: 5s
       timeout: 1s
       retries: 100
+  consul-kv:
+    image: "lechelong/consul-kv"
+    network_mode: "host"
+    depends_on:
+      - "consul"
+    healthcheck:
+      test: "exit 0"

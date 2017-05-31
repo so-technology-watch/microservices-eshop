@@ -1,0 +1,20 @@
+{
+    "interface": "hvint0",
+	"port":9092,
+	"configRabbitMq":{
+		"host":"10.226.159.191",
+		"user":"pi",
+		"password":"pi",
+		"exchange":"greeting",
+		"exchangeType":"topic",
+		"routingKey":"productUpdate",
+		"virtualHost":"/pi"
+	},
+	"configDatabase":{
+		"url":"jdbc:postgresql://localhost:5432/postgres",
+		"user":"postgres",
+		"password":"postgres",
+		"driver":"org.postgresql.Driver",
+		"showSql":"true"
+	}
+}

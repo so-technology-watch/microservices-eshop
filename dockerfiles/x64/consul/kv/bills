@@ -1,0 +1,7 @@
+{
+	"interface": "hvint0",
+	"port": "9091",
+	"db_host": "10.0.75.2", 
+	"db_port": "27017",
+    "gateway": "10.0.75.2:9090"
+}
