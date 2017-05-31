@@ -31,7 +31,7 @@ func (c *Client) CreateClient() {
 //Register registers the new service to consul.
 func (c *Client) Register(config *config.Config) {
 
-	host := *GetIP()
+	host := *GetIP(&config.Interface)
 	check := &api.AgentServiceCheck{}
 	check.HTTP = "http://" + host + ":" + config.Port
 	check.Interval = "30s"
@@ -53,19 +53,52 @@ func (c *Client) Register(config *config.Config) {
 }
 
 //GetIP retrieves the ip on which the application is running.
-func GetIP() *string {
+func GetIP(inter *string) *string {
 
-	ifaces, err := net.Interfaces()
-	if err != nil {
-		panic(err)
+	log.Println("salut ", inter)
+
+	if *inter != "" {
+		ifaces, err := net.Interfaces()
+		if err != nil {
+			panic(err)
+		}
+		index := findIface(ifaces, inter)
+		log.Println(index)
+		addrs, err := ifaces[index].Addrs()
+		log.Println(ifaces)
+		if err != nil {
+			panic(err)
+		}
+		index = findIPV4(addrs)
+		ip := addrs[index].String()
+		temp := strings.Split(ip, "/")
+		ip = temp[0]
+		return &ip
+	} else {
+
+		ip := "0.0.0.0"
+		log.Println(ip)
+		return &ip
 	}
-	addrs, err := ifaces[1].Addrs()
-	log.Println(ifaces)
-	if err != nil {
-		panic(err)
+}
+
+
+func findIface(interfaces []net.Interface, name *string) int{
+
+	for i, iface := range interfaces {
+		if iface.Name == *name {
+			log.Println(iface.Name)
+			return i
+		}
 	}
-	ip := addrs[0].String()
-	temp := strings.Split(ip, "/")
-	ip = temp[0]
-	return &ip
+return 0
+}
+
+func findIPV4(adresses []net.Addr) int {
+	for i, adresse := range adresses {
+		if strings.Contains(adresse.String(), "."){
+			return i
+		}
+	}
+	return 0
 }
