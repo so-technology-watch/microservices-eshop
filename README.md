@@ -1,4 +1,4 @@
-# demo-microservices
+# Demo Microservices : Sogi-Shop
 Démo Microservices : Site de ventes en ligne
 
 # START
