@@ -5,11 +5,12 @@ from services.supplier_service import Supplier_service
 from domain.supplier import Supplier
 from flask import Flask, render_template, request, session, url_for, redirect, flash
 from json import loads
+import os
 
 auth_service = Auth_service()
 supplier_service = Supplier_service()
 app = Flask(__name__)
-gateway_url = '10.226.159.191:9090'
+gateway_url =  os.getenv('GATEWAY_URL')
 products_service = ProductService(gateway_url)
 app.secret_key = "this_is_a_secret_key_get_over_it"
 
