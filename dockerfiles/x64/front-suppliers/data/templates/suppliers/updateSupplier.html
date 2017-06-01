@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block main %}
+{% include "parts/supplierUpdateForm.html" %}
+{% with message = get_flashed_messages(category_filter=["message"]) %}
+	{% with message=message %}
+		{% include "parts/message.html" %}
+	{% endwith %}
+{% endwith %}
+{% endblock %}

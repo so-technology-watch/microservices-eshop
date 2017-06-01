@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/style.css') }}">
+  <link rel="stylesheet" href="{{url_for('static' ,filename='style/font-awesome/css/font-awesome.min.css')}}">
+
+</head>
+
+<body>
+  <div>
+    <header>
+      {% include 'parts/header.html' %}
+    </header>
+    {% block main %}
+    {% endblock %}
+  </div>
+  <footer>
+    {% include 'parts/footer.html' %}
+  </footer>
+</body>
+<script type="text/javascript" src="/static/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/static/js/script.js"></script>
+
+</html>
