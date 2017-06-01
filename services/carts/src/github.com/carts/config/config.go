@@ -6,6 +6,7 @@ type Config struct {
 	RabbitMQConf *RabbitMQConfig `json:"rabbitmq"`
 	RedisConf    *RedisConfig    `json:"redis"`
 	GateWayConf  *GateWayConfig  `json:"gateway"`
+	Interface 	 string 				 `json:"interface"`
 }
 
 //RabbitMQConfig contains the configuration concerning RabbitMQ.

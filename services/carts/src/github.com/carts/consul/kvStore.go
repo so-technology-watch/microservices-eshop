@@ -12,7 +12,6 @@ func (c *Client) RetrieveConfig() *config.Config {
 
 	kv := c.client.KV()
 	configPair, _, err := kv.Get("config/services/carts", nil)
-
 	if err != nil {
 		panic(err)
 	}

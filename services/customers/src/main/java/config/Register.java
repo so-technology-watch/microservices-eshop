@@ -52,20 +52,24 @@ public class Register {
 	newService.setId("customers-service");
 	newService.setName("customers-service");
 	try {
-	    newService.setAddress(getLocalAddress("eth0"));
+	    newService.setAddress(getLocalAddress(configuration.getInterface()));
 	} catch (SocketException e) {
 	    e.printStackTrace();
 	}
 	newService.setTags(Arrays.asList("service", "customers", "customer", "auth", "authentication"));
 	newService.setPort(Integer.parseInt(configuration.getPort()));
-	NewService.Check check = new NewService.Check();
 	try {
-	    check.setHttp("http://" + getLocalAddress("ethO") + ":" + configuration.getPort() + "/api/v1/customers/1");
+	    String iface = configuration.getInterface();
+	    String address = getLocalAddress(iface);
+	    if(!address.equals("0.0.0.0")){
+		NewService.Check check = new NewService.Check();
+		check.setHttp("http://" + address + ":" + configuration.getPort() + "/api/v1/customers/1");
+		check.setInterval("30s");
+		newService.setCheck(check);
+	    }
 	} catch (SocketException e) {
 	    e.printStackTrace();
 	}
-	check.setInterval("30s");
-	newService.setCheck(check);
 	consulClient.agentServiceRegister(newService);
 
     }
@@ -78,7 +82,7 @@ public class Register {
      * @throws SocketException
      */
     private String getLocalAddress(String netInt) throws SocketException {
-
+	if(netInt.isEmpty()) return "0.0.0.0";
 	Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
 	while (nets.hasMoreElements()) {
 	    NetworkInterface interf = nets.nextElement();
