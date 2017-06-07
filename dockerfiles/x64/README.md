@@ -38,3 +38,17 @@ If you want to modify the configuration of a service, please modify the file fro
 All configurations are in JSON expected gateway-services.yml which is in YAML due to a spring cloud requirement
 
 
+## Access the fronts launched after the run command
+
+Fronts will be available on the docker's local address
+The most of the time, docker address is : 10.0.75.0 on windows
+However, you can check for this address, following those steps :
+  * Right click on docker on the notifications bar
+  * Click on settings
+  * Click on network
+  * See for the Subent Address
+ 
+front are available on :
+  * eShop : http://10.0.75.2:90/ or http://DOCKER_LOCAL_ADDRESS:90/
+  * suppliers : http://10.0.75.2:91/ or http://DOCKER_LOCAL_ADDRESS:91/
+
