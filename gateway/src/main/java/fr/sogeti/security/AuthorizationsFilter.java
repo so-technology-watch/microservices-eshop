@@ -78,7 +78,8 @@ public class AuthorizationsFilter implements Filter {
     
     /**
      * 
-     * @return 
+     * @return a boolean that indicates if the client is authorized to access the ressource
+     * @param token the token to send to the authorizartion service
      */
     private boolean isAuthorized(String token){
         if(Objects.isNull(token)){

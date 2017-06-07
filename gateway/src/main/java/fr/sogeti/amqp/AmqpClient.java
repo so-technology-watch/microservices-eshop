@@ -25,11 +25,23 @@ public class AmqpClient {
         channel = client.createChannel();
     }
     
+    /**
+     * 
+     * @param exchangeName the exchange's name
+     * @param exchangeType the exchange's type
+     * @param routingKey the routing key
+     * @param message the message we want to publish
+     * @throws IOException 
+     */
     public void publish(String exchangeName, String exchangeType, String routingKey, String message) throws IOException {
         channel.exchangeDeclare(exchangeName, exchangeType);
         channel.basicPublish(exchangeName, routingKey, null, message.getBytes());
     }
     
+    /**
+     * 
+     * @return a boolean that indicates if the client is open
+     */
     public boolean isOpen(){
         return client.isOpen();
     }
