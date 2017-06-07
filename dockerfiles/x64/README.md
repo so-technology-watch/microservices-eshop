@@ -4,8 +4,9 @@ This file as been designed to compose run all the project on a single windows co
 Make sure you have an internet connection before continuing,
 this script will pull all pre-build services from dockerhub
 
-## Requierements
+## Requirements
 You need to have python3 installed
+You need to have docker installed
 
 moreother, you need to install all requirements using the following command :
 ```sh
