@@ -35,7 +35,7 @@ func (r *RabbitMQClient) GetChannel() {
 //DeclareExchange declares a new RabbitMQ exchange
 func (r *RabbitMQClient) DeclareExchange(name string, exhangeMode string) {
 
-	err := r.Channel.ExchangeDeclare(name, exhangeMode, true, false, false, false, nil)
+	err := r.Channel.ExchangeDeclare(name, exhangeMode, false, false, false, false, nil)
 	failOnError(err)
 	log.Println("Exchange successfully declared.")
 }

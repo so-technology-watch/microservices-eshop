@@ -27,16 +27,16 @@ func main() {
 	//Creating the HTTP router
 	router := handlers.Router(clientRedis, gateWayClient)
 	//Creating and initializing the rabitMQ client
-	// clientRabbitMQ := &services.RabbitMQClient{}
-	// clientRabbitMQ.Connect(config.RabbitMQConf.Host)
-	// clientRabbitMQ.GetChannel()
-	// clientRabbitMQ.DeclareExchange("productUpdate", "topic")
-	// clientRabbitMQ.DeclareQueue("productUpdate")
-	// clientRabbitMQ.BindQueue("productUpdate", config.RabbitMQConf.RoutingKey, "productUpdate")
-	// messages := clientRabbitMQ.Consume("productUpdate")
-	// go func() {
-	// 	clientRabbitMQ.HandleMessages(clientRedis, messages, gateWayClient)
-	// }()
+	clientRabbitMQ := &services.RabbitMQClient{}
+	clientRabbitMQ.Connect(config.RabbitMQConf.Host)
+	clientRabbitMQ.GetChannel()
+	clientRabbitMQ.DeclareExchange("greeting", "topic")
+	clientRabbitMQ.DeclareQueue("productUpdate")
+	clientRabbitMQ.BindQueue("productUpdate", config.RabbitMQConf.RoutingKey, "greeting")
+	messages := clientRabbitMQ.Consume("productUpdate")
+	go func() {
+		clientRabbitMQ.HandleMessages(clientRedis, messages, gateWayClient)
+	}()
 	//Http server creation
 	server := &http.Server{
 
