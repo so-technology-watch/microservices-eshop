@@ -75,6 +75,7 @@ func (r *RabbitMQClient) HandleMessages(redisClient *RedisClient, messages *<-ch
 
 	for message := range *messages {
 
+		log.Println(message.Body)
 		productUpdate := jsonToProductUpdate(message.Body)
 		redisClient.ChangeProductPrice(productUpdate.ProductID, productUpdate.UnitPrice, gateWayClient)
 		log.Println("Message has been handled.")
