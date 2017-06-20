@@ -40,6 +40,12 @@ public class HeadersFilter implements Filter {
         fc.doFilter(servletRequest, servletResponse);
     }
     
+    /**
+     * add a given header to the given response, if the header already exists, replace it's value
+     * @param response the response on with we want to perform the push
+     * @param header the header we want to add
+     * @param value the value of the header
+     */
     private void addHeader(HttpServletResponse response, String header, String value){
         if(!response.containsHeader(header)){
             response.addHeader(header, value);

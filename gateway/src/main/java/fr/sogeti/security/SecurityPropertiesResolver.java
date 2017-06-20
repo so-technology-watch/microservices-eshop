@@ -50,6 +50,10 @@ public class SecurityPropertiesResolver implements ApplicationListener<RefreshEv
         needRefresh = true;
     }
     
+    /**
+     * action to perform when a new configuration on consul is available
+     * this refreshs the secured pathss
+     */
     private void refresh(){
         authorizedUrls.clear();
         Map<String, String> matching = getPropertiesMatching("secured.*.");

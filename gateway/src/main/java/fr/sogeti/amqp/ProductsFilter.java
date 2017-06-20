@@ -66,6 +66,11 @@ public class ProductsFilter extends ZuulFilter {
         return null;
     }
     
+    /**
+     * creates the amqp client
+     * @throws IOException
+     * @throws TimeoutException 
+     */
     private void createClient() throws IOException, TimeoutException{
         String host = config.getProperty("rabbitmq.host");
         String user = config.getProperty("rabbitmq.user");
@@ -76,18 +81,33 @@ public class ProductsFilter extends ZuulFilter {
         client = new AmqpClient(host, user, password, virtualHost, port);
     }
     
+    /**
+     * 
+     * @return the exchange propery available in the configuration
+     */
     private String getExchange(){
         return config.getProperty("rabbitmq.exchange");
     }
 
+    /**
+     * 
+     * @return the exchange type property available in the configuration
+     */
     private String getExchangeType(){
         return config.getProperty("rabbitmq.exchangeType");
     }    
     
+    /**
+     * 
+     * @return the routing key available in the configuration
+     */
     private String getRoutingKey(){
         return config.getProperty("rabbitmq.routingKey");
     }
     
+    /**
+     * Reconnect the client if this one is not connected
+     */
     public void reconnectIfNotConnected(){
         while(!client.isOpen()){
             LOG.log(Level.WARNING, "Client not connected ... reconnecting");
