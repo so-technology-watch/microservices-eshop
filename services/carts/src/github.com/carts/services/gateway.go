@@ -30,7 +30,7 @@ func (g *GateWayClient) CreateClient(config *config.Config) {
 func (g *GateWayClient) GetProduct(ID int) (*Product, *bool) {
 
 	found := false
-	url := g.Host + ":" + g.Port + "/products/" + strconv.Itoa(ID)
+	url := g.Host + ":" + g.Port + "/api/v1/products/" + strconv.Itoa(ID)
 	request, err := http.NewRequest("GET", url, nil)
 	failOnError(err)
 	response, err := g.HTTPClient.Do(request)

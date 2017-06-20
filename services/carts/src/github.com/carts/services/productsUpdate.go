@@ -16,8 +16,8 @@ type Position struct {
 
 //ProductUpdate defines the data needed for a product price change
 type ProductUpdate struct {
-	ProductID int
-	UnitPrice float32
+	ProductID int `json:"id"`
+	UnitPrice float32 `json:"price"`
 }
 
 //FindProducts returns the postions of every CartElments corresponding to a a given product.

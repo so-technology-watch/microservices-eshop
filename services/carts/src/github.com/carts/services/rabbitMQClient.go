@@ -3,6 +3,7 @@ package services
 import (
 	"encoding/json"
 	"log"
+	"strconv"
 
 	"github.com/streadway/amqp"
 )
@@ -75,8 +76,9 @@ func (r *RabbitMQClient) HandleMessages(redisClient *RedisClient, messages *<-ch
 
 	for message := range *messages {
 
-		log.Println(message.Body)
+		log.Println(string(message.Body))
 		productUpdate := jsonToProductUpdate(message.Body)
+		log.Println(productUpdate)
 		redisClient.ChangeProductPrice(productUpdate.ProductID, productUpdate.UnitPrice, gateWayClient)
 		log.Println("Message has been handled.")
 
@@ -86,8 +88,11 @@ func (r *RabbitMQClient) HandleMessages(redisClient *RedisClient, messages *<-ch
 
 func jsonToProductUpdate(productUpdateJSON []byte) *ProductUpdate {
 
+	m := make(map[string]interface{})
 	productUpdate := &ProductUpdate{}
-	json.Unmarshal([]byte(productUpdateJSON), productUpdate)
-
+	json.Unmarshal([]byte(productUpdateJSON), &m)
+	productUpdate.ProductID, _ = strconv.Atoi(m["id"].(string))
+	temp, _ := strconv.ParseFloat(m["price"].(string), 32)
+	productUpdate.UnitPrice = float32(temp)
 	return productUpdate
 }
